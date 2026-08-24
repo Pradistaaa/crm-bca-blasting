@@ -1,17 +1,2402 @@
 ---
-
 ---
 
-<html lang="en">
+<html lang="id">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>CRM Leads</title>
+
+		<style>
+		.card-detail {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px;
+	border: 1px solid var(--border);
+	background: #0a0f15;
+	border-radius: 10px;
+}
+
+.card-detail span {
+	color: var(--muted);
+	font-size: 12px;
+}
+
+.card-detail strong {
+	color: white;
+	font-size: 13px;
+}
+			:root {
+				--bg: #080b10;
+				--panel: #10161e;
+				--panel-2: #0d1219;
+				--border: #222b37;
+				--text: #f3f5f7;
+				--muted: #8993a1;
+				--green: #20d98b;
+				--green-dark: #0c9f68;
+				--yellow: #e6b85c;
+				--purple: #a879ff;
+				--blue: #63a8ff;
+				--red: #ff6f7d;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			html {
+				background: var(--bg);
+			}
+
+			body {
+				margin: 0;
+				background:
+					radial-gradient(circle at 80% 0%, rgba(32, 217, 139, 0.06), transparent 28%),
+					var(--bg);
+				color: var(--text);
+				font-family:
+					Inter,
+					ui-sans-serif,
+					system-ui,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe UI",
+					sans-serif;
+			}
+
+			button,
+			input,
+			select {
+				font: inherit;
+			}
+
+			button {
+				cursor: pointer;
+			}
+
+			.app {
+				display: flex;
+				min-height: 100vh;
+			}
+
+			/* SIDEBAR */
+
+			.sidebar {
+				width: 240px;
+				min-height: 100vh;
+				border-right: 1px solid var(--border);
+				background: #0a0e13;
+				padding: 26px 16px;
+				position: fixed;
+				left: 0;
+				top: 0;
+				bottom: 0;
+			}
+
+			.logo {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 4px 12px 32px;
+				font-weight: 800;
+				letter-spacing: 1.5px;
+			}
+
+			.logo-mark {
+	width: 32px;
+	height: 32px;
+	display: grid;
+	place-items: center;
+	border-radius: 9px;
+	overflow: hidden;
+	flex-shrink: 0;
+	background: transparent;
+}
+
+.logo-mark img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+}
+
+			.logo span {
+				font-size: 15px;
+			}
+
+			.nav-title {
+				padding: 0 12px;
+				margin-bottom: 10px;
+				font-size: 11px;
+				font-weight: 700;
+				color: #586271;
+				letter-spacing: 1.5px;
+				text-transform: uppercase;
+			}
+
+			.nav {
+				display: grid;
+				gap: 5px;
+			}
+
+			.nav button {
+				border: 0;
+				background: transparent;
+				color: var(--muted);
+				text-align: left;
+				padding: 12px;
+				border-radius: 10px;
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				transition: 0.2s;
+			}
+
+			.nav button:hover,
+			.nav button.active {
+				background: #151c25;
+				color: white;
+			}
+
+			.nav button.active {
+				box-shadow: inset 3px 0 0 var(--green);
+			}
+
+			.nav-icon {
+				width: 22px;
+				text-align: center;
+			}
+
+			.sidebar-bottom {
+				position: absolute;
+				left: 16px;
+				right: 16px;
+				bottom: 22px;
+			}
+
+			.user-card {
+				padding: 13px;
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				background: var(--panel);
+				display: flex;
+				gap: 10px;
+				align-items: center;
+			}
+
+			.avatar {
+				width: 34px;
+				height: 34px;
+				border-radius: 50%;
+				display: grid;
+				place-items: center;
+				background: #1c2632;
+				font-size: 12px;
+				font-weight: 800;
+			}
+
+			.user-name {
+				font-size: 13px;
+				font-weight: 700;
+			}
+
+			.user-role {
+				font-size: 11px;
+				color: var(--muted);
+				margin-top: 2px;
+			}
+
+			/* MAIN */
+
+			.main {
+				width: calc(100% - 240px);
+				margin-left: 240px;
+				padding: 34px 40px 60px;
+			}
+
+			.topbar {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				margin-bottom: 30px;
+			}
+
+			.eyebrow {
+				color: #697383;
+				font-size: 12px;
+				font-weight: 800;
+				letter-spacing: 2.5px;
+				margin-bottom: 8px;
+			}
+
+			h1 {
+				margin: 0;
+				font-size: clamp(30px, 4vw, 46px);
+				letter-spacing: -1.8px;
+				line-height: 1;
+			}
+
+			.subtitle {
+				color: var(--muted);
+				margin: 12px 0 0;
+				font-size: 14px;
+			}
+
+			.top-actions {
+				display: flex;
+				gap: 10px;
+			}
+
+			.icon-button {
+				width: 46px;
+				height: 46px;
+				border-radius: 13px;
+				border: 1px solid var(--border);
+				background: var(--panel);
+				color: white;
+			}
+
+			.primary {
+				border: 0;
+				background: var(--green);
+				color: #06130d;
+				font-weight: 800;
+				padding: 0 18px;
+				border-radius: 12px;
+				height: 46px;
+			}
+
+			.primary:hover {
+				background: #32e39a;
+			}
+
+			/* STAT CARDS */
+
+			.stats {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 16px;
+			margin-bottom: 20px;
+			width: 100%;
+			}
+
+			.stat {
+			position: relative;
+			overflow: hidden;
+			background: var(--panel);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 20px;
+			min-height: 145px;
+			width: 100%;
+			}
+
+			.stat::after {
+				content: "";
+				position: absolute;
+				width: 90px;
+				height: 90px;
+				right: -30px;
+				bottom: -40px;
+				border-radius: 50%;
+				background: var(--accent);
+				opacity: 0.06;
+			}
+
+			.stat-top {
+				display: flex;
+				justify-content: space-between;
+				color: #a5aebb;
+				font-size: 14px;
+				font-weight: 700;
+			}
+
+			.stat-icon {
+				font-size: 20px;
+				color: var(--accent);
+			}
+
+			.stat-number {
+			font-size: 34px;
+			font-weight: 850;
+			margin-top: 14px;
+			letter-spacing: -1px;
+			}
+
+			.stat-description {
+				color: #697383;
+				font-size: 12px;
+				margin-top: 4px;
+			}
+
+			/* PANEL */
+
+			.panel {
+				background: var(--panel);
+				border: 1px solid var(--border);
+				border-radius: 20px;
+				overflow: hidden;
+			}
+
+		.panel-header {
+	padding: 16px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+}
+
+			.panel-title {
+	font-size: 17px;
+	font-weight: 800;
+}
+
+		.panel-description {
+	color: var(--muted);
+	font-size: 12px;
+	margin-top: 3px;
+}
+
+			.toolbar {
+	padding: 0 20px 14px;
+	display: flex;
+	gap: 8px;
+}
+
+			.search {
+				flex: 1;
+				position: relative;
+			}
+
+			.search span {
+				position: absolute;
+				left: 15px;
+				top: 50%;
+				transform: translateY(-50%);
+				color: #697383;
+			}
+
+		.search input,
+.filter {
+	width: 100%;
+	height: 42px;
+	border: 1px solid var(--border);
+	background: #0a0f15;
+	color: white;
+	border-radius: 10px;
+	outline: none;
+}
+
+			.search input {
+				padding: 0 15px 0 42px;
+			}
+
+			.search input:focus,
+			.filter:focus {
+				border-color: #405064;
+			}
+
+			.filter {
+	width: 170px;
+	padding: 0 12px;
+}
+
+			.table-wrap {
+				overflow-x: auto;
+				border-top: 1px solid var(--border);
+			}
+
+.table-wrap {
+	overflow-x: auto;
+	border-top: 1px solid var(--border);
+}
+
+:global(table) {
+	width: 100%;
+	border-collapse: collapse;
+	min-width: 1000px;
+	table-layout: fixed;
+}
+
+:global(table th) {
+	text-align: left;
+	color: #697383;
+	font-size: 10px;
+	letter-spacing: 1.2px;
+	padding: 13px 20px;
+	background: #0c1117;
+}
+
+:global(table td) {
+	padding: 13px 20px;
+	border-top: 1px solid #1b232e;
+	color: #c8ced6;
+	font-size: 13px;
+	height: 58px;
+	white-space: nowrap;
+}
+
+/* KOLOM PERUSAHAAN */
+:global(table th:nth-child(1)),
+:global(table td:nth-child(1)) {
+	width: 24%;
+	padding-left: 32px;
+}
+
+/* PIC */
+:global(table th:nth-child(2)),
+:global(table td:nth-child(2)) {
+	width: 17%;
+}
+
+/* KOTA */
+:global(table th:nth-child(3)),
+:global(table td:nth-child(3)) {
+	width: 17%;
+}
+
+/* WHATSAPP */
+:global(table th:nth-child(4)),
+:global(table td:nth-child(4)) {
+	width: 16%;
+}
+
+/* STATUS */
+:global(table th:nth-child(5)),
+:global(table td:nth-child(5)) {
+	width: 17%;
+}
+
+/* AKSI */
+:global(table th:nth-child(6)),
+:global(table td:nth-child(6)) {
+	width: 9%;
+	padding-right: 32px;
+}
+
+:global(tr:hover td) {
+	background: #121922;
+}
+
+			tr:hover td {
+				background: #121922;
+			}
+
+	.company {
+	color: white;
+	font-weight: 800;
+}
+
+.lead-link {
+	border: 0;
+	background: transparent;
+	padding: 0;
+	cursor: pointer;
+	text-align: left;
+	color: white;
+	font-weight: 800;
+}
+
+.lead-link:hover {
+	text-decoration: underline;
+	color: var(--green);
+}
+
+.pic {
+	font-size: 13px;
+	color: #aeb6c2;
+	margin: 0;
+}
+
+			.status {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+				padding: 6px 9px;
+				border-radius: 20px;
+				font-size: 11px;
+				font-weight: 700;
+			}
+
+			.status::before {
+				content: "";
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: currentColor;
+			}
+
+			.status.new {
+				color: var(--yellow);
+				background: rgba(230, 184, 92, 0.09);
+			}
+
+			.status.contacted {
+				color: var(--green);
+				background: rgba(32, 217, 139, 0.08);
+			}
+
+			.status.followup {
+				color: var(--purple);
+				background: rgba(168, 121, 255, 0.09);
+			}
+
+			.status.closed {
+				color: var(--blue);
+				background: rgba(99, 168, 255, 0.09);
+			}
+
+			.whatsapp {
+				border: 1px solid #1d7654;
+				color: var(--green);
+				background: transparent;
+				padding: 7px 11px;
+				border-radius: 8px;
+				font-size: 11px;
+				font-weight: 700;
+			}
+
+			.whatsapp:hover {
+				background: rgba(32, 217, 139, 0.08);
+			}
+
+			.action {
+				border: 0;
+				background: transparent;
+				color: #7e8998;
+				font-size: 18px;
+			}
+
+			/* MODAL */
+
+			.modal {
+				position: fixed;
+				inset: 0;
+				background: rgba(0, 0, 0, 0.7);
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				z-index: 20;
+			}
+
+			.modal.open {
+				display: flex;
+			}
+
+			.modal-box {
+				width: min(500px, 100%);
+				background: #111820;
+				border: 1px solid var(--border);
+				border-radius: 18px;
+				padding: 24px;
+				box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+			}
+
+			.modal-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 22px;
+			}
+
+			.modal-title {
+				font-size: 21px;
+				font-weight: 800;
+			}
+
+			.close {
+				border: 0;
+				background: #19212b;
+				color: #aab2bd;
+				width: 35px;
+				height: 35px;
+				border-radius: 9px;
+			}
+
+			.form-grid {
+				display: grid;
+				gap: 14px;
+			}
+
+			label {
+				display: grid;
+				gap: 7px;
+				color: #9aa4b2;
+				font-size: 12px;
+				font-weight: 700;
+			}
+
+			label input,
+			label select {
+				height: 44px;
+				border: 1px solid var(--border);
+				background: #0a0f15;
+				color: white;
+				border-radius: 9px;
+				padding: 0 12px;
+				outline: none;
+			}
+
+			.modal-footer {
+				display: flex;
+				justify-content: flex-end;
+				gap: 10px;
+				margin-top: 22px;
+			}
+
+			.secondary {
+				height: 44px;
+				padding: 0 16px;
+				border-radius: 9px;
+				border: 1px solid var(--border);
+				background: transparent;
+				color: #c4cad2;
+			}
+
+			/* MOBILE */
+
+		
+		@media (max-width: 800px) {
+	.sidebar {
+		display: none;
+	}
+
+	.main {
+		width: 100%;
+		margin-left: 0;
+		padding: 24px 16px 40px;
+	}
+
+	.topbar {
+		align-items: center;
+	}
+
+	.top-actions .primary {
+		display: none;
+	}
+
+	.stats {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+
+				.stat {
+					padding: 17px;
+					min-height: 130px;
+				}
+
+				.stat-number {
+					font-size: 30px;
+				}
+
+				.panel-header {
+	padding: 18px 20px 14px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+}
+
+.panel-title {
+	font-size: 18px;
+	font-weight: 800;
+}
+
+.panel-description {
+	color: var(--muted);
+	font-size: 12px;
+	margin-top: 4px;
+}
+
+.toolbar {
+	padding: 0 20px 14px;
+	display: flex;
+	gap: 8px;
+}
+
+				.filter {
+					width: 100%;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.stats {
+					grid-template-columns: 1fr;
+				}
+
+				h1 {
+					font-size: 31px;
+				}
+			}
+
+.activity-section {
+	margin-top: 24px;
+	padding-top: 20px;
+	border-top: 1px solid var(--border);
+}
+
+.activity-title {
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 1.2px;
+	color: #697383;
+	margin-bottom: 14px;
+}
+
+.activity-list {
+	display: grid;
+	gap: 10px;
+}
+
+.activity-item {
+	padding: 12px;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background: #0a0f15;
+}
+
+.activity-item strong {
+	display: block;
+	color: white;
+	font-size: 12px;
+	margin-bottom: 5px;
+}
+
+.activity-item p {
+	margin: 0;
+	color: #aeb6c2;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.activity-date {
+	margin-top: 7px;
+	color: #697383;
+	font-size: 10px;
+}
+
+.activity-empty {
+	color: #697383;
+	font-size: 12px;
+}
+/* GLOBAL STYLE UNTUK TABEL DINAMIS */
+
+:global(.company) {
+	color: white;
+	font-weight: 800;
+	border: 0;
+	background: transparent;
+	padding: 0;
+	cursor: pointer;
+	text-align: left;
+}
+
+:global(.lead-link:hover) {
+	text-decoration: underline;
+	color: var(--green);
+}
+
+:global(.pic) {
+	font-size: 12px;
+	color: var(--muted);
+	margin-top: 4px;
+}
+
+:global(.whatsapp) {
+	border: 1px solid #1d7654;
+	color: var(--green);
+	background: transparent;
+	padding: 7px 11px;
+	border-radius: 8px;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+:global(.whatsapp:hover) {
+	background: rgba(32, 217, 139, 0.08);
+}
+
+:global(.status) {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 9px;
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: 700;
+}
+
+:global(.status::before) {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+:global(.status.new) {
+	color: var(--yellow);
+	background: rgba(230, 184, 92, 0.09);
+}
+
+:global(.status.contacted) {
+	color: var(--green);
+	background: rgba(32, 217, 139, 0.08);
+}
+
+:global(.status.followup) {
+	color: var(--purple);
+	background: rgba(168, 121, 255, 0.09);
+}
+
+:global(.status.closed) {
+	color: var(--blue);
+	background: rgba(99, 168, 255, 0.09);
+}
+
+:global(.action) {
+	border: 0;
+	background: transparent;
+	color: #7e8998;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 4px 6px;
+}
+
+:global(.action:hover) {
+	color: white;
+}
+
+.activity-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.activity-add {
+	border: 1px solid rgba(32, 217, 139, 0.35);
+	background: rgba(32, 217, 139, 0.08);
+	color: var(--green);
+	padding: 7px 11px;
+	border-radius: 8px;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.activity-add:hover {
+	background: rgba(32, 217, 139, 0.14);
+}
+
+/* =========================
+   FOLLOW UP
+========================= */
+
+:global(.followup-summary) {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	margin-bottom: 16px;
+	color: #697383;
+}
+
+:global(.followup-summary strong) {
+	color: white;
+	font-size: 16px;
+}
+
+:global(.followup-list) {
+	display: grid;
+	gap: 12px;
+	padding: 0 20px 20px;
+}
+
+:global(.followup-card) {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 18px 20px;
+	background: #0a0f15;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	min-height: 92px;
+	transition: 0.2s ease;
+}
+
+:global(.followup-card:hover) {
+	background: #101720;
+	border-color: #344151;
+}
+
+:global(.followup-main) {
+	min-width: 0;
+	flex: 1;
+}
+
+:global(.followup-company) {
+	font-size: 15px;
+	font-weight: 800;
+	color: white;
+	margin-bottom: 5px;
+}
+
+:global(.followup-pic) {
+	font-size: 12px;
+	color: #9aa4b2;
+	margin-bottom: 9px;
+}
+
+:global(.followup-pic strong) {
+	color: #dce2e9;
+}
+
+:global(.followup-meta) {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px;
+	font-size: 12px;
+	color: #8993a1;
+}
+
+:global(.followup-right) {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-shrink: 0;
+}
+
+:global(.followup-status) {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--purple);
+	white-space: nowrap;
+}
+
+:global(.followup-right .whatsapp) {
+	min-width: 78px;
+	text-align: center;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+	:global(.followup-card) {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	:global(.followup-right) {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	:global(.followup-meta) {
+		gap: 10px;
+	}
+}
+
+.followup-main {
+	min-width: 0;
+}
+
+.followup-company {
+	font-size: 17px;
+	font-weight: 700;
+	color: #202938;
+	margin-bottom: 7px;
+}
+
+.followup-pic {
+	font-size: 13px;
+	color: #697383;
+	margin-bottom: 8px;
+}
+
+.followup-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	font-size: 13px;
+	color: #697383;
+}
+
+.followup-right {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-shrink: 0;
+}
+
+.followup-status {
+	font-size: 13px;
+	font-weight: 600;
+	color: #7653c7;
+	white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+	.followup-card {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.followup-right {
+		width: 100%;
+		justify-content: space-between;
+	}
+}
+
+.report-grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 16px;
+	margin-top: 24px;
+}
+
+.report-card {
+	padding: 20px;
+	background: #151b24;
+	border: 1px solid #27303d;
+	border-radius: 14px;
+	min-height: 110px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.report-card span {
+	font-size: 13px;
+	color: #8d98a8;
+}
+
+.report-card strong {
+	font-size: 32px;
+	line-height: 1;
+	color: #f4f7fb;
+	margin-top: 14px;
+}
+
+@media (max-width: 1000px) {
+	.report-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (max-width: 700px) {
+	.report-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 480px) {
+	.report-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* LEADS - TOPBAR */
+#openModal {
+	display: none;
+}
+
+.brand-title {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin: 0;
+	font-size: clamp(30px, 4vw, 46px);
+	letter-spacing: -1.8px;
+	line-height: 1;
+}
+
+.brand-logo {
+	width: 46px;
+	height: 46px;
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+}
+
+.brand-logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+}
+
+		</style>
 	</head>
+
 	<body>
-		<h1>Astro</h1>
+		<div class="app">
+			<aside class="sidebar">
+				<<div class="logo">
+	<div class="logo-mark">
+		<img
+			src="/bca-logo-icon.webp"
+			alt="BCA"
+		/>
+	</div>
+
+	<span>BCA BLASTING</span>
+</div>
+
+				<div class="nav-title">Workspace</div>
+
+				<nav class="nav">
+	<button id="navDashboard" class="active">
+		<span class="nav-icon">▦</span>
+		Dashboard
+	</button>
+
+	<button id="navLeads">
+		<span class="nav-icon">♢</span>
+		Leads
+	</button>
+
+	<button id="navCampaign">
+		<span class="nav-icon">↗</span>
+		Campaign
+	</button>
+
+	<button id="navFollowUp">
+		<span class="nav-icon">◷</span>
+		Follow Up
+	</button>
+
+	<button id="navReports">
+		<span class="nav-icon">▤</span>
+		Laporan
+	</button>
+</nav>
+
+				<div class="nav-title" style="margin-top:28px">System</div>
+
+				<nav class="nav">
+					<button>
+						<span class="nav-icon">⚙</span>
+						Pengaturan
+					</button>
+				</nav>
+
+				<div class="sidebar-bottom">
+					<div class="user-card">
+						<div class="avatar">P</div>
+						<div>
+							<div class="user-name">Admin</div>
+							<div class="user-role">CRM Manager</div>
+						</div>
+					</div>
+				</div>
+			</aside>
+
+			<main class="main">
+				<header class="topbar">
+					<div>
+						<div class="eyebrow">CRM / LEADS</div>
+
+<h1 class="brand-title">
+	<span class="brand-logo">
+		<img
+			src="/bca-logo-icon.webp"
+			alt="Berkah Cemerlang Asia"
+		/>
+	</span>
+
+	<span>PT. Berkah Cemerlang Asia Leads</span>
+</h1>
+
+<p class="subtitle">
+	Kelola prospek, follow up, dan aktivitas customer dari satu tempat.
+</p>
+					</div>
+
+					<div class="top-actions">
+						<button class="icon-button" title="Notifikasi">♧</button>
+						<button class="primary" id="openModal">+ Tambah Lead</button>
+					</div>
+				</header>
+
+				<section id="campaignView" class="panel" style="display:none;">
+	<div class="panel-header">
+		<div>
+			<div class="panel-title">Campaign</div>
+			<div class="panel-description">
+				Kelola campaign dan aktivitas blasting customer.
+			</div>
+		</div>
+
+		<button class="primary">
+			+ Buat Campaign
+		</button>
+	</div>
+
+	<div style="padding:30px;text-align:center;color:#697383;">
+		Belum ada campaign.
+	</div>
+</section>
+
+<section id="followUpView" class="panel" style="display:none;">
+	<div class="panel-header">
+		<div>
+			<div class="panel-title">Follow Up</div>
+
+<div class="panel-description">
+	Daftar lead yang perlu ditindaklanjuti.
+</div>
+
+<div class="followup-count" id="followUpCount">
+	0 lead memerlukan tindak lanjut.
+</div>
+		</div>
+	</div>
+
+	<div id="followUpList"></div>
+</section>
+
+<section id="reportsView" class="panel" style="display:none;">
+	<div class="panel-header">
+		<div>
+			<div class="panel-title">Laporan</div>
+			<div class="panel-description">
+				Ringkasan performa lead dan aktivitas CRM.
+			</div>
+		</div>
+	</div>
+
+	<div class="report-grid">
+		<div class="report-card">
+			<span>Total Lead</span>
+			<strong id="reportTotal">0</strong>
+		</div>
+
+		<div class="report-card">
+			<span>Belum Dihubungi</span>
+			<strong id="reportNew">0</strong>
+		</div>
+
+		<div class="report-card">
+			<span>Sudah Dihubungi</span>
+			<strong id="reportContacted">0</strong>
+		</div>
+
+		<div class="report-card">
+			<span>Follow Up</span>
+			<strong id="reportFollowup">0</strong>
+		</div>
+
+		<div class="report-card">
+			<span>Berhasil</span>
+			<strong id="reportClosed">0</strong>
+		</div>
+	</div>
+</section>
+
+				<section class="stats" id="dashboardStats">
+					<div class="stat" style="--accent:#aeb7c5">
+						<div class="stat-top">
+							<span>Total Lead</span>
+							<span class="stat-icon">◇</span>
+						</div>
+						<div class="stat-number" id="totalLead">0</div>
+						<div class="stat-description">Semua perusahaan</div>
+					</div>
+
+					<div class="stat" style="--accent:#e6b85c">
+						<div class="stat-top">
+							<span>Belum Dihubungi</span>
+							<span class="stat-icon">○</span>
+						</div>
+						<div class="stat-number" id="newLead">0</div>
+						<div class="stat-description">Perlu dihubungi</div>
+					</div>
+
+					<div class="stat" style="--accent:#20d98b">
+						<div class="stat-top">
+							<span>Sudah Dihubungi</span>
+							<span class="stat-icon">✓</span>
+						</div>
+						<div class="stat-number" id="contactedLead">0</div>
+						<div class="stat-description">Kontak tercatat</div>
+					</div>
+
+					<div class="stat" style="--accent:#a879ff">
+						<div class="stat-top">
+							<span>Follow Up</span>
+							<span class="stat-icon">↻</span>
+						</div>
+						<div class="stat-number" id="followupLead">0</div>
+						<div class="stat-description">Perlu ditindaklanjuti</div>
+					</div>
+				</section>
+
+				<section class="panel" id="leadsView">
+					<div class="panel-header">
+						<div>
+							<div class="panel-title">Daftar Lead</div>
+							<div class="panel-description">
+								Pilih perusahaan untuk menghubungi melalui WhatsApp.
+							</div>
+						</div>
+
+						<button class="primary" id="openModalMobile">+ Tambah Lead</button>
+					</div>
+
+					<div class="toolbar">
+						<div class="search">
+							<span>⌕</span>
+							<input
+								id="search"
+								type="search"
+								placeholder="Cari perusahaan, PIC, kota, nomor..."
+							/>
+						</div>
+
+						<select class="filter" id="statusFilter">
+							<option value="all">Semua Status</option>
+							<option value="new">Belum Dihubungi</option>
+							<option value="contacted">Sudah Dihubungi</option>
+							<option value="followup">Follow Up</option>
+							<option value="closed">Berhasil</option>
+						</select>
+					</div>
+
+					<div class="table-wrap">
+						<table>
+							<thead>
+	<tr>
+		<th>PERUSAHAAN</th>
+		<th>PIC</th>
+		<th>KOTA</th>
+		<th>WHATSAPP</th>
+		<th>STATUS</th>
+		<th>AKSI</th>
+	</tr>
+</thead>
+
+							<tbody id="leadTable"></tbody>
+						</table>
+					</div>
+				</section>
+			</main>
+		</div>
+
+<!-- DETAIL LEAD -->
+
+<div class="modal" id="detailModal">
+	<div class="modal-box">
+		<div class="modal-header">
+			<div>
+				<div class="modal-title" id="detailCompany">
+					Detail Lead
+				</div>
+				<div class="panel-description" id="detailPic"></div>
+			</div>
+
+			<button class="close" id="closeDetail">×</button>
+		</div>
+
+		<div style="display:grid;gap:12px;">
+			<div class="card-detail">
+				<span>Kota</span>
+				<strong id="detailCity">-</strong>
+			</div>
+
+			<div class="card-detail">
+				<span>WhatsApp</span>
+				<strong id="detailPhone">-</strong>
+			</div>
+
+			<div class="card-detail">
+				<span>Status</span>
+				<strong id="detailStatus">-</strong>
+			</div>
+		</div>
+
+		<div class="modal" id="activityModal">
+	<div class="modal-box">
+
+		<div class="modal-header">
+			<div class="modal-title">Tambah Aktivitas</div>
+
+			<button
+				class="close"
+				type="button"
+				id="closeActivity"
+			>
+				×
+			</button>
+		</div>
+
+		<form id="activityForm">
+
+			<div class="form-grid">
+
+				<label>
+					Jenis Aktivitas
+
+					<select id="activityType">
+						<option value="whatsapp">WhatsApp</option>
+						<option value="call">Telepon</option>
+						<option value="followup">Follow Up</option>
+						<option value="meeting">Meeting</option>
+						<option value="note">Catatan</option>
+					</select>
+					<label>
+	Tanggal Follow Up
+
+	<input
+		type="date"
+		id="activityDate"
+	/>
+</label>
+				</label>
+
+				<label>
+					Catatan
+
+					<textarea
+						id="activityNote"
+						rows="4"
+						placeholder="Tulis aktivitas..."
+						required
+					></textarea>
+				</label>
+
+			</div>
+
+			<div class="modal-footer">
+
+				<button
+					type="button"
+					class="secondary"
+					id="cancelActivity"
+				>
+					Batal
+				</button>
+
+				<button
+					type="submit"
+					class="primary"
+				>
+					Simpan Aktivitas
+				</button>
+
+			</div>
+
+		</form>
+
+	</div>
+</div>
+
+<div class="activity-section">
+	<div class="activity-header">
+	<div class="activity-title">RIWAYAT AKTIVITAS</div>
+
+	<button class="activity-add" id="addActivity">
+		+ Tambah Aktivitas
+	</button>
+</div>
+
+	<div id="activityList" class="activity-list">
+		<div class="activity-empty">
+			Belum ada aktivitas.
+		</div>
+	</div>
+</div>
+
+		<div class="modal-footer">
+			<button class="secondary" id="detailEdit">
+				Edit Lead
+			</button>
+
+			<button class="primary" id="detailWhatsapp">
+				WhatsApp
+			</button>
+		</div>
+	</div>
+</div>
+
+		<!-- MODAL TAMBAH LEAD -->
+
+		<div class="modal" id="modal">
+			<div class="modal-box">
+				<div class="modal-header">
+					<div class="modal-title">Tambah Lead</div>
+					<button class="close" id="closeModal">×</button>
+				</div>
+
+				<form id="leadForm">
+					<div class="form-grid">
+						<label>
+							Nama Perusahaan
+							<input id="company" required placeholder="Contoh: PT Maju Jaya" />
+						</label>
+
+						<label>
+							Nama PIC
+							<input id="pic" required placeholder="Contoh: Budi Santoso" />
+						</label>
+
+						<label>
+							Kota
+							<input id="city" required placeholder="Contoh: Jakarta Selatan" />
+						</label>
+
+						<label>
+							Nomor WhatsApp
+							<input
+								id="phone"
+								required
+								placeholder="Contoh: 628123456789"
+							/>
+						</label>
+
+						<label>
+							Status
+							<select id="leadStatus">
+								<option value="new">Belum Dihubungi</option>
+								<option value="contacted">Sudah Dihubungi</option>
+								<option value="followup">Follow Up</option>
+								<option value="closed">Berhasil</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="secondary" id="cancelModal">
+							Batal
+						</button>
+
+						<button type="submit" class="primary">
+							Simpan Lead
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script>
+			const defaultLeads = [
+				{
+					id: 1,
+					company: "Nokia",
+					pic: "Marketing",
+					city: "Jakarta",
+					phone: "628123456789",
+					status: "new",
+					activities: [],
+				},
+				{
+					id: 2,
+					company: "PT Maju Jaya",
+					pic: "Budi",
+					city: "Jakarta Selatan",
+					phone: "628139876543",
+					status: "new",
+					activities: [],
+				},
+				{
+					id: 3,
+					company: "ABC Property",
+					pic: "Andi",
+					city: "Jakarta Barat",
+					phone: "628521234567",
+					status: "contacted",
+					activities: [],
+				},
+				{
+					id: 4,
+					company: "Sentra Bisnis Indonesia",
+					pic: "Rina",
+					city: "Jakarta Pusat",
+					phone: "628117654321",
+					status: "followup",
+					activities: [],
+				},
+				{
+					id: 5,
+					company: "Nusantara Office",
+					pic: "Dimas",
+					city: "Tangerang",
+					phone: "628221234567",
+					status: "new",
+					activities: [],
+				},
+			];
+
+			let leads = JSON.parse(
+	localStorage.getItem("crm_leads") || "null"
+) || defaultLeads;
+
+leads = leads.map((lead) => ({
+	...lead,
+	activities: Array.isArray(lead.activities)
+		? lead.activities
+		: [],
+}));
+
+			const table = document.getElementById("leadTable");
+			const search = document.getElementById("search");
+			const statusFilter = document.getElementById("statusFilter");
+
+			const modal = document.getElementById("modal");
+			const detailModal = document.getElementById("detailModal");
+const closeDetail = document.getElementById("closeDetail");
+const detailEdit = document.getElementById("detailEdit");
+const detailWhatsapp = document.getElementById("detailWhatsapp");
+const activityModal = document.getElementById("activityModal");
+const addActivity = document.getElementById("addActivity");
+const closeActivity = document.getElementById("closeActivity");
+const cancelActivity = document.getElementById("cancelActivity");
+
+let selectedLeadId = null;
+addActivity.addEventListener("click", () => {
+	activityModal.classList.add("open");
+});
+
+closeActivity.addEventListener("click", () => {
+	activityModal.classList.remove("open");
+});
+
+cancelActivity.addEventListener("click", () => {
+	activityModal.classList.remove("open");
+});
+
+activityModal.addEventListener("click", (event) => {
+	if (event.target === activityModal) {
+		activityModal.classList.remove("open");
+	}
+});
+
+const activityForm = document.getElementById("activityForm");
+const activityType = document.getElementById("activityType");
+const activityNote = document.getElementById("activityNote");
+
+activityForm.addEventListener("submit", (event) => {
+	event.preventDefault();
+
+	const lead = leads.find((x) => x.id === selectedLeadId);
+
+	if (!lead) return;
+
+	if (!Array.isArray(lead.activities)) {
+		lead.activities = [];
+	}
+
+	lead.activities.push({
+		id: Date.now(),
+		type: activityType.value,
+		note: activityNote.value.trim(),
+		date: new Date().toISOString(),
+	});
+
+	saveLeads();
+
+	activityForm.reset();
+	activityModal.classList.remove("open");
+
+	// Tampilkan ulang Detail Lead
+	const activities = lead.activities;
+
+	const activityList = document.getElementById("activityList");
+
+	activityList.innerHTML = activities
+		.slice()
+		.reverse()
+		.map((activity) => {
+			const date = new Date(activity.date);
+
+	const activityLabels = {
+	whatsapp: "💬 WhatsApp",
+	call: "📞 Telepon",
+	followup: "🔵 Follow Up",
+	meeting: "🤝 Meeting",
+	note: "📝 Catatan",
+	created: "🟢 Lead Dibuat",
+	status: "🔄 Status Diubah",
+	updated: "✏️ Lead Diperbarui",
+};
+
+return `
+	<div class="activity-item">
+		<strong>
+	${activityLabels[activity.type] || activity.type}
+</strong>
+		<p>${activity.note}</p>
+
+		<div class="activity-date">
+			${date.toLocaleString("id-ID")}
+		</div>
+	</div>
+`;
+		})
+		.join("");
+});
+
+detailWhatsapp.addEventListener("click", () => {
+	const lead = leads.find((x) => x.id === selectedLeadId);
+
+	if (lead) {
+		alert("PIC: " + lead.pic);
+
+		const message =
+			`Halo ${lead.pic}, perkenalkan saya dari CRM Blasting. ` +
+			`Kami ingin menyampaikan informasi terkait produk kami. ` +
+			`Apakah Bapak/Ibu berkenan jika saya jelaskan lebih lanjut?`;
+
+		window.open(
+			`https://wa.me/${lead.phone}?text=${encodeURIComponent(message)}`,
+			"_blank"
+		);
+	}
+});
+
+detailEdit.addEventListener("click", () => {
+	const lead = leads.find((x) => x.id === selectedLeadId);
+
+	if (lead) {
+		detailModal.classList.remove("open");
+		showModal(lead);
+	}
+});
+closeDetail.addEventListener("click", () => {
+	detailModal.classList.remove("open");
+});
+
+detailModal.addEventListener("click", (event) => {
+	if (event.target === detailModal) {
+		detailModal.classList.remove("open");
+	}
+});
+			const openModal = document.getElementById("openModal");
+const navDashboard = document.getElementById("navDashboard");
+const navLeads = document.getElementById("navLeads");
+const navCampaign = document.getElementById("navCampaign");
+const campaignView = document.getElementById("campaignView");
+const dashboardStats = document.getElementById("dashboardStats");
+const leadsView = document.getElementById("leadsView");
+const navFollowUp = document.getElementById("navFollowUp");
+const followUpView = document.getElementById("followUpView");
+const navReports = document.getElementById("navReports");
+const reportsView = document.getElementById("reportsView");
+
+navDashboard.addEventListener("click", () => {
+	document.querySelectorAll(".nav button").forEach((button) => {
+		button.classList.remove("active");
+	});
+
+	navDashboard.classList.add("active");
+
+	dashboardStats.style.display = "grid";
+	leadsView.style.display = "none";
+	campaignView.style.display = "none";
+	followUpView.style.display = "none";
+	reportsView.style.display = "none";
+});
+
+navLeads.addEventListener("click", () => {
+	document.querySelectorAll(".nav button").forEach((button) => {
+		button.classList.remove("active");
+	});
+
+	navLeads.classList.add("active");
+
+	dashboardStats.style.display = "none";
+	leadsView.style.display = "block";
+	campaignView.style.display = "none";
+	followUpView.style.display = "none";
+	reportsView.style.display = "none";
+});
+
+navCampaign.addEventListener("click", () => {
+	document.querySelectorAll(".nav button").forEach((button) => {
+		button.classList.remove("active");
+	});
+
+	navCampaign.classList.add("active");
+
+	dashboardStats.style.display = "none";
+	leadsView.style.display = "none";
+	campaignView.style.display = "block";
+	followUpView.style.display = "none";
+	reportsView.style.display = "none";
+});
+
+navFollowUp.addEventListener("click", () => {
+	document.querySelectorAll(".nav button").forEach((button) => {
+		button.classList.remove("active");
+	});
+
+	navFollowUp.classList.add("active");
+
+	dashboardStats.style.display = "none";
+	leadsView.style.display = "none";
+	campaignView.style.display = "none";
+	followUpView.style.display = "block";
+	reportsView.style.display = "none";
+
+	renderFollowUp();
+});
+
+navReports.addEventListener("click", () => {
+	document.querySelectorAll(".nav button").forEach((button) => {
+		button.classList.remove("active");
+	});
+
+	navReports.classList.add("active");
+
+	dashboardStats.style.display = "none";
+	leadsView.style.display = "none";
+	campaignView.style.display = "none";
+	followUpView.style.display = "none";
+	reportsView.style.display = "block";
+
+	renderReports();
+});
+	
+			const openModalMobile = document.getElementById("openModalMobile");
+			const closeModal = document.getElementById("closeModal");
+			const cancelModal = document.getElementById("cancelModal");
+			const form = document.getElementById("leadForm");
+
+			function renderFollowUp() {
+	const followUpList = document.getElementById("followUpList");
+	const followUpCount = document.getElementById("followUpCount");
+
+	const followUps = leads.filter(
+		(lead) => lead.status === "followup"
+	);
+
+	if (followUps.length === 0) {
+		followUpList.innerHTML = `
+			<div class="activity-empty">
+				Belum ada lead yang perlu ditindaklanjuti.
+			</div>
+		`;
+		return;
+	}
+
+	followUpList.innerHTML = `
+		<div class="followup-summary">
+			<strong>${followUps.length} Lead</strong>
+			<span>perlu ditindaklanjuti</span>
+		</div>
+
+		<div class="followup-list">
+			${followUps.map((lead) => `
+				<div class="followup-card">
+
+					<div class="followup-main">
+
+						<div class="followup-company">
+							${lead.company}
+						</div>
+
+						<div class="followup-pic">
+							PIC: <strong>${lead.pic}</strong>
+						</div>
+
+						<div class="followup-meta">
+							<span>📍 ${lead.city}</span>
+							<span>📱 ${lead.phone}</span>
+						</div>
+
+					</div>
+
+					<div class="followup-right">
+
+						<div class="followup-status">
+							🔵 Follow Up
+						</div>
+
+						<button
+							class="whatsapp"
+							data-phone="${lead.phone}"
+						>
+							WhatsApp
+						</button>
+
+					</div>
+
+				</div>
+			`).join("")}
+		</div>
+	`;
+}
+
+
+/* =========================
+   LAPORAN
+========================= */
+
+function renderReports() {
+	const total = leads.length;
+
+	const newCount = leads.filter(
+		(lead) => lead.status === "new"
+	).length;
+
+	const contactedCount = leads.filter(
+		(lead) => lead.status === "contacted"
+	).length;
+
+	const followupCount = leads.filter(
+		(lead) => lead.status === "followup"
+	).length;
+
+	const closedCount = leads.filter(
+		(lead) => lead.status === "closed"
+	).length;
+
+	document.getElementById("reportTotal").textContent = total;
+	document.getElementById("reportNew").textContent = newCount;
+	document.getElementById("reportContacted").textContent = contactedCount;
+	document.getElementById("reportFollowup").textContent = followupCount;
+	document.getElementById("reportClosed").textContent = closedCount;
+}
+
+			function saveLeads() {
+				localStorage.setItem("crm_leads", JSON.stringify(leads));
+			}
+
+			function statusLabel(status) {
+				const labels = {
+					new: "Belum Dihubungi",
+					contacted: "Sudah Dihubungi",
+					followup: "Follow Up",
+					closed: "Berhasil",
+				};
+
+				return labels[status] || status;
+			}
+
+			function render() {
+				const query = search.value.toLowerCase().trim();
+				const filter = statusFilter.value;
+
+				const filtered = leads.filter((lead) => {
+					const matchesSearch =
+						lead.company.toLowerCase().includes(query) ||
+						lead.pic.toLowerCase().includes(query) ||
+						lead.city.toLowerCase().includes(query) ||
+						lead.phone.includes(query);
+
+					const matchesStatus =
+						filter === "all" || lead.status === filter;
+
+					return matchesSearch && matchesStatus;
+				});
+
+				table.innerHTML = "";
+
+				if (!filtered.length) {
+					table.innerHTML = `
+						<tr>
+							<td colspan="6" style="text-align:center;padding:40px;color:#697383">
+								Tidak ada lead yang ditemukan.
+							</td>
+						</tr>
+					`;
+				}
+
+				filtered.forEach((lead) => {
+					const row = document.createElement("tr");
+
+					row.innerHTML = `
+	<td>
+	<button
+		class="company lead-link"
+		data-detail-id="${lead.id}"
+	>
+		${lead.company}
+	</button>
+</td>
+
+<td>
+	<strong class="pic-name">${lead.pic}</strong>
+</td>
+
+<td>${lead.city}</td>
+
+						<td>
+							<button
+								class="whatsapp"
+								data-phone="${lead.phone}"
+							>
+								WhatsApp
+							</button>
+						</td>
+
+						<td>
+							<select
+								class="status ${lead.status}"
+								data-status-id="${lead.id}"
+								style="
+									border:0;
+									cursor:pointer;
+									outline:none;
+								"
+							>
+								<option value="new" ${lead.status === "new" ? "selected" : ""}>
+									Belum Dihubungi
+								</option>
+								<option value="contacted" ${lead.status === "contacted" ? "selected" : ""}>
+									Sudah Dihubungi
+								</option>
+								<option value="followup" ${lead.status === "followup" ? "selected" : ""}>
+									Follow Up
+								</option>
+								<option value="closed" ${lead.status === "closed" ? "selected" : ""}>
+									Berhasil
+								</option>
+							</select>
+						</td>
+
+						<td>
+	<div style="display:flex;gap:6px;">
+		<button
+			class="action"
+			title="Edit lead"
+			data-edit-id="${lead.id}"
+			style="font-size:12px;"
+		>
+			Edit
+		</button>
+
+		<button
+			class="action"
+			title="Hapus lead"
+			data-delete-id="${lead.id}"
+			style="font-size:12px;color:#ff6f7d;"
+		>
+			Hapus
+		</button>
+	</div>
+</td>
+					`;
+
+					table.appendChild(row);
+				});
+
+				updateStats();
+			}
+
+			function updateStats() {
+				document.getElementById("totalLead").textContent = leads.length;
+
+				document.getElementById("newLead").textContent =
+					leads.filter((x) => x.status === "new").length;
+
+				document.getElementById("contactedLead").textContent =
+					leads.filter((x) => x.status === "contacted").length;
+
+				document.getElementById("followupLead").textContent =
+					leads.filter((x) => x.status === "followup").length;
+			}
+
+			let editingLeadId = null;
+
+function showModal(lead = null) {
+	modal.classList.add("open");
+
+	if (lead) {
+		editingLeadId = lead.id;
+
+		document.querySelector(".modal-title").textContent = "Edit Lead";
+
+		document.getElementById("company").value = lead.company;
+		document.getElementById("pic").value = lead.pic;
+		document.getElementById("city").value = lead.city;
+		document.getElementById("phone").value = lead.phone;
+		document.getElementById("leadStatus").value = lead.status;
+	} else {
+		editingLeadId = null;
+
+		document.querySelector(".modal-title").textContent = "Tambah Lead";
+
+		form.reset();
+	}
+
+	document.getElementById("company").focus();
+}
+
+			function hideModal() {
+				modal.classList.remove("open");
+				form.reset();
+			}
+
+			openModal.addEventListener("click", () => showModal());
+openModalMobile.addEventListener("click", () => showModal());
+			closeModal.addEventListener("click", hideModal);
+			cancelModal.addEventListener("click", hideModal);
+
+			modal.addEventListener("click", (event) => {
+				if (event.target === modal) {
+					hideModal();
+				}
+			});
+
+			form.addEventListener("submit", (event) => {
+	event.preventDefault();
+
+	const company = document.getElementById("company").value.trim();
+	const pic = document.getElementById("pic").value.trim();
+	const city = document.getElementById("city").value.trim();
+	const phone = document
+		.getElementById("phone")
+		.value.replace(/\D/g, "");
+	const status = document.getElementById("leadStatus").value;
+
+	if (editingLeadId !== null) {
+	const lead = leads.find((x) => x.id === editingLeadId);
+
+	if (lead) {
+		lead.company = company;
+		lead.pic = pic;
+		lead.city = city;
+		lead.phone = phone;
+		lead.status = status;
+
+		if (!Array.isArray(lead.activities)) {
+			lead.activities = [];
+		}
+
+		lead.activities.push({
+			id: Date.now(),
+			type: "updated",
+			note: "Data Lead diperbarui",
+			date: new Date().toISOString(),
+		});
+	}
+} else {
+		const newLead = {
+	id: Date.now(),
+	company,
+	pic,
+	city,
+	phone,
+	status,
+	activities: [
+		{
+			id: Date.now(),
+			type: "created",
+			note: "Lead dibuat dan ditambahkan ke CRM",
+			date: new Date().toISOString(),
+		},
+	],
+};
+
+		leads.unshift(newLead);
+	}
+
+	saveLeads();
+	render();
+	hideModal();
+
+	editingLeadId = null;
+});
+
+			search.addEventListener("input", render);
+			statusFilter.addEventListener("change", render);
+
+			table.addEventListener("click", (event) => {
+				const detailButton = event.target.closest("[data-detail-id]");
+
+if (detailButton) {
+	const id = Number(detailButton.dataset.detailId);
+	const lead = leads.find((x) => x.id === id);
+
+	if (lead) {
+		selectedLeadId = lead.id;
+
+		document.getElementById("detailCompany").textContent =
+			lead.company;
+
+		document.getElementById("detailPic").textContent =
+			`PIC: ${lead.pic}`;
+
+		document.getElementById("detailCity").textContent =
+			lead.city;
+
+		document.getElementById("detailPhone").textContent =
+			lead.phone;
+
+		document.getElementById("detailStatus").textContent =
+			statusLabel(lead.status);
+
+			const activityList = document.getElementById("activityList");
+
+const activities = Array.isArray(lead.activities)
+	? lead.activities
+	: [];
+
+if (activities.length === 0) {
+	activityList.innerHTML = `
+		<div class="activity-empty">
+			Belum ada aktivitas.
+		</div>
+	`;
+} else {
+	activityList.innerHTML = activities
+		.slice()
+		.reverse()
+		.map((activity) => {
+			const date = new Date(activity.date);
+
+			return `
+				<div class="activity-item">
+					<strong>
+	${activity.type === "created"
+		? "🟢 Lead dibuat"
+		: activity.type === "whatsapp"
+			? "💬 WhatsApp"
+			: activity.type === "call"
+				? "📞 Telepon"
+				: activity.type === "followup"
+					? "🔵 Follow Up"
+					: activity.type === "meeting"
+						? "🤝 Meeting"
+						: activity.type === "note"
+							? "📝 Catatan"
+							: activity.type === "status"
+								? "🔄 Status Diubah"
+								: activity.type === "updated"
+									? "✏️ Lead Diperbarui"
+									: activity.type}
+</strong>
+
+					<p>${activity.note}</p>
+
+					<div class="activity-date">
+						${date.toLocaleString("id-ID")}
+					</div>
+				</div>
+			`;
+		})
+		.join("");
+}
+
+		detailModal.classList.add("open");
+	}
+
+	return;
+}
+				const editButton = event.target.closest("[data-edit-id]");
+
+if (editButton) {
+	const id = Number(editButton.dataset.editId);
+	const lead = leads.find((x) => x.id === id);
+
+	if (lead) {
+		showModal(lead);
+	}
+
+	return;
+}
+				const whatsapp = event.target.closest(".whatsapp");
+
+if (whatsapp) {
+	const phone = whatsapp.dataset.phone;
+	const id = Number(
+		whatsapp.closest("tr")
+			?.querySelector("[data-status-id]")
+			?.dataset.statusId
+	);
+
+	const lead = leads.find((x) => x.id === id);
+
+	if (lead) {
+		if (!Array.isArray(lead.activities)) {
+			lead.activities = [];
+		}
+
+		lead.activities.push({
+			id: Date.now(),
+			type: "whatsapp",
+			note: "Membuka percakapan WhatsApp dengan customer",
+			date: new Date().toISOString(),
+		});
+
+		saveLeads();
+
+		const message =
+			`Halo ${lead.pic}, perkenalkan saya dari CRM Blasting. ` +
+			`Kami ingin menyampaikan informasi terkait produk kami. ` +
+			`Apakah Bapak/Ibu berkenan jika saya jelaskan lebih lanjut?`;
+
+		window.open(
+			`https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+			"_blank"
+		);
+	}
+
+	return;
+}
+				const select = event.target.closest("[data-status-id]");
+
+				if (!select) return;
+
+				const id = Number(select.dataset.statusId);
+				const lead = leads.find((x) => x.id === id);
+
+				if (lead) {
+	const oldStatus = lead.status;
+	const newStatus = select.value;
+
+	lead.status = newStatus;
+
+	if (!Array.isArray(lead.activities)) {
+		lead.activities = [];
+	}
+
+	if (oldStatus !== newStatus) {
+	lead.activities.push({
+		id: Date.now(),
+		type: "status",
+		note: `Status diubah dari "${statusLabel(oldStatus)}" menjadi "${statusLabel(newStatus)}"`,
+		date: new Date().toISOString(),
+	});
+
+	if (newStatus === "followup") {
+		lead.activities.push({
+			id: Date.now() + 1,
+			type: "followup",
+			note: "Lead ditandai untuk ditindaklanjuti",
+			date: new Date().toISOString(),
+		});
+	}
+}
+
+	saveLeads();
+	renderReports();
+}
+			});
+
+			table.addEventListener("click", (event) => {
+				const deleteButton = event.target.closest("[data-delete-id]");
+
+				if (!deleteButton) return;
+
+				const id = Number(deleteButton.dataset.deleteId);
+
+				if (confirm("Hapus lead ini?")) {
+					leads = leads.filter((lead) => lead.id !== id);
+					saveLeads();
+					render();
+				}
+			});
+
+			render();
+		</script>
 	</body>
 </html>
