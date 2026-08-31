@@ -1,0 +1,969 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database Leads - LeadFlow CRM</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    :root {
+      --bg: #080b09;
+      --sidebar: #0d110f;
+      --card: #121815;
+      --card2: #171e1a;
+      --border: #25332b;
+      --green: #19d874;
+      --green-dark: #0c9e51;
+      --text: #f5fff9;
+      --muted: #8d9a91;
+      --yellow: #ffb020;
+      --blue: #6ea8ff;
+      --red: #ff5c5c;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      padding: 22px 14px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 9px 25px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--green), #08783d);
+      color: #001b0c;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo h2 {
+      font-size: 19px;
+    }
+
+    .logo span {
+      display: block;
+      margin-top: 3px;
+      color: var(--green);
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+
+    .menu-title {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      margin: 22px 10px 9px;
+    }
+
+    .nav-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #aeb9b1;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 13px;
+      border-radius: 9px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(25, 216, 116, 0.1);
+      color: var(--green);
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .badge {
+      margin-left: auto;
+      background: rgba(25, 216, 116, .13);
+      color: var(--green);
+      padding: 3px 7px;
+      border-radius: 15px;
+      font-size: 9px;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 30px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .welcome h1 {
+      font-size: 25px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 7px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #18241c;
+      color: var(--green);
+      border: 1px solid var(--green-dark);
+      font-weight: bold;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .card-header h2 {
+      font-size: 18px;
+    }
+
+    .section-description {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 5px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .green-btn {
+      border: 0;
+      background: var(--green);
+      color: #001b0c;
+      font-weight: bold;
+      border-radius: 9px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .green-btn:hover {
+      opacity: .9;
+    }
+
+    .back-btn {
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--muted);
+      border-radius: 9px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .back-btn:hover {
+      color: var(--green);
+      border-color: var(--green);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .stat-value {
+      font-size: 23px;
+      font-weight: bold;
+      margin-top: 7px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: normal;
+      padding: 0 10px 12px;
+      white-space: nowrap;
+    }
+
+    td {
+      border-top: 1px solid var(--border);
+      padding: 14px 10px;
+      vertical-align: middle;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+
+    .company {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 240px;
+    }
+
+    .company-logo {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #16251d;
+      border: 1px solid #284335;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .company-info strong {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .pic-name {
+      color: #e5eee8;
+      font-size: 11px;
+    }
+
+    .whatsapp-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 9px;
+      background: #10251a;
+      border: 1px solid #214a31;
+      border-radius: 7px;
+      color: var(--green);
+      text-decoration: none;
+      font-size: 10px;
+    }
+
+    .category-text {
+      color: #b9c5be;
+      font-size: 10px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 9px;
+    }
+
+    .status-new {
+      background: rgba(25,216,116,.10);
+      color: var(--green);
+    }
+
+    .status-follow {
+      background: rgba(255,176,32,.10);
+      color: var(--yellow);
+    }
+
+    .status-meeting {
+      background: rgba(86,140,255,.10);
+      color: #7fa8ff;
+    }
+
+    .status-deal {
+      background: rgba(25,216,116,.16);
+      color: #55ed9a;
+    }
+
+    .delete-btn {
+      background: #241515;
+      border: 1px solid #4a2525;
+      color: #ff8585;
+      border-radius: 7px;
+      padding: 6px 10px;
+      font-size: 9px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background: #351919;
+    }
+
+    .empty {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--muted);
+      display: none;
+    }
+
+    .empty strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .search-box {
+      margin-bottom: 15px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 11px 13px;
+      background: var(--card2);
+      color: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+      font-size: 11px;
+    }
+
+    .search-box input:focus {
+      border-color: var(--green);
+    }
+
+    @media(max-width:768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 18px 15px;
+      }
+
+      .topbar {
+        margin-bottom: 20px;
+      }
+
+      .user {
+        display: none;
+      }
+
+      .welcome h1 {
+        font-size: 21px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .card-header {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .header-actions {
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <div class="logo-icon">L</div>
+
+      <div>
+        <h2>LeadFlow</h2>
+        <span>CRM SYSTEM</span>
+      </div>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">◈</span>
+      Dashboard
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">⌕</span>
+      Cari Prospek
+    </a>
+
+    <a class="nav-item active" href="/leads">
+      <span class="nav-icon">◉</span>
+      Database Leads
+      <span class="badge" id="leadCount">0</span>
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">◫</span>
+      Pipeline CRM
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">◷</span>
+      Follow-up
+    </a>
+
+    <div class="menu-title">MARKETING</div>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">✉</span>
+      Campaign
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">▦</span>
+      Segmen Leads
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">↑</span>
+      Import Data
+    </a>
+
+    <div class="menu-title">MANAGEMENT</div>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">◔</span>
+      Analytics
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">♙</span>
+      Team
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">⚙</span>
+      Settings
+    </a>
+
+  </aside>
+
+
+  <main class="main">
+
+    <div class="topbar">
+
+      <div class="welcome">
+        <h1>Database Leads</h1>
+        <p>Kelola seluruh database prospek Anda.</p>
+      </div>
+
+      <div class="user">
+        <div class="avatar">A</div>
+
+        <div>
+          <strong style="font-size:12px">
+            Administrator
+          </strong>
+
+          <p style="font-size:10px;color:#8d9a91">
+            Super Admin
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-label">TOTAL LEADS</div>
+        <div class="stat-value" id="totalLeads">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">FOLLOW-UP</div>
+        <div class="stat-value" id="followupCount">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">DEAL</div>
+        <div class="stat-value" id="dealCount">0</div>
+      </div>
+
+    </div>
+
+
+    <section class="card">
+
+      <div class="card-header">
+
+        <div>
+          <h2>Semua Leads</h2>
+
+          <p class="section-description">
+            Seluruh perusahaan yang tersimpan di database CRM.
+          </p>
+        </div>
+
+        <div class="header-actions">
+
+          <button
+            class="back-btn"
+            type="button"
+            onclick="window.location.href='/'"
+          >
+            ← Dashboard
+          </button>
+
+          <button
+            class="green-btn"
+            type="button"
+            onclick="window.location.href='/?addLead=1'"
+          >
+            + Tambah Lead
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="search-box">
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Cari perusahaan, PIC, WhatsApp atau kategori..."
+        />
+
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>PERUSAHAAN</th>
+              <th>PIC</th>
+              <th>WHATSAPP</th>
+              <th>KATEGORI</th>
+              <th>STATUS</th>
+              <th>AKSI</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="leadsTable"></tbody>
+
+        </table>
+
+        <div class="empty" id="emptyState">
+
+          <strong>Belum ada lead</strong>
+
+          <span>
+            Tambahkan lead pertama Anda dari Dashboard.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    const STORAGE_KEY = "leadflow_leads";
+
+    let leads = JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+
+
+    const table =
+      document.getElementById("leadsTable");
+
+    const emptyState =
+      document.getElementById("emptyState");
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+
+    function statusInfo(status) {
+
+      if (status === "follow") {
+        return {
+          text: "Follow-up",
+          className: "status-follow"
+        };
+      }
+
+      if (status === "meeting") {
+        return {
+          text: "Meeting",
+          className: "status-meeting"
+        };
+      }
+
+      if (status === "deal") {
+        return {
+          text: "Deal",
+          className: "status-deal"
+        };
+      }
+
+      return {
+        text: "New",
+        className: "status-new"
+      };
+
+    }
+
+
+    function render() {
+
+      const keyword =
+        searchInput.value
+          .trim()
+          .toLowerCase();
+
+
+      const filtered =
+        leads.filter((lead) => {
+
+          const text = [
+            lead.company,
+            lead.pic,
+            lead.whatsapp,
+            lead.category,
+            lead.status
+          ]
+            .join(" ")
+            .toLowerCase();
+
+          return text.includes(keyword);
+
+        });
+
+
+      table.innerHTML = "";
+
+
+      filtered.forEach((lead) => {
+
+        const originalIndex =
+          leads.findIndex(
+            item => item.id === lead.id
+          );
+
+
+        const status =
+          statusInfo(lead.status);
+
+
+        const whatsappNumber =
+          String(
+            lead.whatsapp || ""
+          ).replace(/\D/g, "");
+
+
+        const row =
+          document.createElement("tr");
+
+
+        row.innerHTML = `
+
+          <td>
+
+            <div class="company">
+
+              <div class="company-logo">
+                ${(lead.company || "?")
+                  .charAt(0)
+                  .toUpperCase()}
+              </div>
+
+              <div class="company-info">
+                <strong>
+                  ${lead.company || "-"}
+                </strong>
+              </div>
+
+            </div>
+
+          </td>
+
+
+          <td>
+
+            <span class="pic-name">
+              ${lead.pic || "-"}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            ${
+              lead.whatsapp
+
+                ? `
+
+                  <a
+                    class="whatsapp-link"
+                    href="https://wa.me/${whatsappNumber}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    📱 ${lead.whatsapp}
+                  </a>
+
+                `
+
+                : `
+
+                  <span style="color:#68756d;font-size:10px;">
+                    Belum ada
+                  </span>
+
+                `
+            }
+
+          </td>
+
+
+          <td>
+
+            <span class="category-text">
+              ${lead.category || "-"}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <span class="status ${status.className}">
+              ${status.text}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <button
+              type="button"
+              class="delete-btn"
+              data-id="${lead.id}"
+            >
+              Hapus
+            </button>
+
+          </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+      });
+
+
+      emptyState.style.display =
+        filtered.length === 0
+          ? "block"
+          : "none";
+
+
+      updateStats();
+
+    }
+
+
+    function updateStats() {
+
+      document.getElementById("totalLeads")
+        .textContent = leads.length;
+
+
+      document.getElementById("leadCount")
+        .textContent = leads.length;
+
+
+      document.getElementById("followupCount")
+        .textContent =
+          leads.filter(
+            lead => lead.status === "follow"
+          ).length;
+
+
+      document.getElementById("dealCount")
+        .textContent =
+          leads.filter(
+            lead => lead.status === "deal"
+          ).length;
+
+    }
+
+
+    document.addEventListener(
+      "click",
+      (event) => {
+
+        const button =
+          event.target.closest(
+            "[data-id]"
+          );
+
+
+        if (!button) {
+          return;
+        }
+
+
+        const id =
+          Number(button.dataset.id);
+
+
+        if (!confirm("Hapus lead ini?")) {
+          return;
+        }
+
+
+        leads =
+          leads.filter(
+            lead => lead.id !== id
+          );
+
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(leads)
+        );
+
+
+        render();
+
+      }
+    );
+
+
+    searchInput.addEventListener(
+      "input",
+      render
+    );
+
+
+    window.addEventListener(
+      "storage",
+      () => {
+
+        leads = JSON.parse(
+          localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+
+        render();
+
+      }
+    );
+
+
+    render();
+
+  </script>
+
+</body>
+</html>

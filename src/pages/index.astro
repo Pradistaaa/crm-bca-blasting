@@ -1,17 +1,6193 @@
 ---
-
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadFlow CRM</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    :root {
+      --bg: #080b09;
+      --sidebar: #0d110f;
+      --card: #121815;
+      --card2: #171e1a;
+      --border: #25332b;
+      --green: #19d874;
+      --green-dark: #0c9e51;
+      --text: #f5fff9;
+      --muted: #8d9a91;
+      --yellow: #ffb020;
+      --blue: #6ea8ff;
+      --red: #ff5c5c;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      padding: 22px 14px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 9px 25px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--green), #08783d);
+      color: #001b0c;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo h2 {
+      font-size: 19px;
+    }
+
+    .logo span {
+      display: block;
+      margin-top: 3px;
+      color: var(--green);
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+
+    .menu-title {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      margin: 22px 10px 9px;
+    }
+
+    .nav-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #aeb9b1;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 13px;
+      border-radius: 9px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(25, 216, 116, 0.1);
+      color: var(--green);
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .badge {
+      margin-left: auto;
+      background: rgba(25, 216, 116, .13);
+      color: var(--green);
+      padding: 3px 7px;
+      border-radius: 15px;
+      font-size: 9px;
+    }
+
+    /* MAIN */
+
+    .main {
+      margin-left: 250px;
+      padding: 30px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .welcome h1 {
+      font-size: 25px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 7px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #18241c;
+      color: var(--green);
+      border: 1px solid var(--green-dark);
+      font-weight: bold;
+    }
+
+    /* PAGE */
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stat-value {
+      font-size: 29px;
+      font-weight: bold;
+      margin-top: 11px;
+    }
+
+    .stat-sub {
+      color: var(--green);
+      font-size: 10px;
+      margin-top: 6px;
+    }
+
+    /* CARDS */
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .card-header h3 {
+      font-size: 15px;
+    }
+
+    .green-btn {
+      border: 0;
+      background: var(--green);
+      color: #001b0c;
+      font-weight: bold;
+      border-radius: 9px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .green-btn:hover {
+      opacity: .9;
+    }
+
+/* DASHBOARD IMPROVEMENT */
+
+.section-description {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.activity-card {
+  min-height: 250px;
+}
+
+.empty-leads {
+  padding: 45px 20px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.empty-leads-icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 12px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(25,216,116,.08);
+  color: var(--green);
+  font-size: 20px;
+}
+
+.empty-leads strong {
+  display: block;
+  font-size: 13px;
+}
+
+.empty-leads p {
+  color: var(--muted);
+  font-size: 10px;
+  margin: 6px 0 14px;
+}
+
+.action-btn strong {
+  display: block;
+  font-size: 11px;
+}
+
+.action-btn small {
+  line-height: 1.4;
+}
+
+.activity {
+  display: flex;
+  gap: 11px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.activity:last-child {
+  border-bottom: 0;
+}
+
+.activity-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(25,216,116,.09);
+  color: var(--green);
+}
+
+.activity h4 {
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.activity p {
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.activity-time {
+  color: #637068;
+  font-size: 8px;
+  margin-top: 4px;
+  display: block;
+}
+
+@media(max-width:1100px) {
+
+  .dashboard-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+@media(max-width:768px) {
+
+  .dashboard-right {
+    display: flex;
+  }
+
+  .section-description {
+    font-size: 9px;
+  }
+
+}
+
+    /* TABLE */
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: normal;
+      padding: 0 8px 12px;
+    }
+
+   td {
+  border-top: 1px solid var(--border);
+  padding: 14px 8px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+    .company {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .company-logo {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1b2820;
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .company-info strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .company-info small {
+      color: var(--muted);
+      font-size: 9px;
+      display: block;
+      margin-top: 3px;
+    }
+
+    .pic-name {
+      color: #e9fff2;
+    }
+
+    .whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: var(--green);
+  background: rgba(25,216,116,.08);
+  border: 1px solid rgba(25,216,116,.15);
+  border-radius: 7px;
+  padding: 6px 8px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.whatsapp-link:hover {
+  background: rgba(25,216,116,.16);
+  color: var(--green);
+}
+
+    .category-text {
+      color: #c5d0c9;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 9px;
+    }
+
+    .status-new {
+      color: var(--green);
+      background: rgba(25,216,116,.1);
+    }
+
+    .status-follow {
+      color: var(--yellow);
+      background: rgba(255,176,32,.1);
+    }
+
+    .status-meeting {
+      color: var(--blue);
+      background: rgba(110,168,255,.1);
+    }
+
+    .status-deal {
+      color: var(--green);
+      background: rgba(25,216,116,.18);
+    }
+
+    .status.status-contacted {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--blue) !important;
+  background: rgba(110,168,255,.1) !important;
+  border: 1px solid rgba(110,168,255,.12) !important;
+}
+
+
+    .delete-btn {
+      border: 1px solid rgba(255,92,92,.2);
+      color: var(--red);
+      background: rgba(255,92,92,.06);
+      border-radius: 7px;
+      padding: 6px 9px;
+      font-size: 9px;
+      cursor: pointer;
+    }
+
+    /* ACTION */
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .action-btn {
+      background: var(--card2);
+      color: white;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 11px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      border-color: var(--green);
+    }
+
+    .action-btn span {
+      color: var(--green);
+      font-size: 18px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .action-btn small {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 9px;
+    }
+
+    /* MODAL */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 480px;
+      background: #101512;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      font-size: 18px;
+    }
+
+    .close-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 0;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px;
+      background: var(--card2);
+      color: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+      font-size: 12px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--green);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .cancel-btn {
+      padding: 10px 14px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* SIMPLE PAGES */
+
+    .empty-page {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 50px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .empty-page h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .empty-page p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+/* =====================================================
+   PIPELINE CRM
+   ===================================================== */
+
+.pipeline-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(230px, 1fr));
+  gap: 14px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.pipeline-column {
+  min-width: 230px;
+  min-height: 430px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.pipeline-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 2px 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pipeline-count {
+  min-width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(25,216,116,.10);
+  color: var(--green);
+  font-size: 9px;
+}
+
+.pipeline-list {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+:global(.pipeline-card.dragging) {
+  opacity: .45;
+  transform: rotate(1deg) scale(.98);
+}
+
+:global(.pipeline-list.drag-over) {
+  background: rgba(25,216,116,.05);
+  border-radius: 10px;
+}
+
+:global(.pipeline-detail-modal) {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
+
+:global(.pipeline-detail-modal.show) {
+  display: flex;
+}
+
+:global(.pipeline-detail-box) {
+  width: min(440px, 100%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+  overflow: hidden;
+}
+
+:global(.pipeline-detail-header) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+:global(.pipeline-detail-label) {
+  display: block;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+:global(.pipeline-detail-header h2) {
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+:global(.pipeline-detail-close) {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+:global(.pipeline-detail-close:hover) {
+  color: var(--text);
+  background: rgba(255,255,255,.05);
+}
+
+:global(.pipeline-detail-body) {
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 12px;
+}
+
+:global(.pipeline-detail-item) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+:global(.pipeline-detail-item:last-child) {
+  border-bottom: 0;
+}
+
+:global(.pipeline-detail-item span) {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+:global(.pipeline-detail-item strong) {
+  color: var(--text);
+  font-size: 11px;
+  text-align: right;
+}
+
+:global(.pipeline-status-select) {
+  min-width: 170px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--text);
+  font-size: 11px;
+  outline: none;
+  cursor: pointer;
+}
+
+:global(.pipeline-status-select:focus) {
+  border-color: var(--green);
+}
+
+:global(.pipeline-status-select option) {
+  background: var(--card);
+  color: var(--text);
+}
+
+:global(.pipeline-card) {
+  background: #171e1a;
+  border: 1px solid #25332b;
+  border-radius: 11px;
+  padding: 12px;
+  margin-bottom: 0;
+  transition: all .2s ease;
+  box-sizing: border-box;
+}
+
+:global(.pipeline-card:hover) {
+  border-color: rgba(25,216,116,.35);
+  transform: translateY(-1px);
+}
+
+:global(.pipeline-card-company) {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+:global(.pipeline-card-pic) {
+  font-size: 10px;
+  color: #8d9a91;
+  margin-bottom: 5px;
+}
+
+:global(.pipeline-card-category) {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: rgba(255,255,255,.05);
+  color: #8d9a91;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+@media(max-width:1100px) {
+  .pipeline-board {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media(max-width:768px) {
+  .pipeline-board {
+    grid-template-columns: repeat(4, 220px);
+    overflow-x: auto;
+  }
+}
+
+    /* MOBILE */
+
+    .mobile-header {
+      display: none;
+    }
+
+    @media(max-width:1100px) {
+      .stats {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width:768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 18px 15px;
+      }
+
+      .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+
+      .mobile-logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .mobile-logo .logo-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .mobile-menu {
+        background: var(--card);
+        color: var(--green);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 9px 12px;
+      }
+
+      .topbar {
+        margin-bottom: 20px;
+      }
+
+      .topbar .user {
+        display: none;
+      }
+
+      .welcome h1 {
+        font-size: 21px;
+      }
+
+      .stats {
+        gap: 9px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-value {
+        font-size: 23px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+    }
+
+/* =====================================================
+   FINAL DASHBOARD POLISH
+   ===================================================== */
+
+/* Grid tidak memaksa card kiri mengikuti tinggi kanan */
+.content-grid {
+  align-items: start;
+}
+
+/* Card database mengikuti isi */
+.content-grid > .card {
+  height: auto;
+  min-height: 0;
+  align-self: start;
+}
+
+/* Header database */
+.card-header {
+  margin-bottom: 16px;
+}
+
+/* Tabel lebih compact dan rapi */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+th {
+  padding: 0 10px 10px;
+  font-size: 9px;
+  letter-spacing: .6px;
+  white-space: nowrap;
+}
+
+td {
+  padding: 13px 10px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Perusahaan */
+.company {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 230px;
+}
+
+.company-logo {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 9px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(25,216,116,.10);
+  border: 1px solid rgba(25,216,116,.16);
+
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.company-info strong {
+  display: block;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: normal;
+}
+
+.company-info small {
+  display: none;
+}
+
+/* PIC */
+.pic-name {
+  color: #e8f0eb;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   WHATSAPP
+   ===================================================== */
+
+.whatsapp-link,
+.whatsapp-link:visited,
+.whatsapp-link:active {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: var(--green) !important;
+  text-decoration: none !important;
+
+  background: rgba(25,216,116,.08);
+  border: 1px solid rgba(25,216,116,.16);
+
+  border-radius: 7px;
+  padding: 5px 8px;
+
+  font-size: 10px;
+  line-height: 1;
+
+  transition: .2s;
+}
+
+.whatsapp-link:hover {
+  color: #ffffff !important;
+  background: rgba(25,216,116,.16);
+  border-color: rgba(25,216,116,.35);
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   CATEGORY
+   ===================================================== */
+
+.category-text {
+  color: #c8d2cc;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   STATUS
+   ===================================================== */
+
+.status {
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status.new {
+  background: rgba(25,216,116,.10);
+  color: var(--green);
+  border: 1px solid rgba(25,216,116,.12);
+}
+
+.status.follow {
+  background: rgba(255,176,32,.10);
+  color: var(--warning);
+  border: 1px solid rgba(255,176,32,.12);
+}
+
+.status.meeting {
+  background: rgba(86,140,255,.10);
+  color: #7fa8ff;
+  border: 1px solid rgba(86,140,255,.12);
+}
+
+.status.deal {
+  background: rgba(25,216,116,.16);
+  color: #55ed9a;
+  border: 1px solid rgba(25,216,116,.20);
+}
+
+/* =====================================================
+   DELETE BUTTON
+   ===================================================== */
+
+.delete-btn {
+  appearance: none;
+  border: 1px solid rgba(255,80,80,.18);
+
+  background: rgba(255,80,80,.07);
+  color: #ff8585;
+
+  border-radius: 7px;
+  padding: 5px 9px;
+
+  font-size: 9px;
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.delete-btn:hover {
+  background: rgba(255,80,80,.15);
+  border-color: rgba(255,80,80,.35);
+  color: #ffaaaa;
+}
+
+/* =====================================================
+   QUICK ACTIONS
+   ===================================================== */
+
+.action-grid {
+  gap: 9px;
+}
+
+.action-btn {
+  min-height: 78px;
+  padding: 13px;
+
+  border-radius: 11px;
+
+  transition:
+    border-color .2s,
+    background .2s,
+    transform .2s;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   ACTIVITY - FINAL ASTRO SAFE
+   ===================================================== */
+
+:global(.activity-card) {
+  min-height: 0 !important;
+}
+
+:global(.activity) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+
+  width: 100% !important;
+
+  padding: 12px 0 !important;
+  margin: 0 !important;
+
+  border-bottom: 1px solid var(--border) !important;
+}
+
+:global(.activity:last-child) {
+  border-bottom: 0 !important;
+}
+
+/* ICON */
+
+:global(.activity-icon) {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 10px !important;
+
+  background: rgba(25,216,116,.08) !important;
+  border: 1px solid rgba(25,216,116,.12) !important;
+
+  color: var(--green) !important;
+
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+/* ISI AKTIVITAS */
+
+:global(.activity > div:last-child) {
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+
+/* JUDUL */
+
+:global(.activity h4) {
+  display: block !important;
+
+  margin: 0 0 4px 0 !important;
+
+  color: #f5fff9 !important;
+
+  font-size: 11px !important;
+  font-weight: 600 !important;
+
+  line-height: 1.3 !important;
+}
+
+/* DETAIL */
+
+:global(.activity p) {
+  display: block !important;
+
+  margin: 0 !important;
+
+  color: #9aa69e !important;
+
+  font-size: 10px !important;
+
+  line-height: 1.4 !important;
+}
+
+/* TANGGAL */
+
+:global(.activity-time) {
+  display: block !important;
+
+  margin-top: 4px !important;
+
+  color: #5f6c64 !important;
+
+  font-size: 8px !important;
+
+  line-height: 1.2 !important;
+}
+
+/* =====================================================
+   EMPTY DATABASE
+   ===================================================== */
+
+.empty-leads {
+  padding: 30px 20px;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 1100px) {
+
+  .content-grid {
+    align-items: start;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .company {
+    min-width: 200px;
+  }
+
+  .content-grid > .card {
+    width: 100%;
+  }
+
+}
+
+/* =========================================================
+   LEAD TABLE - FINAL ASTRO SAFE
+   ========================================================= */
+
+:global(#leadsTable) {
+  width: 100%;
+}
+
+:global(#leadsTable tr) {
+  border-top: 1px solid #202b25;
+}
+
+:global(#leadsTable tr:first-child) {
+  border-top: 0;
+}
+
+:global(#leadsTable td) {
+  padding: 14px 10px !important;
+  height: 58px;
+  vertical-align: middle !important;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+/* COMPANY */
+
+:global(#leadsTable td:first-child) {
+  width: 32%;
+  min-width: 260px;
+}
+
+:global(#leadsTable .company) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+:global(#leadsTable .company-logo) {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: #16251d !important;
+  border: 1px solid #284335 !important;
+  border-radius: 9px !important;
+
+  color: #19d874 !important;
+
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+:global(#leadsTable .company-info) {
+  display: block !important;
+  min-width: 0 !important;
+}
+
+:global(#leadsTable .company-info strong) {
+  display: block !important;
+
+  color: #f5fff9 !important;
+
+  font-size: 12px !important;
+  font-weight: 600 !important;
+
+  line-height: 1.3 !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* PIC */
+
+:global(#leadsTable td:nth-child(2)) {
+  width: 15%;
+  min-width: 120px;
+}
+
+:global(#leadsTable .pic-name) {
+  color: #e5eee8 !important;
+  font-size: 11px !important;
+  white-space: nowrap !important;
+}
+
+/* WHATSAPP */
+
+:global(#leadsTable td:nth-child(3)) {
+  width: 19%;
+  min-width: 170px;
+}
+
+:global(#leadsTable .whatsapp-link),
+:global(#leadsTable .whatsapp-link:visited),
+:global(#leadsTable .whatsapp-link:hover),
+:global(#leadsTable .whatsapp-link:active) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+
+  padding: 6px 9px !important;
+
+  background: #10251a !important;
+  border: 1px solid #214a31 !important;
+  border-radius: 7px !important;
+
+  color: #19d874 !important;
+  text-decoration: none !important;
+
+  font-size: 10px !important;
+  white-space: nowrap !important;
+}
+
+/* KATEGORI */
+
+:global(#leadsTable td:nth-child(4)) {
+  width: 14%;
+  min-width: 110px;
+}
+
+:global(#leadsTable .category-text) {
+  color: #b9c5be !important;
+  font-size: 10px !important;
+}
+
+/* STATUS */
+
+:global(#leadsTable td:nth-child(5)) {
+  width: 10%;
+  min-width: 80px;
+}
+
+:global(#leadsTable .status) {
+  display: inline-block !important;
+
+  padding: 5px 9px !important;
+
+  border-radius: 20px !important;
+
+  font-size: 9px !important;
+  white-space: nowrap !important;
+}
+
+:global(#leadsTable .status-new) {
+  background: rgba(25,216,116,.10) !important;
+  color: #19d874 !important;
+}
+
+:global(#leadsTable .status-follow) {
+  background: rgba(255,176,32,.10) !important;
+  color: #ffb020 !important;
+}
+
+:global(#leadsTable .status-meeting) {
+  background: rgba(86,140,255,.10) !important;
+  color: #7fa8ff !important;
+}
+
+:global(#leadsTable .status-deal) {
+  background: rgba(25,216,116,.16) !important;
+  color: #55ed9a !important;
+}
+
+/* AKSI */
+
+:global(#leadsTable td:nth-child(6)) {
+  width: 10%;
+  min-width: 70px;
+  text-align: right !important;
+}
+
+/* HAPUS */
+
+:global(#leadsTable .delete-btn) {
+  appearance: none !important;
+
+  background: #241515 !important;
+  border: 1px solid #4a2525 !important;
+
+  color: #ff8585 !important;
+
+  border-radius: 7px !important;
+
+  padding: 6px 10px !important;
+
+  font-size: 9px !important;
+
+  cursor: pointer !important;
+}
+
+:global(#leadsTable .delete-btn:hover) {
+  background: #351919 !important;
+  border-color: #713333 !important;
+  color: #ffaaaa !important;
+}
+
+/* =========================================================
+   DATABASE LEADS - TABLE POLISH
+   ========================================================= */
+
+:global(#allLeadsTable) {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+:global(#allLeadsTable tr) {
+  border-top: 1px solid #202b25;
+}
+
+:global(#allLeadsTable tr:first-child) {
+  border-top: 0;
+}
+
+:global(#allLeadsTable td) {
+  padding: 14px 10px !important;
+  height: 58px;
+  vertical-align: middle !important;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+/* COMPANY */
+
+:global(#allLeadsTable td:first-child) {
+  width: 32%;
+  min-width: 260px;
+}
+
+:global(#allLeadsTable .company) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 230px !important;
+}
+
+:global(#allLeadsTable .company-logo) {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: #16251d !important;
+  border: 1px solid #284335 !important;
+  border-radius: 9px !important;
+
+  color: #19d874 !important;
+
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+:global(#allLeadsTable .company-info) {
+  display: block !important;
+  min-width: 0 !important;
+}
+
+:global(#allLeadsTable .company-info strong) {
+  display: block !important;
+
+  color: #f5fff9 !important;
+
+  font-size: 12px !important;
+  font-weight: 600 !important;
+
+  line-height: 1.3 !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* PIC */
+
+:global(#allLeadsTable td:nth-child(2)) {
+  width: 15%;
+  min-width: 120px;
+}
+
+:global(#allLeadsTable .pic-name) {
+  color: #e5eee8 !important;
+  font-size: 11px !important;
+  white-space: nowrap !important;
+}
+
+/* WHATSAPP */
+
+:global(#allLeadsTable td:nth-child(3)) {
+  width: 19%;
+  min-width: 170px;
+}
+
+:global(#allLeadsTable .whatsapp-link),
+:global(#allLeadsTable .whatsapp-link:visited),
+:global(#allLeadsTable .whatsapp-link:hover),
+:global(#allLeadsTable .whatsapp-link:active) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+
+  padding: 6px 9px !important;
+
+  background: #10251a !important;
+  border: 1px solid #214a31 !important;
+  border-radius: 7px !important;
+
+  color: #19d874 !important;
+  text-decoration: none !important;
+
+  font-size: 10px !important;
+  white-space: nowrap !important;
+}
+
+/* KATEGORI */
+
+:global(#allLeadsTable td:nth-child(4)) {
+  width: 14%;
+  min-width: 110px;
+}
+
+:global(#allLeadsTable .category-text) {
+  color: #b9c5be !important;
+  font-size: 10px !important;
+}
+
+/* STATUS */
+
+:global(#allLeadsTable td:nth-child(5)) {
+  width: 10%;
+  min-width: 80px;
+}
+
+:global(#allLeadsTable .status) {
+  display: inline-block !important;
+
+  padding: 5px 9px !important;
+
+  border-radius: 20px !important;
+
+  font-size: 9px !important;
+  white-space: nowrap !important;
+}
+
+:global(#allLeadsTable .status-new) {
+  background: rgba(25,216,116,.10) !important;
+  color: #19d874 !important;
+}
+
+:global(#allLeadsTable .status-follow) {
+  background: rgba(255,176,32,.10) !important;
+  color: #ffb020 !important;
+}
+
+:global(#allLeadsTable .status-meeting) {
+  background: rgba(86,140,255,.10) !important;
+  color: #7fa8ff !important;
+}
+
+:global(#allLeadsTable .status-contacted) {
+  background: rgba(110,168,255,.10) !important;
+  color: #6ea8ff !important;
+}
+
+:global(#allLeadsTable .status-deal) {
+  background: rgba(25,216,116,.16) !important;
+  color: #55ed9a !important;
+}
+
+/* AKSI */
+
+:global(#allLeadsTable td:nth-child(6)) {
+  width: 10%;
+  min-width: 70px;
+  text-align: right !important;
+}
+
+/* HAPUS */
+
+:global(#allLeadsTable .delete-btn) {
+  appearance: none !important;
+
+  background: #241515 !important;
+  border: 1px solid #4a2525 !important;
+
+  color: #ff8585 !important;
+
+  border-radius: 7px !important;
+
+  padding: 6px 10px !important;
+
+  font-size: 9px !important;
+
+  cursor: pointer !important;
+}
+
+:global(#allLeadsTable .delete-btn:hover) {
+  background: #351919 !important;
+  border-color: #713333 !important;
+  color: #ffaaaa !important;
+}
+
+/* =====================================================
+   FOLLOW-UP TABLE - FINAL ASTRO SAFE
+   ===================================================== */
+
+:global(#followupTable) {
+  width: 100% !important;
+}
+
+:global(#followupTable tr) {
+  display: table-row !important;
+  width: 100% !important;
+  border-top: 1px solid var(--border);
+}
+
+:global(#followupTable tr:first-child) {
+  border-top: 0;
+}
+
+:global(#followupTable td) {
+  display: table-cell !important;
+  padding: 14px 10px !important;
+  height: 58px;
+  vertical-align: middle !important;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+/* PERUSAHAAN */
+
+:global(#followupTable td:nth-child(1)) {
+  width: 32% !important;
+  min-width: 260px;
+}
+
+/* PIC */
+
+:global(#followupTable td:nth-child(2)) {
+  width: 15% !important;
+  min-width: 120px;
+}
+
+/* WHATSAPP */
+
+:global(#followupTable td:nth-child(3)) {
+  width: 19% !important;
+  min-width: 170px;
+}
+
+/* KATEGORI */
+
+:global(#followupTable td:nth-child(4)) {
+  width: 14% !important;
+  min-width: 110px;
+}
+
+/* STATUS */
+
+:global(#followupTable td:nth-child(5)) {
+  width: 10% !important;
+  min-width: 80px;
+}
+
+/* COMPANY TEXT */
+
+:global(#followupTable td:nth-child(1) strong) {
+  display: block !important;
+  color: #f5fff9 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+}
+
+/* WHATSAPP */
+
+:global(#followupTable .whatsapp-link) {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  color: var(--green) !important;
+  white-space: nowrap !important;
+}
+
+/* CATEGORY */
+
+:global(#followupTable .category-text) {
+  white-space: nowrap !important;
+}
+
+/* STATUS */
+
+:global(#followupTable .status) {
+  white-space: nowrap !important;
+}
+
+/* =====================================================
+   FOLLOW-UP TABLE - FIX COLUMN ALIGNMENT
+   ===================================================== */
+
+:global(#page-followup .table-wrap) {
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+
+:global(#page-followup table) {
+  width: 100% !important;
+  min-width: 900px !important;
+  border-collapse: collapse !important;
+  table-layout: fixed !important;
+}
+
+/* HEADER */
+
+:global(#page-followup table thead) {
+  display: table-header-group !important;
+}
+
+:global(#page-followup table thead tr) {
+  display: table-row !important;
+  width: 100% !important;
+}
+
+:global(#page-followup table th) {
+  display: table-cell !important;
+  box-sizing: border-box !important;
+
+  padding: 0 10px 12px !important;
+
+  text-align: left !important;
+  vertical-align: middle !important;
+
+  white-space: nowrap !important;
+
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  letter-spacing: .5px !important;
+
+  color: var(--muted) !important;
+}
+
+/* BODY */
+
+:global(#page-followup table tbody) {
+  display: table-row-group !important;
+}
+
+:global(#page-followup table tbody tr) {
+  display: table-row !important;
+  width: 100% !important;
+}
+
+:global(#page-followup table td) {
+  display: table-cell !important;
+  box-sizing: border-box !important;
+
+  padding: 14px 10px !important;
+
+  height: 58px !important;
+
+  vertical-align: middle !important;
+
+  border-top: 1px solid var(--border) !important;
+
+  font-size: 11px !important;
+
+  white-space: nowrap !important;
+}
+
+/* =====================================================
+   KOLOM HARUS SAMA ANTARA TH DAN TD
+   ===================================================== */
+
+/* 1. PERUSAHAAN */
+:global(#page-followup table th:nth-child(1)),
+:global(#page-followup table td:nth-child(1)) {
+  width: 32% !important;
+  text-align: left !important;
+}
+
+/* 2. PIC */
+:global(#page-followup table th:nth-child(2)),
+:global(#page-followup table td:nth-child(2)) {
+  width: 15% !important;
+  text-align: left !important;
+}
+
+/* 3. WHATSAPP */
+:global(#page-followup table th:nth-child(3)),
+:global(#page-followup table td:nth-child(3)) {
+  width: 19% !important;
+  text-align: left !important;
+}
+
+/* 4. KATEGORI */
+:global(#page-followup table th:nth-child(4)),
+:global(#page-followup table td:nth-child(4)) {
+  width: 14% !important;
+  text-align: left !important;
+}
+
+/* 5. STATUS */
+:global(#page-followup table th:nth-child(5)),
+:global(#page-followup table td:nth-child(5)) {
+  width: 10% !important;
+  text-align: left !important;
+}
+
+/* 6. AKSI */
+:global(#page-followup table th:nth-child(6)),
+:global(#page-followup table td:nth-child(6)) {
+  width: 10% !important;
+  text-align: right !important;
+}
+
+/* =====================================================
+   COMPANY
+   ===================================================== */
+
+:global(#page-followup .company) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+:global(#page-followup .company-logo) {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 9px !important;
+
+  background: rgba(25,216,116,.10) !important;
+  border: 1px solid rgba(25,216,116,.16) !important;
+
+  color: var(--green) !important;
+
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+:global(#page-followup .company-info) {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+:global(#page-followup .company-info strong) {
+  display: block !important;
+
+  color: #f5fff9 !important;
+
+  font-size: 12px !important;
+  font-weight: 600 !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* =====================================================
+   PIC
+   ===================================================== */
+
+:global(#page-followup .pic-name) {
+  color: #e5eee8 !important;
+  font-size: 11px !important;
+
+  white-space: nowrap !important;
+}
+
+/* =====================================================
+   WHATSAPP
+   ===================================================== */
+
+:global(#page-followup .whatsapp-link) {
+  display: inline-flex !important;
+  align-items: center !important;
+
+  padding: 6px 9px !important;
+
+  background: #10251a !important;
+
+  border: 1px solid #214a31 !important;
+
+  border-radius: 7px !important;
+
+  color: #19d874 !important;
+
+  text-decoration: none !important;
+
+  font-size: 10px !important;
+
+  white-space: nowrap !important;
+}
+
+:global(#page-followup .whatsapp-link:hover) {
+  background: #163522 !important;
+  border-color: #19d874 !important;
+  color: #ffffff !important;
+}
+
+/* =====================================================
+   CATEGORY
+   ===================================================== */
+
+:global(#page-followup .category-text) {
+  color: #b9c5be !important;
+
+  font-size: 10px !important;
+
+  white-space: nowrap !important;
+}
+
+/* =====================================================
+   STATUS
+   ===================================================== */
+
+:global(#page-followup .status) {
+  display: inline-block !important;
+
+  padding: 5px 9px !important;
+
+  border-radius: 20px !important;
+
+  font-size: 9px !important;
+
+  white-space: nowrap !important;
+}
+
+:global(#page-followup .status-follow) {
+  background: rgba(255,176,32,.10) !important;
+  color: #ffb020 !important;
+}
+
+/* =====================================================
+   AKSI
+   ===================================================== */
+
+:global(#page-followup .followup-action-btn) {
+  appearance: none !important;
+
+  padding: 6px 12px !important;
+
+  background: rgba(25,216,116,.08) !important;
+
+  border: 1px solid rgba(25,216,116,.25) !important;
+
+  border-radius: 7px !important;
+
+  color: #19d874 !important;
+
+  font-size: 9px !important;
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  white-space: nowrap !important;
+}
+
+:global(#page-followup .followup-action-btn:hover) {
+  background: rgba(25,216,116,.16) !important;
+
+  border-color: rgba(25,216,116,.45) !important;
+
+  color: #ffffff !important;
+}
+
+/* =====================================================
+   PIC INLINE EDIT
+   ===================================================== */
+
+.pipeline-detail-pic-wrap {
+  position: relative;
+}
+
+.pipeline-pic-display {
+  margin-top: 6px;
+  min-height: 38px;
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #171e1a;
+  border: 1px solid #25332b;
+  border-radius: 9px;
+
+  color: #e7eee9;
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+.pipeline-pic-display:hover {
+  border-color: rgba(25,216,116,.45);
+  background: #1a241f;
+}
+
+.pipeline-pic-edit {
+  color: #68756d;
+  font-size: 13px;
+  transition: color .2s ease;
+}
+
+.pipeline-pic-display:hover .pipeline-pic-edit {
+  color: #19d874;
+}
+
+.pipeline-pic-input {
+  display: none;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 6px;
+  min-height: 38px;
+
+  padding: 0 12px;
+
+  background: #171e1a;
+  border: 1px solid #19d874;
+  border-radius: 9px;
+
+  color: #f2f7f4;
+  font-size: 12px;
+
+  outline: none;
+
+  box-shadow:
+    0 0 0 3px rgba(25,216,116,.08);
+}
+
+.pipeline-pic-input::placeholder {
+  color: #68756d;
+}
+
+.pipeline-pic-hint {
+  display: none;
+
+  margin-top: 5px;
+
+  color: #68756d;
+  font-size: 9px;
+}
+
+.pipeline-detail-pic-wrap.editing
+.pipeline-pic-display {
+  display: none;
+}
+
+.pipeline-detail-pic-wrap.editing
+.pipeline-pic-input {
+  display: block !important;
+  pointer-events: auto;
+  position: relative;
+  z-index: 20;
+}
+
+.pipeline-detail-pic-wrap.editing
+.pipeline-pic-hint {
+  display: block;
+}
+
+/* =====================================================
+   CAMPAIGN
+   ===================================================== */
+
+#page-campaign .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+#page-campaign .page-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+#page-campaign .page-header p {
+  margin: 6px 0 0;
+  color: #68756d;
+  font-size: 11px;
+}
+
+
+/* STATISTICS */
+
+#page-campaign .stats-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+#page-campaign .stat-card {
+  background: #171e1a;
+  border: 1px solid #25332b;
+  border-radius: 12px;
+
+  padding: 16px;
+}
+
+#page-campaign .stat-card span {
+  display: block;
+
+  color: #68756d;
+  font-size: 10px;
+
+  margin-bottom: 8px;
+}
+
+#page-campaign .stat-card strong {
+  display: block;
+
+  color: #f1f6f3;
+  font-size: 22px;
+}
+
+
+/* CONTENT CARD */
+
+#page-campaign .content-card {
+  background: #171e1a;
+  border: 1px solid #25332b;
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+#page-campaign .content-card-header {
+  padding: 16px 18px;
+
+  border-bottom: 1px solid #25332b;
+}
+
+#page-campaign .content-card-header h3 {
+  margin: 0;
+
+  font-size: 13px;
+  color: #f1f6f3;
+}
+
+#page-campaign .content-card-header p {
+  margin: 5px 0 0;
+
+  color: #68756d;
+  font-size: 10px;
+}
+
+
+/* EMPTY CAMPAIGN */
+
+#page-campaign #campaignList .empty-page {
+  padding: 45px 20px;
+}
+
+#page-campaign #campaignList .empty-icon {
+  margin-bottom: 12px;
+}
+
+#page-campaign #campaignList h2 {
+  font-size: 14px;
+}
+
+#page-campaign #campaignList p {
+  font-size: 10px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+
+  #page-campaign .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 520px) {
+
+  #page-campaign .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #page-campaign .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* =====================================================
+   CAMPAIGN MODAL
+   ===================================================== */
+
+#campaignModal .modal-box {
+  width: min(560px, calc(100vw - 32px));
+  max-width: 560px;
+}
+
+#campaignModal .modal-header {
+  padding-bottom: 14px;
+  margin-bottom: 0;
+}
+
+#campaignModal .modal-header h2 {
+  font-size: 15px;
+}
+
+#campaignFormArea {
+  min-height: 80px;
+  padding-top: 4px;
+}
+
+#campaignFormArea::before {
+  content: "Form Campaign";
+  display: block;
+  color: #68756d;
+  font-size: 10px;
+  margin-bottom: 12px;
+}
+
+/* =====================================================
+   CAMPAIGN MESSAGE UI
+   ===================================================== */
+
+#campaignFormArea .form-group {
+  margin-bottom: 16px;
+}
+
+#campaignFormArea label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #dce5df;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+#campaignFormArea input,
+#campaignFormArea select,
+#campaignFormArea textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: #111713;
+  border: 1px solid #29372f;
+  border-radius: 9px;
+
+  color: #edf4ef;
+  font-family: inherit;
+  font-size: 11px;
+
+  outline: none;
+  transition: .2s ease;
+}
+
+#campaignFormArea input,
+#campaignFormArea select {
+  height: 38px;
+  padding: 0 11px;
+}
+
+#campaignFormArea textarea {
+  min-height: 130px;
+  padding: 11px;
+
+  resize: vertical;
+  line-height: 1.6;
+}
+
+#campaignFormArea input:focus,
+#campaignFormArea select:focus,
+#campaignFormArea textarea:focus {
+  border-color: #19d874;
+  box-shadow:
+    0 0 0 3px rgba(25,216,116,.07);
+}
+
+#campaignFormArea input::placeholder,
+#campaignFormArea textarea::placeholder {
+  color: #536158;
+}
+
+#campaignFormArea select {
+  cursor: pointer;
+}
+
+.campaign-message-hint {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #68756d;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.campaign-message-hint strong {
+  color: #19d874;
+  font-weight: 600;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="logo">
+        <div class="logo-icon">L</div>
+        <div>
+          <h2>LeadFlow</h2>
+          <span>CRM SYSTEM</span>
+        </div>
+      </div>
+
+      <div class="menu-title">MAIN MENU</div>
+
+      <button class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">◈</span>
+        Dashboard
+      </button>
+
+      <button class="nav-item" data-page="prospek">
+        <span class="nav-icon">⌕</span>
+        Cari Prospek
+      </button>
+
+      <button class="nav-item" data-page="leads">
+        <span class="nav-icon">◉</span>
+        Database Leads
+        <span class="badge" id="leadCount">0</span>
+      </button>
+
+      <button class="nav-item" data-page="pipeline">
+        <span class="nav-icon">◫</span>
+        Pipeline CRM
+      </button>
+
+      <button class="nav-item" data-page="followup">
+        <span class="nav-icon">◷</span>
+        Follow-up
+        <span class="badge" id="followupCount">0</span>
+      </button>
+
+      <div class="menu-title">MARKETING</div>
+
+      <button class="nav-item" data-page="campaign">
+        <span class="nav-icon">✉</span>
+        Campaign
+      </button>
+
+      <button class="nav-item" data-page="segmen">
+        <span class="nav-icon">▦</span>
+        Segmen Leads
+      </button>
+
+      <button class="nav-item" data-page="import">
+        <span class="nav-icon">↑</span>
+        Import Data
+      </button>
+
+      <div class="menu-title">MANAGEMENT</div>
+
+      <button class="nav-item" data-page="analytics">
+        <span class="nav-icon">◔</span>
+        Analytics
+      </button>
+
+      <button class="nav-item" data-page="team">
+        <span class="nav-icon">♙</span>
+        Team
+      </button>
+
+      <button class="nav-item" data-page="settings">
+        <span class="nav-icon">⚙</span>
+        Settings
+      </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="mobile-header">
+        <div class="mobile-logo">
+          <div class="logo-icon">L</div>
+          <strong>LeadFlow</strong>
+        </div>
+
+        <button class="mobile-menu">☰</button>
+      </div>
+
+
+      <div class="topbar">
+        <div class="welcome">
+          <h1>Good Evening, Admin 👋</h1>
+          <p>Kelola database lead dan prospek Anda.</p>
+        </div>
+
+        <div class="user">
+          <div class="avatar">A</div>
+          <div>
+            <strong style="font-size:12px">Administrator</strong>
+            <p style="font-size:10px;color:#8d9a91">
+              Super Admin
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- DASHBOARD -->
+<section class="page active" id="page-dashboard">
+
+  <!-- STATISTICS -->
+  <section class="stats">
+
+    <div class="stat-card">
+      <div class="stat-label">TOTAL LEADS</div>
+      <div class="stat-value" id="totalLeads">0</div>
+      <div class="stat-sub">Semua database lead</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">LEAD BARU HARI INI</div>
+      <div class="stat-value" id="newLeadsToday">0</div>
+      <div class="stat-sub">Lead masuk hari ini</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">FOLLOW-UP AKTIF</div>
+      <div class="stat-value" id="activeFollowups">0</div>
+      <div class="stat-sub">Perlu ditindaklanjuti</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">CONVERSION RATE</div>
+      <div class="stat-value" id="conversionRate">0%</div>
+      <div class="stat-sub">Lead menjadi deal</div>
+    </div>
+
+  </section>
+
+
+  <!-- MAIN DASHBOARD GRID -->
+  <div class="content-grid">
+
+    <!-- LEFT -->
+    <section class="card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Lead Terbaru</h3>
+          <p class="section-description">
+            Database prospek terbaru Anda
+          </p>
+        </div>
+
+        <button
+          class="green-btn"
+          id="addLeadTop"
+          type="button"
+        >
+          + Tambah Lead
+        </button>
+
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>PERUSAHAAN</th>
+              <th>PIC</th>
+              <th>WHATSAPP</th>
+              <th>KATEGORI</th>
+              <th>STATUS</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody id="leadsTable"></tbody>
+
+        </table>
+
+        <div
+          id="emptyLeads"
+          class="empty-leads"
+          style="display:none;"
+        >
+          <div class="empty-leads-icon">◉</div>
+          <strong>Belum ada lead</strong>
+          <p>
+            Tambahkan perusahaan pertama Anda.
+          </p>
+
+          <button
+            class="green-btn"
+            id="emptyAddLead"
+            type="button"
+          >
+            + Tambah Lead
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT -->
+    <section class="dashboard-right">
+
+      <!-- QUICK ACTIONS -->
+      <div class="card">
+
+        <div class="card-header">
+          <div>
+            <h3>Quick Actions</h3>
+            <p class="section-description">
+              Aksi cepat CRM
+            </p>
+          </div>
+        </div>
+
+
+        <div class="action-grid">
+
+          <button
+            class="action-btn"
+            id="addLeadBtn"
+            type="button"
+          >
+            <span>＋</span>
+            <strong>Tambah Lead</strong>
+            <small>
+              Tambahkan prospek baru
+            </small>
+          </button>
+
+
+          <button
+            class="action-btn"
+            id="importBtn"
+            type="button"
+          >
+            <span>↑</span>
+            <strong>Import Leads</strong>
+            <small>
+              Masukkan database lead
+            </small>
+          </button>
+
+
+          <button
+            class="action-btn"
+            id="followupAction"
+            type="button"
+          >
+            <span>◷</span>
+            <strong>Follow-up</strong>
+            <small>
+              Lihat lead yang perlu dihubungi
+            </small>
+          </button>
+
+
+          <button
+            class="action-btn"
+            id="pipelineAction"
+            type="button"
+          >
+            <span>◫</span>
+            <strong>Pipeline</strong>
+            <small>
+              Lihat perkembangan lead
+            </small>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ACTIVITY -->
+      <div class="card activity-card">
+
+        <div class="card-header">
+
+          <div>
+            <h3>Aktivitas Terbaru</h3>
+            <p class="section-description">
+              Perubahan terbaru di CRM
+            </p>
+          </div>
+
+        </div>
+
+
+        <div id="activityList">
+
+          <div class="activity">
+
+            <div class="activity-icon">
+              ✓
+            </div>
+
+            <div>
+              <h4>LeadFlow siap digunakan</h4>
+
+              <p>
+                Tambahkan lead pertama Anda untuk
+                mulai membangun database.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</section>
+
+      <!-- OTHER PAGES -->
+
+      <section class="page" id="page-leads">
+
+  <section class="card">
+
+    <div class="card-header">
+
+      <div>
+        <h3>Database Leads</h3>
+        <p class="section-description">
+          Semua lead yang tersimpan di database Anda
+        </p>
+      </div>
+
+      <button
+        class="green-btn"
+        id="addLeadPage"
+        type="button"
+      >
+        + Tambah Lead
+      </button>
+
+    </div>
+
+    <div id="leadFilters" style="
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:18px;
+">
+
+  <div class="form-group" style="margin:0;">
+    <label>Cari Lead</label>
+    <input
+      id="leadSearch"
+      type="text"
+      placeholder="Cari perusahaan, PIC atau WhatsApp..."
+    />
+  </div>
+
+  <div class="form-group" style="margin:0;">
+    <label>Kategori</label>
+    <select id="leadCategoryFilter">
+      <option value="">Semua Kategori</option>
+    </select>
+  </div>
+
+  <div class="form-group" style="margin:0;">
+    <label>Status</label>
+    <select id="leadStatusFilter">
+      <option value="">Semua Status</option>
+    </select>
+  </div>
+
+</div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>PERUSAHAAN</th>
+            <th>PIC</th>
+            <th>WHATSAPP</th>
+            <th>KATEGORI</th>
+            <th>STATUS</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody id="allLeadsTable"></tbody>
+
+      </table>
+
+      <div
+        id="allLeadsEmpty"
+        class="empty-leads"
+        style="display:none;"
+      >
+
+        <div class="empty-leads-icon">◉</div>
+
+        <strong>Belum ada lead</strong>
+
+        <p>
+          Tambahkan perusahaan pertama Anda.
+        </p>
+
+        <button
+          class="green-btn"
+          id="allLeadsAdd"
+          type="button"
+        >
+          + Tambah Lead
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</section>
+
+
+      <section class="page" id="page-prospek">
+
+  <div class="card">
+
+  <div id="leadFilters" style="
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:18px;
+">
+
+  <div class="form-group" style="margin:0;">
+    <label>Cari Lead</label>
+    <input
+      id="leadSearch"
+      type="text"
+      placeholder="Cari perusahaan, PIC atau WhatsApp..."
+    />
+  </div>
+
+  <div class="form-group" style="margin:0;">
+    <label>Kategori</label>
+    <select id="leadCategoryFilter">
+      <option value="">Semua Kategori</option>
+      <option value="Technology">Technology</option>
+      <option value="Property">Property</option>
+      <option value="Finance">Finance</option>
+      <option value="Healthcare">Healthcare</option>
+      <option value="Retail">Retail</option>
+      <option value="Manufacturing">Manufacturing</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="form-group" style="margin:0;">
+    <label>Status</label>
+    <select id="leadStatusFilter">
+      <option value="">Semua Status</option>
+      <option value="new">New</option>
+      <option value="follow">Follow-up</option>
+      <option value="meeting">Meeting</option>
+      <option value="deal">Deal</option>
+    </select>
+  </div>
+
+</div>
+
+    <div class="card-header">
+      <div>
+        <h3>Cari Prospek</h3>
+        <p class="section-description">
+          Cari perusahaan dan prospek baru menggunakan database Apify.
+        </p>
+      </div>
+    </div>
+
+    <form id="prospectSearchForm">
+
+      <div style="
+        display:grid;
+        grid-template-columns:1.4fr 1fr 120px;
+        gap:10px;
+        align-items:end;
+      ">
+
+        <div class="form-group" style="margin:0;">
+          <label>Kata Kunci</label>
+          <input
+            id="prospectKeyword"
+            type="text"
+            placeholder="Contoh: hotel"
+            required
+          />
+        </div>
+
+        <div class="form-group" style="margin:0;">
+          <label>Lokasi</label>
+          <input
+            id="prospectLocation"
+            type="text"
+            placeholder="Contoh: Jakarta"
+            required
+          />
+        </div>
+
+        <button
+          class="green-btn"
+          type="submit"
+          id="prospectSearchBtn"
+          style="height:40px;"
+        >
+          🔍 Cari
+        </button>
+
+      </div>
+
+    </form>
+
+    <div id="prospectStatus" style="
+      display:none;
+      margin-top:16px;
+      padding:12px;
+      border-radius:9px;
+      font-size:11px;
+    "></div>
+
+    <div
+      id="prospectResults"
+      style="margin-top:20px;"
+    ></div>
+
+  </div>
+
+</section>
+
+<section class="page" id="page-followup">
+
+  <div class="card">
+
+    <div class="card-header">
+
+      <div>
+        <h3>Follow-up</h3>
+
+        <p class="section-description">
+          Lead yang perlu ditindaklanjuti.
+        </p>
+      </div>
+
+      <span class="pipeline-count" id="followupPageCount">
+        0
+      </span>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+  <tr>
+    <th>Perusahaan</th>
+    <th>PIC</th>
+    <th>WhatsApp</th>
+    <th>Kategori</th>
+    <th>Status</th>
+    <th>Aksi</th>
+  </tr>
+</thead>
+
+        <tbody id="followupTable"></tbody>
+
+      </table>
+
+      <div
+        id="followupEmpty"
+        class="empty-leads"
+        style="display:none;"
+      >
+
+        <div class="empty-leads-icon">◷</div>
+
+        <strong>Belum ada lead Follow-up</strong>
+
+        <p>
+          Lead dengan status Follow-up akan muncul di sini.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="page" id="page-pipeline">
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Pipeline CRM</h3>
+        <p class="section-description">
+          Pantau perkembangan lead dari New hingga Deal.
+        </p>
+      </div>
+    </div>
+
+    <div class="pipeline-board">
+
+      <div class="pipeline-column">
+        <div class="pipeline-column-header">
+          <span>🟢 New</span>
+          <span class="pipeline-count pipeline-new-count" id="pipelineNewCount">0</span>
+        </div>
+
+        <div class="pipeline-list" id="pipelineNew">
+        </div>
+      </div>
+
+
+      <div class="pipeline-column">
+        <div class="pipeline-column-header">
+          <span>🔵 Sudah Dihubungi</span>
+          <span class="pipeline-count pipeline-contacted-count" id="pipelineContactedCount">0</span>
+        </div>
+
+        <div class="pipeline-list" id="pipelineContacted">
+        </div>
+      </div>
+
+
+      <div class="pipeline-column">
+        <div class="pipeline-column-header">
+          <span>🟡 Follow-up</span>
+          <span class="pipeline-count pipeline-follow-count" id="pipelineFollowCount">0</span>
+        </div>
+
+        <div class="pipeline-list" id="pipelineFollow">
+        </div>
+      </div>
+
+
+      <div class="pipeline-column">
+        <div class="pipeline-column-header">
+          <span>🟣 Deal</span>
+          <span class="pipeline-count pipeline-deal-count" id="pipelineDealCount">0</span>
+        </div>
+
+        <div class="pipeline-list" id="pipelineDeal">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+      <section class="page" id="page-campaign">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Campaign</h1>
+      <p>
+        Kelola campaign WhatsApp untuk follow-up lead.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="green-btn"
+      id="createCampaignBtn"
+    >
+      + Buat Campaign
+    </button>
+
+  </div>
+
+
+  <!-- STATISTIK CAMPAIGN -->
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <span>Total Campaign</span>
+      <strong id="campaignTotal">
+        0
+      </strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Total Target Lead</span>
+      <strong id="campaignTargetTotal">
+        0
+      </strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Terkirim</span>
+      <strong id="campaignSentTotal">
+        0
+      </strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Respons</span>
+      <strong id="campaignResponseTotal">
+        0
+      </strong>
+    </div>
+
+  </div>
+
+
+  <!-- DAFTAR CAMPAIGN -->
+
+  <div class="content-card">
+
+    <div class="content-card-header">
+
+      <div>
+        <h3>Campaign Saya</h3>
+
+        <p>
+          Campaign yang sudah dibuat akan muncul di sini.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div id="campaignList">
+
+      <div class="empty-page">
+
+        <div class="empty-icon">
+          ✉
+        </div>
+
+        <h2>
+          Belum ada Campaign
+        </h2>
+
+        <p>
+          Buat campaign pertama untuk mulai follow-up lead.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+      <section class="page" id="page-segmen">
+        <div class="empty-page">
+          <div class="empty-icon">▦</div>
+          <h2>Segmen Leads</h2>
+          <p>Kelompokkan database berdasarkan kategori dan status.</p>
+        </div>
+      </section>
+
+
+      <section class="page" id="page-import">
+        <div class="empty-page">
+          <div class="empty-icon">↑</div>
+          <h2>Import Data</h2>
+          <p>Import database lead dari file akan dikembangkan di sini.</p>
+        </div>
+      </section>
+
+
+      <section class="page" id="page-analytics">
+        <div class="empty-page">
+          <div class="empty-icon">◔</div>
+          <h2>Analytics</h2>
+          <p>Statistik performa lead akan ditampilkan di sini.</p>
+        </div>
+      </section>
+
+
+      <section class="page" id="page-team">
+        <div class="empty-page">
+          <div class="empty-icon">♙</div>
+          <h2>Team</h2>
+          <p>Manajemen anggota tim akan dikembangkan di sini.</p>
+        </div>
+      </section>
+
+
+      <section class="page" id="page-settings">
+        <div class="empty-page">
+          <div class="empty-icon">⚙</div>
+          <h2>Settings</h2>
+          <p>Pengaturan CRM akan dikembangkan di sini.</p>
+        </div>
+      </section>
+
+      <div class="pipeline-detail-modal" id="pipelineDetailModal">
+
+  <div class="pipeline-detail-box">
+
+    <div class="pipeline-detail-header">
+      <div>
+        <span class="pipeline-detail-label">
+          DETAIL LEAD
+        </span>
+
+        <h2 id="pipelineDetailCompany">
+          -
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        class="pipeline-detail-close"
+        id="pipelineDetailClose"
+      >
+        ×
+      </button>
+    </div>
+
+
+    <div class="pipeline-detail-body">
+
+      <div class="pipeline-detail-item">
+
+  <div class="pipeline-detail-pic-wrap">
+  <span>PIC</span>
+
+  <div
+    class="pipeline-pic-display"
+    id="pipelinePicDisplay"
+    title="Klik untuk mengubah PIC"
+  >
+    <span id="pipelinePicName">-</span>
+    <span class="pipeline-pic-edit">✎</span>
+  </div>
+
+  <input
+    type="text"
+    id="pipelineDetailPic"
+    class="pipeline-pic-input"
+    placeholder="Nama PIC"
+    autocomplete="off"
+  />
+
+  <div class="pipeline-pic-hint" id="pipelinePicHint">
+    Enter untuk simpan · Esc untuk batal
+  </div>
+</div>
+</div>
+
+      <div class="pipeline-detail-item">
+        <span>WhatsApp</span>
+        <strong id="pipelineDetailWhatsapp">-</strong>
+      </div>
+
+      <div class="pipeline-detail-item">
+        <span>Kategori</span>
+        <strong id="pipelineDetailCategory">-</strong>
+      </div>
+
+     <div class="pipeline-detail-item">
+  <span>Status</span>
+
+  <select
+    id="pipelineDetailStatus"
+    class="pipeline-status-select"
+  >
+    <option value="new">🟢 New</option>
+    <option value="contacted">🔵 Sudah Dihubungi</option>
+    <option value="follow">🟡 Follow-up</option>
+    <option value="deal">🟣 Deal</option>
+  </select>
+</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+    </main>
+
+  </div>
+
+
+  <!-- MODAL TAMBAH LEAD -->
+
+  <div class="modal" id="leadModal">
+
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <h2>Tambah Lead Baru</h2>
+
+        <button
+          class="close-btn"
+          id="closeModal"
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+
+
+      <form id="leadForm">
+
+        <div class="form-group">
+          <label>Nama Perusahaan</label>
+          <input
+            id="companyInput"
+            type="text"
+            placeholder="Contoh: PT ABC Indonesia"
+            required
+          />
+        </div>
+
+
+        <div class="form-group">
+          <label>PIC</label>
+          <input
+            id="picInput"
+            type="text"
+            placeholder="Contoh: Budi"
+            required
+          />
+        </div>
+
+
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input
+            id="whatsappInput"
+            type="text"
+            placeholder="Contoh: 628123456789"
+            required
+          />
+        </div>
+
+
+        <div class="form-group">
+          <label>Kategori</label>
+
+          <select id="categoryInput">
+
+            <option value="Technology">
+              Technology
+            </option>
+
+            <option value="Property">
+              Property
+            </option>
+
+            <option value="Finance">
+              Finance
+            </option>
+
+            <option value="Healthcare">
+              Healthcare
+            </option>
+
+            <option value="Retail">
+              Retail
+            </option>
+
+            <option value="Manufacturing">
+              Manufacturing
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+          <label>Status</label>
+
+          <select id="statusInput">
+
+          <option value="new">
+            New
+          </option>
+
+          <option value="contacted">
+            Sudah Dihubungi
+          </option>
+
+          <option value="follow">
+            Follow-up
+          </option>
+
+          <option value="deal">
+            Deal
+          </option>
+
+        </select>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            class="cancel-btn"
+            id="cancelModal"
+            type="button"
+          >
+            Batal
+          </button>
+
+          <button
+            class="green-btn"
+            type="submit"
+          >
+            Simpan Lead
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL CAMPAIGN -->
+
+<div class="modal" id="campaignModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2>Buat Campaign</h2>
+
+      <button
+        class="close-btn"
+        id="campaignModalClose"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div id="campaignFormArea">
+
+  <div class="form-group">
+
+    <label>Nama Campaign</label>
+
+    <input
+      type="text"
+      id="campaignNameInput"
+      placeholder="Contoh: Promo Cleaning September"
+      autocomplete="off"
+    />
+
+  </div>
+
+
+ <div class="form-group">
+
+  <label>Target Lead</label>
+
+  <select id="campaignTargetInput">
+
+    <option value="all">
+      Semua Lead
+    </option>
+
+    <option value="filtered">
+      Pilih berdasarkan filter
+    </option>
+
+  </select>
+
+</div>
+
+
+<div class="form-group">
+
+  <label>Kategori</label>
+
+  <select id="campaignCategoryInput">
+
+    <option value="">
+      Semua Kategori
+    </option>
+
+  </select>
+
+</div>
+
+
+<div class="form-group">
+
+  <label>Status Lead</label>
+
+  <select id="campaignStatusInput">
+
+    <option value="">
+      Semua Status
+    </option>
+
+    <option value="new">
+      New
+    </option>
+
+    <option value="contacted">
+      Sudah Dihubungi
+    </option>
+
+    <option value="follow">
+      Follow-up
+    </option>
+
+    <option value="deal">
+      Deal
+    </option>
+
+  </select>
+
+</div>
+
+
+<!-- PESAN WHATSAPP -->
+
+<div class="form-group">
+
+  <label>Pesan WhatsApp</label>
+
+  <textarea
+    id="campaignMessageInput"
+    rows="7"
+    placeholder="Contoh:
+
+Halo [PERUSAHAAN],
+
+Kami dari PT. Berkah Cemerlang Asia ingin menawarkan layanan kepada perusahaan Anda.
+
+Apakah kami boleh mengirimkan informasi lengkapnya?"
+  ></textarea>
+
+  <small class="campaign-message-hint">
+    Gunakan <strong>[PERUSAHAAN]</strong> untuk otomatis memasukkan nama perusahaan.
+  </small>
+
+</div>
+
+<div class="form-actions">
+
+  <button
+    type="button"
+    class="green-btn"
+    id="saveCampaignBtn"
+  >
+    Simpan Campaign
+  </button>
+
+</div>
+
+
+</div>
+
+  </div>
+
+</div>
+
+<script>
+
+    const STORAGE_KEY = "leadflow_leads";
+
+    let leads = JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+
+
+    const modal =
+      document.getElementById("leadModal");
+
+    const form =
+      document.getElementById("leadForm");
+
+      function render() {
+
+  const table = document.getElementById("leadsTable");
+
+  table.innerHTML = "";
+
+  leads.forEach((lead, index) => {
+
+    const row = document.createElement("tr");
+
+    let statusText = "New";
+    let statusClass = "status-new";
+
+    if (lead.status === "follow") {
+      statusText = "Follow-up";
+      statusClass = "status-follow";
+    }
+
+    if (lead.status === "contacted") {
+      statusText = "Sudah Dihubungi";
+      statusClass = "status-contacted";
+    }
+
+    if (lead.status === "meeting") {
+      statusText = "Meeting";
+      statusClass = "status-meeting";
+    }
+
+    if (lead.status === "deal") {
+      statusText = "Deal";
+      statusClass = "status-deal";
+    }
+
+    const whatsappNumber =
+      String(lead.whatsapp || "").replace(/\D/g, "");
+
+    row.innerHTML = `
+      <td>
+        <div class="company">
+
+          <div class="company-logo">
+            ${(lead.company || "?").charAt(0).toUpperCase()}
+          </div>
+
+          <div class="company-info">
+            <strong>${lead.company || "-"}</strong>
+          </div>
+
+        </div>
+      </td>
+
+      <td>
+        <span class="pic-name">
+          ${lead.pic || "-"}
+        </span>
+      </td>
+
+      <td>
+        ${
+          lead.whatsapp
+            ? `
+              <a
+                class="whatsapp-link"
+                href="https://wa.me/${whatsappNumber}"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-whatsapp-index="${index}"
+              >
+                📱 ${lead.whatsapp}
+              </a>
+            `
+            : `
+              <span style="color:#68756d;font-size:10px;">
+                Belum ada
+              </span>
+            `
+        }
+      </td>
+
+      <td>
+        <span class="category-text">
+          ${lead.category || "-"}
+        </span>
+      </td>
+
+      <td>
+        <span class="status ${statusClass}">
+          ${statusText}
+        </span>
+      </td>
+
+      <td>
+        <button
+          type="button"
+          class="delete-btn"
+          data-delete="${index}"
+        >
+          Hapus
+        </button>
+      </td>
+    `;
+
+    table.appendChild(row);
+
+  });
+
+  updateStats();
+renderActivities();
+renderAllLeads();
+
+}
+
+function renderAllLeads() {
+
+  const table =
+    document.getElementById("allLeadsTable");
+
+  const empty =
+    document.getElementById("allLeadsEmpty");
+
+  if (!table || !empty) return;
+
+  table.innerHTML = "";
+
+  if (leads.length === 0) {
+    empty.style.display = "block";
+    return;
+  }
+
+  empty.style.display = "none";
+
+  leads.forEach((lead, index) => {
+
+    const row =
+      document.createElement("tr");
+
+    let statusText = "New";
+    let statusClass = "status-new";
+
+    if (lead.status === "follow") {
+      statusText = "Follow-up";
+      statusClass = "status-follow";
+    }
+
+    if (lead.status === "contacted") {
+      statusText = "Sudah Dihubungi";
+      statusClass = "status-contacted";
+    }
+
+    if (lead.status === "meeting") {
+      statusText = "Meeting";
+      statusClass = "status-meeting";
+    }
+
+    if (lead.status === "deal") {
+      statusText = "Deal";
+      statusClass = "status-deal";
+    }
+
+    const whatsappNumber =
+      String(lead.whatsapp || "")
+        .replace(/\D/g, "");
+
+    row.innerHTML = `
+
+      <td>
+
+        <div class="company">
+
+          <div class="company-logo">
+            ${(lead.company || "?")
+              .charAt(0)
+              .toUpperCase()}
+          </div>
+
+          <div class="company-info">
+
+            <strong>
+              ${lead.company || "-"}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </td>
+
+      <td>
+
+        <span class="pic-name">
+          ${lead.pic || "-"}
+        </span>
+
+      </td>
+
+      <td>
+
+        ${
+          lead.whatsapp
+            ? `
+              <a
+  class="whatsapp-link"
+  href="https://wa.me/${whatsappNumber}"
+  target="_blank"
+  rel="noopener noreferrer"
+  data-whatsapp-index="${index}"
+>
+  📱 ${lead.whatsapp}
+</a>
+            `
+            : `
+              <span style="color:#68756d;font-size:10px;">
+                Belum ada
+              </span>
+            `
+        }
+
+      </td>
+
+      <td>
+
+        <span class="category-text">
+          ${lead.category || "-"}
+        </span>
+
+      </td>
+
+      <td>
+
+        <span class="status ${statusClass}">
+          ${statusText}
+        </span>
+
+      </td>
+
+      <td>
+
+        <button
+          type="button"
+          class="delete-btn"
+          data-delete="${index}"
+        >
+          Hapus
+        </button>
+
+      </td>
+
+    `;
+
+    table.appendChild(row);
+
+  });
+
+}
+
+function renderActivities() {
+
+  const activityList =
+    document.getElementById("activityList");
+
+  if (!activityList) return;
+
+  if (leads.length === 0) {
+
+    activityList.innerHTML = `
+      <div class="activity">
+
+        <div class="activity-icon">
+          ✓
+        </div>
+
+        <div>
+          <h4>LeadFlow siap digunakan</h4>
+
+          <p>
+            Tambahkan lead pertama Anda
+            untuk mulai membangun database.
+          </p>
+        </div>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const latest = leads;
+
+
+  activityList.innerHTML =
+    latest.map((lead) => {
+
+      let action = "Lead baru ditambahkan";
+
+      if (lead.status === "follow") {
+        action = "Lead masuk Follow-up";
+      }
+
+      if (lead.status === "meeting") {
+        action = "Meeting dijadwalkan";
+      }
+
+      if (lead.status === "deal") {
+        action = "Lead berhasil menjadi Deal";
+      }
+
+      return `
+
+        <div class="activity">
+
+          <div class="activity-icon">
+            ✓
+          </div>
+
+          <div>
+
+            <h4>${action}</h4>
+
+            <p>
+              ${lead.company || "-"}
+              ${lead.pic ? " • " + lead.pic : ""}
+            </p>
+
+            <span class="activity-time">
+              ${lead.createdAt || ""}
+            </span>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+    function updateStats() {
+
+      const today =
+        new Date()
+          .toISOString()
+          .slice(0, 10);
+
+
+      document.getElementById("totalLeads")
+        .textContent = leads.length;
+
+
+      document.getElementById("leadCount")
+        .textContent = leads.length;
+
+
+      document.getElementById("newLeadsToday")
+        .textContent =
+          leads.filter(
+            lead => lead.createdAt === today
+          ).length;
+
+
+      const followups =
+        leads.filter(
+          lead => lead.status === "follow"
+        ).length;
+
+
+      document.getElementById("activeFollowups")
+        .textContent = followups;
+
+
+      document.getElementById("followupCount")
+        .textContent = followups;
+
+
+      const deals =
+        leads.filter(
+          lead => lead.status === "deal"
+        ).length;
+
+
+      const conversion =
+        leads.length
+          ? Math.round(
+              (deals / leads.length) * 100
+            )
+          : 0;
+
+
+      document.getElementById("conversionRate")
+        .textContent = conversion + "%";
+
+    }
+
+
+    function openModal() {
+
+      modal.classList.add("show");
+
+    }
+
+
+    function closeModal() {
+
+      modal.classList.remove("show");
+
+      form.reset();
+
+    }
+
+
+    document
+      .getElementById("addLeadBtn")
+      .addEventListener("click", openModal);
+
+
+    document
+      .getElementById("addLeadTop")
+      .addEventListener("click", openModal);
+
+
+    document
+      .getElementById("addLeadPage")
+      .addEventListener("click", openModal);
+
+      document
+  .getElementById("allLeadsAdd")
+  .addEventListener("click", openModal);
+
+
+    document
+      .getElementById("closeModal")
+      .addEventListener("click", closeModal);
+
+
+    document
+      .getElementById("cancelModal")
+      .addEventListener("click", closeModal);
+
+
+    modal.addEventListener("click", (event) => {
+
+      if (event.target === modal) {
+        closeModal();
+      }
+
+    });
+
+
+    form.addEventListener("submit", (event) => {
+
+      event.preventDefault();
+
+
+      const company =
+        document
+          .getElementById("companyInput")
+          .value
+          .trim();
+
+
+      const pic =
+        document
+          .getElementById("picInput")
+          .value
+          .trim();
+
+
+      const whatsapp =
+        document
+          .getElementById("whatsappInput")
+          .value
+          .trim();
+
+
+      const category =
+        document
+          .getElementById("categoryInput")
+          .value;
+
+
+      const status =
+        document
+          .getElementById("statusInput")
+          .value;
+
+
+      const lead = {
+
+        id: Date.now(),
+
+        company,
+
+        pic,
+
+        whatsapp,
+
+        category,
+
+        status,
+
+        createdAt:
+          new Date()
+            .toISOString()
+            .slice(0, 10)
+
+      };
+
+
+      leads.unshift(lead);
+
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(leads)
+      );
+
+
+      render();
+
+      closeModal();
+
+    });
+
+
+    document.addEventListener(
+      "click",
+      (event) => {
+
+        const deleteButton =
+          event.target.closest(
+            "[data-delete]"
+          );
+
+
+        if (!deleteButton) {
+          return;
+        }
+
+
+        const index =
+          Number(
+            deleteButton.dataset.delete
+          );
+
+
+        if (
+          !confirm(
+            "Hapus lead ini?"
+          )
+        ) {
+          return;
+        }
+
+
+        leads.splice(index, 1);
+
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(leads)
+        );
+
+
+        render();
+
+      }
+    );
+
+document.addEventListener(
+  "click",
+  (event) => {
+    const whatsappLink =
+      event.target.closest(
+        "[data-whatsapp-id]"
+      );
+
+    if (!whatsappLink) {
+      return;
+    }
+
+    const leadId =
+      Number(
+        whatsappLink.dataset.whatsappId
+      );
+
+    const lead =
+      leads.find(
+        item => Number(item.id) === leadId
+      );
+
+    if (!lead) {
+      return;
+    }
+
+    activePipelineLead = lead;
+
+    if (lead.status === "new") {
+
+      lead.status = "contacted";
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(leads)
+      );
+
+      render();
+      populateLeadFilters();
+    }
+  }
+);
+
+    /* SIDEBAR NAVIGATION */
+
+    const navItems =
+      document.querySelectorAll(
+        ".nav-item"
+      );
+
+
+    const pages =
+      document.querySelectorAll(
+        ".page"
+      );
+
+
+    navItems.forEach((item) => {
+
+      item.addEventListener(
+        "click",
+        () => {
+
+          const pageName =
+            item.dataset.page;
+
+
+          navItems.forEach(
+            nav => nav.classList.remove("active")
+          );
+
+
+          item.classList.add("active");
+
+
+          pages.forEach(
+            page => page.classList.remove("active")
+          );
+
+
+          const target =
+            document.getElementById(
+              "page-" + pageName
+            );
+
+
+          if (target) {
+            target.classList.add("active");
+          }
+
+        }
+      );
+
+    });
+
+
+    /* IMPORT BUTTON SEMENTARA */
+
+    document
+      .getElementById("importBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          alert(
+            "Modul Import Leads akan kita buat setelah database Leads stabil."
+          );
+
+        }
+      );
+
+      /* FILTER DATABASE LEADS */
+
+const leadSearch =
+  document.getElementById("leadSearch");
+
+const leadCategoryFilter =
+  document.getElementById("leadCategoryFilter");
+
+const leadStatusFilter =
+  document.getElementById("leadStatusFilter");
+
+function populateLeadFilters() {
+
+  const categories = [
+    ...new Set(
+      leads
+        .map(lead => lead.category)
+        .filter(Boolean)
+    )
+  ];
+
+  leadCategoryFilter.innerHTML =
+    `<option value="">Semua Kategori</option>` +
+    categories
+      .sort()
+      .map(category =>
+        `<option value="${category}">
+          ${category}
+        </option>`
+      )
+      .join("");
+
+
+  const statuses = [
+    ...new Set(
+      leads
+        .map(lead => lead.status)
+        .filter(Boolean)
+    )
+  ];
+
+  leadStatusFilter.innerHTML =
+    `<option value="">Semua Status</option>` +
+    statuses
+      .map(status => {
+
+        let label = "New";
+
+        if (status === "contacted") {
+          label = "Sudah Dihubungi";
+        }
+
+        if (status === "follow") {
+          label = "Follow-up";
+        }
+
+        if (status === "deal") {
+          label = "Deal";
+        }
+
+        return `
+          <option value="${status}">
+            ${label}
+          </option>
+        `;
+
+      })
+      .join("");
+
+}
+
+function applyLeadFilters() {
+
+  const search =
+    (leadSearch?.value || "")
+      .toLowerCase()
+      .trim();
+
+  const category =
+    leadCategoryFilter?.value || "";
+
+  const status =
+    leadStatusFilter?.value || "";
+
+
+  const table =
+    document.getElementById("allLeadsTable");
+
+  if (!table) return;
+
+
+  table.innerHTML = "";
+
+
+  leads.forEach((lead, index) => {
+
+    const company =
+      String(lead.company || "")
+        .toLowerCase();
+
+    const pic =
+      String(lead.pic || "")
+        .toLowerCase();
+
+    const whatsapp =
+      String(lead.whatsapp || "")
+        .toLowerCase();
+
+
+    const matchSearch =
+      !search ||
+      company.includes(search) ||
+      pic.includes(search) ||
+      whatsapp.includes(search);
+
+
+    const matchCategory =
+      !category ||
+      lead.category === category;
+
+
+    const matchStatus =
+      !status ||
+      lead.status === status;
+
+
+    if (
+      !matchSearch ||
+      !matchCategory ||
+      !matchStatus
+    ) {
+      return;
+    }
+
+
+    const row =
+      document.createElement("tr");
+
+
+    let statusText = "New";
+    let statusClass = "status-new";
+
+
+    if (lead.status === "follow") {
+      statusText = "Follow-up";
+      statusClass = "status-follow";
+    }
+
+    if (lead.status === "contacted") {
+      statusText = "Sudah Dihubungi";
+      statusClass = "status-contacted";
+    }
+
+    if (lead.status === "meeting") {
+      statusText = "Meeting";
+      statusClass = "status-meeting";
+    }
+
+
+    if (lead.status === "deal") {
+      statusText = "Deal";
+      statusClass = "status-deal";
+    }
+
+
+    const whatsappNumber =
+      String(lead.whatsapp || "")
+        .replace(/\D/g, "");
+
+
+    row.innerHTML = `
+
+      <td>
+        <div class="company">
+
+          <div class="company-logo">
+            ${(lead.company || "?")
+              .charAt(0)
+              .toUpperCase()}
+          </div>
+
+          <div class="company-info">
+            <strong>
+              ${lead.company || "-"}
+            </strong>
+          </div>
+
+        </div>
+      </td>
+
+
+      <td>
+        <span class="pic-name">
+          ${lead.pic || "-"}
+        </span>
+      </td>
+
+
+      <td>
+        ${
+          lead.whatsapp
+            ? `
+              <a
+                class="whatsapp-link"
+                href="https://wa.me/${whatsappNumber}"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-whatsapp-id="${lead.id}"
+              >
+                📱 ${lead.whatsapp}
+              </a>
+            `
+            : `
+              <span style="color:#68756d;font-size:10px;">
+                Belum ada
+              </span>
+            `
+        }
+      </td>
+
+
+      <td>
+        <span class="category-text">
+          ${lead.category || "-"}
+        </span>
+      </td>
+
+
+      <td>
+        <span class="status ${statusClass}">
+          ${statusText}
+        </span>
+      </td>
+
+
+      <td>
+        <button
+          type="button"
+          class="delete-btn"
+          data-delete="${index}"
+        >
+          Hapus
+        </button>
+      </td>
+
+    `;
+
+
+    table.appendChild(row);
+
+  });
+
+}
+
+
+leadSearch?.addEventListener(
+  "input",
+  applyLeadFilters
+);
+
+
+leadCategoryFilter?.addEventListener(
+  "change",
+  applyLeadFilters
+);
+
+
+leadStatusFilter?.addEventListener(
+  "change",
+  applyLeadFilters
+);
+
+/* =====================================================
+   CARI PROSPEK - APIFY
+   ===================================================== */
+
+const prospectSearchForm =
+  document.getElementById("prospectSearchForm");
+
+const prospectKeyword =
+  document.getElementById("prospectKeyword");
+
+const prospectLocation =
+  document.getElementById("prospectLocation");
+
+const prospectSearchBtn =
+  document.getElementById("prospectSearchBtn");
+
+const prospectResults =
+  document.getElementById("prospectResults");
+
+const prospectStatus =
+  document.getElementById("prospectStatus");
+
+
+function showProspectStatus(message, type = "info") {
+
+  prospectStatus.style.display = "block";
+
+  prospectStatus.textContent = message;
+
+  if (type === "error") {
+
+    prospectStatus.style.background =
+      "rgba(255,92,92,.08)";
+
+    prospectStatus.style.border =
+      "1px solid rgba(255,92,92,.18)";
+
+    prospectStatus.style.color =
+      "#ff8585";
+
+  } else {
+
+    prospectStatus.style.background =
+      "rgba(25,216,116,.08)";
+
+    prospectStatus.style.border =
+      "1px solid rgba(25,216,116,.15)";
+
+    prospectStatus.style.color =
+      "#19d874";
+
+  }
+
+}
+
+
+function escapeHtml(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function getProspectPhone(result) {
+
+  return (
+    result.phone ||
+    result.phoneNumber ||
+    result.whatsapp ||
+    result.mobile ||
+    ""
+  );
+
+}
+
+
+function getProspectCompany(result) {
+
+  return (
+    result.title ||
+    result.name ||
+    result.company ||
+    ""
+  );
+
+}
+
+
+function getProspectCategory(result) {
+
+  return (
+    result.categoryName ||
+    result.category ||
+    "Other"
+  );
+
+}
+
+
+function getProspectAddress(result) {
+
+  return (
+    result.address ||
+    result.location ||
+    ""
+  );
+
+}
+
+
+function renderProspectResults(results) {
+
+  if (!prospectResults) return;
+
+  if (!results || results.length === 0) {
+
+    prospectResults.innerHTML = `
+      <div class="empty-leads">
+        <div class="empty-leads-icon">⌕</div>
+
+        <strong>Prospek tidak ditemukan</strong>
+
+        <p>
+          Coba gunakan kata kunci atau lokasi lain.
+        </p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  prospectResults.innerHTML = `
+
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+    ">
+
+      <div>
+        <strong style="font-size:12px;">
+          Hasil Pencarian
+        </strong>
+
+        <span style="
+          color:#8d9a91;
+          font-size:10px;
+          margin-left:6px;
+        ">
+          ${results.length} prospek
+        </span>
+      </div>
+
+    </div>
+
+    <div style="
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+    ">
+
+      ${results.map((result, index) => {
+
+        const company =
+          getProspectCompany(result);
+
+        const phone =
+          getProspectPhone(result);
+
+        const category =
+          getProspectCategory(result);
+
+        const address =
+          getProspectAddress(result);
+
+        const website =
+          result.website ||
+          result.url ||
+          "";
+
+        return `
+
+          <div
+            class="prospect-result"
+            style="
+              background:#171e1a;
+              border:1px solid #25332b;
+              border-radius:12px;
+              padding:14px;
+            "
+          >
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              gap:15px;
+              align-items:center;
+            ">
+
+              <div style="
+                display:flex;
+                gap:11px;
+                align-items:center;
+                min-width:0;
+              ">
+
+                <div class="company-logo">
+                  ${escapeHtml(
+                    company
+                      ? company.charAt(0).toUpperCase()
+                      : "?"
+                  )}
+                </div>
+
+                <div style="min-width:0;">
+
+                  <strong style="
+                    display:block;
+                    font-size:12px;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                  ">
+                    ${escapeHtml(company || "Tanpa Nama")}
+                  </strong>
+
+                  <div style="
+                    margin-top:4px;
+                    color:#8d9a91;
+                    font-size:9px;
+                  ">
+                    ${escapeHtml(category)}
+                  </div>
+
+                  ${
+                    address
+                      ? `
+                        <div style="
+                          margin-top:3px;
+                          color:#68756d;
+                          font-size:9px;
+                        ">
+                          📍 ${escapeHtml(address)}
+                        </div>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+              </div>
+
+              <button
+                type="button"
+                class="green-btn add-prospect-btn"
+                data-prospect-index="${index}"
+              >
+                + Tambah ke Leads
+              </button>
+
+            </div>
+
+            ${
+              phone || website
+                ? `
+                  <div style="
+                    display:flex;
+                    gap:8px;
+                    margin-top:10px;
+                    flex-wrap:wrap;
+                  ">
+
+                    ${
+                      phone
+                        ? `
+                          <span style="
+                            color:#19d874;
+                            background:rgba(25,216,116,.07);
+                            border:1px solid rgba(25,216,116,.12);
+                            padding:5px 8px;
+                            border-radius:7px;
+                            font-size:9px;
+                          ">
+                            📱 ${escapeHtml(phone)}
+                          </span>
+                        `
+                        : ""
+                    }
+
+                    ${
+                      website
+                        ? `
+                          <span style="
+                            color:#6ea8ff;
+                            background:rgba(110,168,255,.07);
+                            border:1px solid rgba(110,168,255,.12);
+                            padding:5px 8px;
+                            border-radius:7px;
+                            font-size:9px;
+                          ">
+                            🌐 Website tersedia
+                          </span>
+                        `
+                        : ""
+                    }
+
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+
+        `;
+
+      }).join("")}
+
+    </div>
+  `;
+
+
+  prospectResults
+    .querySelectorAll(".add-prospect-btn")
+    .forEach((button) => {
+
+      button.addEventListener("click", () => {
+
+        const index =
+          Number(
+            button.dataset.prospectIndex
+          );
+
+        addProspectToLeads(
+          results[index],
+          button
+        );
+
+      });
+
+    });
+
+}
+
+
+function addProspectToLeads(result, button) {
+
+  const company =
+    getProspectCompany(result);
+
+  if (!company) {
+
+    alert(
+      "Prospek ini tidak memiliki nama perusahaan."
+    );
+
+    return;
+
+  }
+
+
+  const phone =
+    getProspectPhone(result);
+
+
+  const exists =
+    leads.some(
+      lead =>
+        lead.company.toLowerCase() ===
+        company.toLowerCase()
+    );
+
+
+  if (exists) {
+
+    alert(
+      company +
+      " sudah ada di Database Leads."
+    );
+
+    return;
+
+  }
+
+
+  const lead = {
+
+    id: Date.now(),
+
+    company,
+
+    pic:
+      result.pic ||
+      result.contactPerson ||
+      "",
+
+    whatsapp: phone,
+
+    category:
+      getProspectCategory(result),
+
+    status: "new",
+
+    createdAt:
+      new Date()
+        .toISOString()
+        .slice(0, 10)
+
+  };
+
+
+  leads.unshift(lead);
+
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(leads)
+  );
+
+
+  render();
+
+
+  button.textContent =
+    "✓ Sudah Ditambahkan";
+
+  button.disabled = true;
+
+  button.style.opacity = ".55";
+
+  button.style.cursor = "default";
+
+
+  showProspectStatus(
+    company +
+    " berhasil ditambahkan ke Database Leads.",
+    "success"
+  );
+
+}
+
+
+prospectSearchForm.addEventListener(
+  "submit",
+  async (event) => {
+
+    event.preventDefault();
+
+
+    const keyword =
+      prospectKeyword.value.trim();
+
+    const location =
+      prospectLocation.value.trim();
+
+
+    if (!keyword || !location) {
+
+      showProspectStatus(
+        "Kata kunci dan lokasi wajib diisi.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    prospectSearchBtn.disabled = true;
+
+    prospectSearchBtn.textContent =
+      "⏳ Mencari...";
+
+
+    prospectResults.innerHTML = "";
+
+
+    showProspectStatus(
+      "Sedang mencari prospek..."
+    );
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/search-prospects",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+                keyword,
+                location,
+                limit: 10
+              })
+
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok || !data.success) {
+
+        throw new Error(
+          data.message ||
+          "Gagal mencari prospek."
+        );
+
+      }
+
+
+      const results =
+        data.results || [];
+
+
+      showProspectStatus(
+        "Pencarian selesai. " +
+        results.length +
+        " prospek ditemukan."
+      );
+
+
+      renderProspectResults(results);
+
+
+    } catch (error) {
+
+      console.error(
+        "Prospect search error:",
+        error
+      );
+
+
+      showProspectStatus(
+        error.message ||
+        "Terjadi kesalahan saat mencari prospek.",
+        "error"
+      );
+
+
+    } finally {
+
+      prospectSearchBtn.disabled = false;
+
+      prospectSearchBtn.textContent =
+        "🔍 Cari";
+
+    }
+
+  }
+);
+
+    /* INITIAL */
+
+    render();
+    populateLeadFilters();
+
+    /* =====================================================
+   CAMPAIGN MODAL
+   ===================================================== */
+
+const campaignModal =
+  document.getElementById("campaignModal");
+
+const createCampaignBtn =
+  document.getElementById("createCampaignBtn");
+
+const campaignModalClose =
+  document.getElementById("campaignModalClose");
+
+
+createCampaignBtn?.addEventListener(
+  "click",
+  () => {
+
+    campaignModal?.classList.add("show");
+
+  }
+);
+
+
+campaignModalClose?.addEventListener(
+  "click",
+  () => {
+
+    campaignModal?.classList.remove("show");
+
+  }
+);
+
+
+campaignModal?.addEventListener(
+  "click",
+  (event) => {
+
+    if (event.target === campaignModal) {
+
+      campaignModal.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
+
+    /* =====================================================
+   PIPELINE CRM
+   Membaca data dari localStorage yang sama
+   ===================================================== */
+
+let activePipelineLead = null;   
+
+function renderFollowup() {
+
+  document.addEventListener("click", (event) => {
+
+  const button =
+    event.target.closest("[data-followup-detail]");
+
+  if (!button) {
+    return;
+  }
+
+  const leadId =
+    Number(button.dataset.followupDetail);
+
+  const lead =
+    leads.find(
+      item => Number(item.id) === leadId
+    );
+
+  if (!lead) {
+    return;
+  }
+
+  activePipelineLead = lead;
+
+  document.getElementById(
+    "pipelineDetailCompany"
+  ).textContent =
+    lead.company || "-";
+
+  document.getElementById(
+  "pipelinePicName"
+).textContent =
+  lead.pic || "-";
+
+document.getElementById(
+  "pipelineDetailPic"
+).value =
+  lead.pic || "";
+
+  document.getElementById(
+    "pipelineDetailWhatsapp"
+  ).textContent =
+    lead.whatsapp || "-";
+
+  document.getElementById(
+    "pipelineDetailCategory"
+  ).textContent =
+    lead.category || "-";
+
+  const statusSelect =
+    document.getElementById(
+      "pipelineDetailStatus"
+    );
+
+  if (statusSelect) {
+    statusSelect.value =
+      lead.status || "new";
+  }
+
+  const modal =
+    document.getElementById(
+      "pipelineDetailModal"
+    );
+
+  if (modal) {
+    modal.classList.add("show");
+  }
+
+});
+
+  const table =
+    document.getElementById("followupTable");
+
+  const empty =
+    document.getElementById("followupEmpty");
+
+  const count =
+    document.getElementById("followupPageCount");
+
+  const sidebarCount =
+    document.getElementById("followupCount");
+
+  if (!table) {
+    return;
+  }
+
+  const followups =
+    leads.filter(
+      lead => lead.status === "follow"
+    );
+
+  table.innerHTML = "";
+
+  followups.forEach((lead) => {
+
+    const row =
+      document.createElement("tr");
+
+    row.innerHTML = `
+  <td>
+    <div class="company">
+      <div class="company-logo">
+        ${(lead.company || "L").charAt(0).toUpperCase()}
+      </div>
+
+      <div class="company-info">
+        <strong>${lead.company || "-"}</strong>
+      </div>
+    </div>
+  </td>
+
+  <td>
+    <span class="pic-name">
+      ${lead.pic || "-"}
+    </span>
+  </td>
+
+  <td>
+    ${
+      lead.whatsapp
+        ? `
+          <a
+            href="https://wa.me/${String(lead.whatsapp).replace(/\D/g, '')}"
+            target="_blank"
+            rel="noopener"
+            class="whatsapp-link"
+          >
+            ${lead.whatsapp}
+          </a>
+        `
+        : "-"
+    }
+  </td>
+
+  <td>
+    <span class="category-text">
+      ${lead.category || "-"}
+    </span>
+  </td>
+
+  <td>
+    <span class="status status-follow">
+      Follow-up
+    </span>
+  </td>
+
+  <td class="followup-action-cell">
+    <button
+  class="followup-action-btn"
+  type="button"
+  data-followup-detail="${lead.id}"
+>
+  Lihat
+</button>
+  </td>
+`;
+
+    table.appendChild(row);
+  });
+
+  const total = followups.length;
+
+  if (count) {
+    count.textContent = total;
+  }
+
+  if (sidebarCount) {
+    sidebarCount.textContent = total;
+  }
+
+  if (empty) {
+    empty.style.display =
+      total === 0 ? "block" : "none";
+  }
+
+  table.style.display =
+    total === 0 ? "none" : "table";
+}
+
+
+function renderPipeline() {
+
+  const pipelineNew =
+    document.getElementById("pipelineNew");
+
+  const pipelineContacted =
+    document.getElementById("pipelineContacted");
+
+  const pipelineFollow =
+    document.getElementById("pipelineFollow");
+
+  const pipelineDeal =
+    document.getElementById("pipelineDeal");
+
+  if (
+    !pipelineNew ||
+    !pipelineContacted ||
+    !pipelineFollow ||
+    !pipelineDeal
+  ) {
+    return;
+  }
+
+  pipelineNew.innerHTML = "";
+  pipelineContacted.innerHTML = "";
+  pipelineFollow.innerHTML = "";
+  pipelineDeal.innerHTML = "";
+
+  const columns = {
+    new: pipelineNew,
+    contacted: pipelineContacted,
+    follow: pipelineFollow,
+    deal: pipelineDeal
+  };
+
+  Object.entries(columns).forEach(
+  ([status, column]) => {
+
+    column.addEventListener(
+      "dragover",
+      (event) => {
+        event.preventDefault();
+        column.querySelector(".pipeline-list")
+  ?.classList.add("drag-over");
+      }
+    );
+
+    column.addEventListener(
+      "dragleave",
+      () => {
+        column.querySelector(".pipeline-list")
+  ?.classList.remove("drag-over");
+      }
+    );
+
+    column.addEventListener(
+      "drop",
+      (event) => {
+
+        event.preventDefault();
+
+        column.classList.remove(
+          "drag-over"
+        );
+
+        const card =
+          document.querySelector(
+            ".pipeline-card.dragging"
+          );
+
+        if (!card) {
+          return;
+        }
+
+        const leadId =
+          Number(card.dataset.pipelineId);
+
+        const lead =
+          leads.find(
+            item =>
+              Number(item.id) === leadId
+          );
+
+        if (!lead) {
+          return;
+        }
+
+        lead.status = status;
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(leads)
+        );
+
+        renderPipeline();
+
+        if (typeof render === "function") {
+          render();
+        }
+
+        renderFollowup();
+
+      }
+    );
+
+  }
+);
+
+  const counts = {
+    new: 0,
+    contacted: 0,
+    follow: 0,
+    deal: 0
+  };
+
+  leads.forEach((lead) => {
+
+    let status = lead.status || "new";
+
+    if (!columns[status]) {
+      status = "new";
+    }
+
+    const card = document.createElement("div");
+
+    card.className = "pipeline-card";
+
+    card.draggable = true;
+
+    card.addEventListener("dragstart", () => {
+  card.classList.add("dragging");
+  card.dataset.dragging = "true";
+});
+
+card.addEventListener("dragend", () => {
+  card.classList.remove("dragging");
+  card.dataset.dragging = "false";
+});
+
+    card.dataset.pipelineId = lead.id;
+
+    card.innerHTML = `
+
+      <div class="pipeline-card-company">
+        ${lead.company || "Tanpa Nama"}
+      </div>
+
+      <div class="pipeline-card-pic">
+        ${lead.pic || "-"}
+      </div>
+
+      <div class="pipeline-card-category">
+        ${lead.category || "-"}
+      </div>
+    `;
+
+    columns[status].appendChild(card);
+
+    counts[status]++;
+  });
+
+  pipelineNewCount.textContent =
+    counts.new;
+
+  pipelineContactedCount.textContent =
+    counts.contacted;
+
+  pipelineFollowCount.textContent =
+    counts.follow;
+
+  pipelineDealCount.textContent =
+    counts.deal;
+}
+
+renderPipeline();
+renderFollowup();
+
+const pipelineDetailModal =
+  document.getElementById(
+    "pipelineDetailModal"
+  );
+
+const pipelineDetailClose =
+  document.getElementById(
+    "pipelineDetailClose"
+  );
+
+document.addEventListener(
+  "click",
+  (event) => {
+
+    const card =
+      event.target.closest(
+        ".pipeline-card"
+      );
+
+    if (!card) {
+      return;
+    }
+
+    const leadId =
+      Number(
+        card.dataset.pipelineId
+      );
+
+    const lead =
+      leads.find(
+        item =>
+          Number(item.id) === leadId
+      );
+
+    if (!lead) {
+      return;
+    }
+
+    activePipelineLead = lead;
+
+    document.getElementById(
+      "pipelineDetailCompany"
+    ).textContent =
+      lead.company || "-";
+
+    document.getElementById(
+  "pipelinePicName"
+).textContent =
+  lead.pic || "-";
+
+document.getElementById(
+  "pipelineDetailPic"
+).value =
+  lead.pic || "";
+
+    document.getElementById(
+      "pipelineDetailWhatsapp"
+    ).textContent =
+      lead.whatsapp || "-";
+
+    document.getElementById(
+      "pipelineDetailCategory"
+    ).textContent =
+      lead.category || "-";
+
+    let statusLabel = "New";
+
+    if (lead.status === "contacted") {
+      statusLabel = "Sudah Dihubungi";
+    }
+
+    if (lead.status === "follow") {
+      statusLabel = "Follow-up";
+    }
+
+    if (lead.status === "deal") {
+      statusLabel = "Deal";
+    }
+
+    const statusSelect =
+  document.getElementById(
+    "pipelineDetailStatus"
+  );
+
+statusSelect.value =
+  lead.status || "new";
+
+    pipelineDetailModal.classList.add(
+      "show"
+    );
+  }
+);
+
+
+pipelineDetailClose.addEventListener(
+  "click",
+  () => {
+    pipelineDetailModal.classList.remove(
+      "show"
+    );
+  }
+);
+
+const pipelineStatusSelect =
+  document.getElementById(
+    "pipelineDetailStatus"
+  );
+
+pipelineStatusSelect.addEventListener(
+  "change",
+  () => {
+
+    if (!activePipelineLead) {
+      return;
+    }
+
+    activePipelineLead.status =
+      pipelineStatusSelect.value;
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(leads)
+    );
+
+    renderPipeline();
+
+    if (typeof render === "function") {
+      render();
+    }
+
+  }
+);
+
+/* =====================================================
+   PIC INLINE EDIT
+   ===================================================== */
+
+const pipelineDetailPicInput =
+  document.getElementById(
+    "pipelineDetailPic"
+  );
+
+const pipelinePicDisplay =
+  document.getElementById(
+    "pipelinePicDisplay"
+  );
+
+const pipelinePicName =
+  document.getElementById(
+    "pipelinePicName"
+  );
+
+const pipelinePicWrap =
+  document.querySelector(
+    ".pipeline-detail-pic-wrap"
+  );
+
+function startPicEdit() {
+
+  if (!pipelinePicWrap) return;
+
+  pipelineDetailPicInput.value =
+  activePipelineLead?.pic || "";
+
+  pipelinePicWrap.classList.add(
+    "editing"
+  );
+
+  pipelineDetailPicInput.focus();
+
+  pipelineDetailPicInput.select();
+}
+
+
+function savePicEdit() {
+
+  if (
+    !activePipelineLead ||
+    !pipelinePicWrap
+  ) {
+    return;
+  }
+
+  const newPic =
+    pipelineDetailPicInput.value.trim();
+
+  activePipelineLead.pic = newPic;
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(leads)
+  );
+
+  pipelinePicName.textContent =
+    newPic || "-";
+
+  pipelinePicWrap.classList.remove(
+    "editing"
+  );
+
+  renderPipeline();
+
+  if (typeof render === "function") {
+    render();
+  }
+
+  renderFollowup();
+}
+
+
+function cancelPicEdit() {
+
+  if (!pipelinePicWrap) {
+    return;
+  }
+
+  pipelineDetailPicInput.value =
+    activePipelineLead?.pic || "";
+
+  pipelinePicWrap.classList.remove(
+    "editing"
+  );
+}
+
+
+/* Klik PIC */
+
+pipelinePicDisplay.addEventListener(
+  "click",
+  startPicEdit
+);
+
+
+/* Enter = simpan */
+
+pipelineDetailPicInput.addEventListener(
+  "click",
+  (event) => {
+    event.stopPropagation();
+  }
+);
+
+pipelineDetailPicInput.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      savePicEdit();
+
+    }
+
+    if (event.key === "Escape") {
+
+      event.preventDefault();
+
+      cancelPicEdit();
+
+    }
+
+  }
+);
+
+
+/* Klik di luar = simpan */
+
+document.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      !pipelinePicWrap ||
+      !pipelinePicWrap.classList.contains(
+        "editing"
+      )
+    ) {
+      return;
+    }
+
+    if (
+      !pipelinePicWrap.contains(
+        event.target
+      )
+    ) {
+      savePicEdit();
+    }
+
+  }
+);
+
+pipelineDetailModal.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target ===
+      pipelineDetailModal
+    ) {
+      pipelineDetailModal.classList.remove(
+        "show"
+      );
+    }
+
+  }
+);
+
+/* =====================================================
+   SIMPAN CAMPAIGN
+   ===================================================== */
+
+const saveCampaignBtn =
+  document.getElementById("saveCampaignBtn");
+
+const campaignNameInput =
+  document.getElementById("campaignNameInput");
+
+const campaignTargetInput =
+  document.getElementById("campaignTargetInput");
+
+const campaignCategoryInput =
+  document.getElementById("campaignCategoryInput");
+
+const campaignStatusInput =
+  document.getElementById("campaignStatusInput");
+
+const campaignMessageInput =
+  document.getElementById("campaignMessageInput");
+
+
+const CAMPAIGN_STORAGE_KEY =
+  "leadflow_campaigns";
+
+
+let campaigns = JSON.parse(
+  localStorage.getItem(
+    CAMPAIGN_STORAGE_KEY
+  ) || "[]"
+);
+
+function updateCampaignStats() {
+
+  const totalCampaign =
+    document.getElementById("campaignTotal");
+
+  if (totalCampaign) {
+    totalCampaign.textContent =
+      campaigns.length;
+  }
+
+}
+
+function renderCampaigns() {
+
+  const campaignList =
+    document.getElementById("campaignList");
+
+  if (!campaignList) return;
+
+  if (campaigns.length === 0) {
+
+    campaignList.innerHTML = `
+      <div class="empty-page">
+
+        <div class="empty-icon">
+          ✉
+        </div>
+
+        <h2>
+          Belum ada Campaign
+        </h2>
+
+        <p>
+          Buat campaign pertama untuk mulai follow-up lead.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  campaignList.innerHTML =
+    campaigns.map((campaign) => {
+
+      const targetLabel =
+        campaign.target === "filtered"
+          ? "Lead Terpilih"
+          : "Semua Lead";
+
+      const categoryLabel =
+        campaign.category ||
+        "Semua Kategori";
+
+      const statusLabel =
+        campaign.status === "new"
+          ? "New"
+          : campaign.status === "contacted"
+          ? "Sudah Dihubungi"
+          : campaign.status === "follow"
+          ? "Follow-up"
+          : campaign.status === "deal"
+          ? "Deal"
+          : "Semua Status";
+
+      return `
+        <div class="campaign-item">
+
+          <div class="campaign-item-top">
+
+            <div>
+              <strong class="campaign-item-title">
+                ${campaign.name}
+              </strong>
+
+              <div class="campaign-meta">
+
+                <span>
+                  🎯 ${targetLabel}
+                </span>
+
+                <span>
+                  🏷 ${categoryLabel}
+                </span>
+
+                <span>
+                  ● ${statusLabel}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="campaign-message-preview">
+
+            ${campaign.message}
+
+          </div>
+
+
+          <div class="campaign-actions">
+
+            <button
+              type="button"
+              class="campaign-view-btn"
+              data-campaign-view="${campaign.id}"
+            >
+              👁 Lihat
+            </button>
+
+            <button
+              type="button"
+              class="campaign-edit-btn"
+              data-campaign-edit="${campaign.id}"
+            >
+              ✎ Edit
+            </button>
+
+            <button
+              type="button"
+              class="campaign-delete-btn"
+              data-campaign-delete="${campaign.id}"
+            >
+              🗑 Hapus
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+saveCampaignBtn?.addEventListener(
+  "click",
+  () => {
+
+    const name =
+      campaignNameInput.value.trim();
+
+    const message =
+      campaignMessageInput.value.trim();
+
+
+    if (!name) {
+
+      alert(
+        "Nama Campaign wajib diisi."
+      );
+
+      campaignNameInput.focus();
+
+      return;
+    }
+
+
+    if (!message) {
+
+      alert(
+        "Pesan WhatsApp wajib diisi."
+      );
+
+      campaignMessageInput.focus();
+
+      return;
+    }
+
+
+    const campaign = {
+
+      id: Date.now(),
+
+      name,
+
+      target:
+        campaignTargetInput.value,
+
+      category:
+        campaignCategoryInput.value,
+
+      status:
+        campaignStatusInput.value,
+
+      message,
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    campaigns.unshift(
+      campaign
+    );
+
+
+    localStorage.setItem(
+      CAMPAIGN_STORAGE_KEY,
+      JSON.stringify(campaigns)
+    );
+
+
+    alert(
+      "Campaign berhasil disimpan."
+    );
+
+    updateCampaignStats();
+    renderCampaigns();
+
+    console.log(
+      "Campaign tersimpan:",
+      campaign
+    );
+
+  }
+);
+
+  </script>
+
+</body>
 </html>
