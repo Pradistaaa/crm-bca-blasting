@@ -9,6 +9,9 @@
   <title>LeadFlow CRM</title>
 
   <style>
+
+    
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -2221,7 +2224,7 @@ td {
 }
 
 /* =====================================================
-   CAMPAIGN
+   CAMPAIGN - FINAL ASTRO SAFE
    ===================================================== */
 
 #page-campaign .page-header {
@@ -2244,13 +2247,13 @@ td {
 }
 
 
-/* STATISTICS */
+/* =====================================================
+   STATISTICS
+   ===================================================== */
 
 #page-campaign .stats-grid {
   display: grid;
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 18px;
 }
@@ -2259,59 +2262,240 @@ td {
   background: #171e1a;
   border: 1px solid #25332b;
   border-radius: 12px;
-
   padding: 16px;
 }
 
 #page-campaign .stat-card span {
   display: block;
-
   color: #68756d;
   font-size: 10px;
-
   margin-bottom: 8px;
 }
 
 #page-campaign .stat-card strong {
   display: block;
-
   color: #f1f6f3;
   font-size: 22px;
 }
 
 
-/* CONTENT CARD */
+/* =====================================================
+   CONTENT CARD
+   ===================================================== */
 
 #page-campaign .content-card {
   background: #171e1a;
   border: 1px solid #25332b;
   border-radius: 12px;
-
   overflow: hidden;
 }
 
 #page-campaign .content-card-header {
   padding: 16px 18px;
-
   border-bottom: 1px solid #25332b;
 }
 
 #page-campaign .content-card-header h3 {
   margin: 0;
-
   font-size: 13px;
   color: #f1f6f3;
 }
 
 #page-campaign .content-card-header p {
   margin: 5px 0 0;
-
   color: #68756d;
   font-size: 10px;
 }
 
 
-/* EMPTY CAMPAIGN */
+/* =====================================================
+   CAMPAIGN LIST
+   ===================================================== */
+
+#page-campaign #campaignList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+/* =====================================================
+   CAMPAIGN ITEM
+   ===================================================== */
+
+#page-campaign :global(.campaign-item) {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  border-bottom: 1px solid #25332b;
+  background: #171e1a;
+  box-sizing: border-box;
+  transition:
+    background .2s ease,
+    border-color .2s ease;
+}
+
+#page-campaign :global(.campaign-item:last-child) {
+  border-bottom: 0;
+}
+
+#page-campaign :global(.campaign-item:hover) {
+  background: #1a211d;
+}
+
+
+/* =====================================================
+   CAMPAIGN TOP
+   ===================================================== */
+
+#page-campaign :global(.campaign-item-top) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 15px;
+}
+
+#page-campaign :global(.campaign-item-title) {
+  display: block;
+  margin: 0 0 9px 0;
+  color: #f1f6f3;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   META
+   ===================================================== */
+
+#page-campaign :global(.campaign-meta) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+#page-campaign :global(.campaign-meta span) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 5px 8px;
+
+  border-radius: 7px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid #25332b;
+
+  color: #8d9a91;
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   MESSAGE
+   ===================================================== */
+
+#page-campaign :global(.campaign-message-preview) {
+  display: block;
+
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+
+  box-sizing: border-box;
+
+  background: #121815;
+  border: 1px solid #25332b;
+  border-radius: 9px;
+
+  color: #c5d0c9;
+  font-size: 10px;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+   ===================================================== */
+
+#page-campaign :global(.campaign-actions) {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 12px;
+}
+
+#page-campaign :global(.campaign-actions button) {
+  appearance: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 30px;
+
+  padding: 6px 10px;
+
+  background: #121815;
+  border: 1px solid #25332b;
+  border-radius: 7px;
+
+  color: #c5d0c9;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    color .2s ease,
+    transform .2s ease;
+}
+
+#page-campaign :global(.campaign-actions button:hover) {
+  background: rgba(25,216,116,.06);
+  border-color: #19d874;
+  color: #19d874;
+  transform: translateY(-1px);
+}
+
+
+/* EDIT */
+
+#page-campaign :global(.campaign-edit-btn:hover) {
+  border-color: #19d874;
+  color: #19d874;
+}
+
+
+/* DELETE */
+
+#page-campaign :global(.campaign-delete-btn) {
+  color: #ff8585;
+}
+
+#page-campaign :global(.campaign-delete-btn:hover) {
+  background: rgba(255,92,92,.06);
+  border-color: #ff5c5c;
+  color: #ff5c5c;
+}
+
+
+/* =====================================================
+   EMPTY CAMPAIGN
+   ===================================================== */
 
 #page-campaign #campaignList .empty-page {
   padding: 45px 20px;
@@ -2330,16 +2514,35 @@ td {
 }
 
 
-/* RESPONSIVE */
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
 
 @media (max-width: 800px) {
 
   #page-campaign .stats-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 }
+
+
+@media (max-width: 600px) {
+
+  #page-campaign :global(.campaign-item) {
+    padding: 14px;
+  }
+
+  #page-campaign :global(.campaign-meta) {
+    gap: 5px;
+  }
+
+  #page-campaign :global(.campaign-actions) {
+    flex-wrap: wrap;
+  }
+
+}
+
 
 @media (max-width: 520px) {
 
@@ -2467,8 +2670,12 @@ td {
   font-weight: 600;
 }
 
+
+
   </style>
 </head>
+
+
 
 <body>
 
@@ -2566,7 +2773,7 @@ td {
 
       <div class="topbar">
         <div class="welcome">
-          <h1>Good Evening, Admin 👋</h1>
+          <h1 id="welcomeGreeting">Good Evening, Admin 👋</h1>
           <p>Kelola database lead dan prospek Anda.</p>
         </div>
 
@@ -3719,7 +3926,8 @@ Apakah kami boleh mengirimkan informasi lengkapnya?"
     }
 
     const whatsappNumber =
-      String(lead.whatsapp || "").replace(/\D/g, "");
+      String(lead.whatsapp || "")
+      .replace(/\D/g, "");
 
     row.innerHTML = `
       <td>
@@ -3886,14 +4094,14 @@ function renderAllLeads() {
           lead.whatsapp
             ? `
               <a
-  class="whatsapp-link"
-  href="https://wa.me/${whatsappNumber}"
-  target="_blank"
-  rel="noopener noreferrer"
-  data-whatsapp-index="${index}"
->
-  📱 ${lead.whatsapp}
-</a>
+              class="whatsapp-link"
+              href="https://wa.me/${whatsappNumber}"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-whatsapp-index="${index}"
+            >
+              📱 ${lead.whatsapp}
+            </a>
             `
             : `
               <span style="color:#68756d;font-size:10px;">
@@ -3970,6 +4178,44 @@ function renderActivities() {
 
     return;
   }
+
+  function updateWhatsAppLinks() {
+
+  const links =
+    document.querySelectorAll(".whatsapp-link");
+
+  links.forEach((link) => {
+
+    const index =
+      link.dataset.whatsappIndex;
+
+    const lead =
+      leads[index];
+
+    if (!lead) return;
+
+    const number =
+      String(lead.whatsapp || "")
+        .replace(/\D/g, "");
+
+    if (!number) return;
+
+    const message =
+      campaigns[0]?.message
+        ?.replace(
+          /\[PERUSAHAAN\]/gi,
+          lead.company || ""
+        )
+        || "";
+
+    link.href =
+      message
+        ? `https://wa.me/${number}?text=${encodeURIComponent(message)}`
+        : `https://wa.me/${number}`;
+
+  });
+
+}
 
 
   const latest = leads;
@@ -4257,10 +4503,9 @@ function renderActivities() {
 document.addEventListener(
   "click",
   (event) => {
+
     const whatsappLink =
-      event.target.closest(
-        "[data-whatsapp-id]"
-      );
+      event.target.closest(".whatsapp-link");
 
     if (!whatsappLink) {
       return;
@@ -4271,10 +4516,24 @@ document.addEventListener(
         whatsappLink.dataset.whatsappId
       );
 
-    const lead =
-      leads.find(
+    const leadIndex =
+      Number(
+        whatsappLink.dataset.whatsappIndex
+      );
+
+    let lead = null;
+
+    // PRIORITAS: cari berdasarkan ID
+    if (leadId) {
+      lead = leads.find(
         item => Number(item.id) === leadId
       );
+    }
+
+    // FALLBACK: cari berdasarkan index
+    if (!lead && !Number.isNaN(leadIndex)) {
+      lead = leads[leadIndex];
+    }
 
     if (!lead) {
       return;
@@ -4282,6 +4541,7 @@ document.addEventListener(
 
     activePipelineLead = lead;
 
+    // NEW → CONTACTED
     if (lead.status === "new") {
 
       lead.status = "contacted";
@@ -4291,9 +4551,13 @@ document.addEventListener(
         JSON.stringify(leads)
       );
 
+      // Refresh semua tampilan
       render();
       populateLeadFilters();
+      renderPipeline();
+      renderFollowup();
     }
+
   }
 );
 
@@ -4820,10 +5084,9 @@ function renderProspectResults(results) {
         const address =
           getProspectAddress(result);
 
-        const website =
-          result.website ||
-          result.url ||
-          "";
+        const website = result.website || "";
+const websiteStatus = result.websiteStatus || "not_found";
+const websiteLabel = result.websiteLabel || "Website tidak ditemukan";
 
         return `
 
@@ -4908,7 +5171,7 @@ function renderProspectResults(results) {
             </div>
 
             ${
-              phone || website
+              phone || true
                 ? `
                   <div style="
                     display:flex;
@@ -4934,22 +5197,44 @@ function renderProspectResults(results) {
                         : ""
                     }
 
-                    ${
-                      website
-                        ? `
-                          <span style="
-                            color:#6ea8ff;
-                            background:rgba(110,168,255,.07);
-                            border:1px solid rgba(110,168,255,.12);
-                            padding:5px 8px;
-                            border-radius:7px;
-                            font-size:9px;
-                          ">
-                            🌐 Website tersedia
-                          </span>
-                        `
-                        : ""
-                    }
+                    <div style="
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:${
+    websiteStatus === "verified"
+      ? "#19d874"
+      : websiteStatus === "unverified"
+        ? "#ffb020"
+        : "#ff5c5c"
+  };
+  background:${
+    websiteStatus === "verified"
+      ? "rgba(25,216,116,.07)"
+      : websiteStatus === "unverified"
+        ? "rgba(255,176,32,.07)"
+        : "rgba(255,92,92,.07)"
+  };
+  border:1px solid ${
+    websiteStatus === "verified"
+      ? "rgba(25,216,116,.15)"
+      : websiteStatus === "unverified"
+        ? "rgba(255,176,32,.15)"
+        : "rgba(255,92,92,.15)"
+  };
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:9px;
+">
+  ${
+    websiteStatus === "verified"
+      ? "🌐"
+      : websiteStatus === "unverified"
+        ? "⚠️"
+        : "❌"
+  }
+  ${escapeHtml(websiteLabel)}
+</div>
 
                   </div>
                 `
@@ -5143,7 +5428,7 @@ prospectSearchForm.addEventListener(
               JSON.stringify({
                 keyword,
                 location,
-                limit: 10
+                limit: 30
               })
 
           }
@@ -5207,6 +5492,7 @@ prospectSearchForm.addEventListener(
 
     /* INITIAL */
 
+    updateGreeting();
     render();
     populateLeadFilters();
 
@@ -6007,6 +6293,185 @@ function renderCampaigns() {
     return;
   }
 
+  /* =====================================================
+   CAMPAIGN ACTIONS
+   ===================================================== */
+
+document.addEventListener(
+  "click",
+  (event) => {
+
+    /* =========================
+       LIHAT
+       ========================= */
+
+    const viewBtn =
+      event.target.closest(
+        ".campaign-view-btn"
+      );
+
+    if (viewBtn) {
+
+      const id =
+        Number(
+          viewBtn.dataset.campaignView
+        );
+
+      const campaign =
+        campaigns.find(
+          item =>
+            Number(item.id) === id
+        );
+
+      if (!campaign) {
+        return;
+      }
+
+      alert(
+        `Nama Campaign:
+${campaign.name}
+
+Target:
+${campaign.target || "Semua Lead"}
+
+Kategori:
+${campaign.category || "Semua Kategori"}
+
+Status:
+${campaign.status || "Semua Status"}
+
+Pesan:
+
+${campaign.message}`
+      );
+
+      return;
+    }
+
+
+    /* =========================
+       HAPUS
+       ========================= */
+
+    const deleteBtn =
+      event.target.closest(
+        ".campaign-delete-btn"
+      );
+
+    if (deleteBtn) {
+
+      const id =
+        Number(
+          deleteBtn.dataset.campaignDelete
+        );
+
+      const campaign =
+        campaigns.find(
+          item =>
+            Number(item.id) === id
+        );
+
+      if (!campaign) {
+        return;
+      }
+
+      const yakin =
+        confirm(
+          `Hapus campaign "${campaign.name}"?`
+        );
+
+      if (!yakin) {
+        return;
+      }
+
+      campaigns =
+        campaigns.filter(
+          item =>
+            Number(item.id) !== id
+        );
+
+      localStorage.setItem(
+        CAMPAIGN_STORAGE_KEY,
+        JSON.stringify(campaigns)
+      );
+
+      updateCampaignStats();
+      renderCampaigns();
+
+      return;
+    }
+
+
+    /* =========================
+       EDIT
+       ========================= */
+
+    const editBtn =
+      event.target.closest(
+        ".campaign-edit-btn"
+      );
+
+    if (editBtn) {
+
+      const id =
+        Number(
+          editBtn.dataset.campaignEdit
+        );
+
+      const campaign =
+        campaigns.find(
+          item =>
+            Number(item.id) === id
+        );
+
+      if (!campaign) {
+        return;
+      }
+
+      campaignNameInput.value =
+        campaign.name || "";
+
+      campaignTargetInput.value =
+        campaign.target || "";
+
+      campaignCategoryInput.value =
+        campaign.category || "";
+
+      campaignStatusInput.value =
+        campaign.status || "";
+
+      campaignMessageInput.value =
+        campaign.message || "";
+
+
+      saveCampaignBtn.dataset.editingId =
+        String(campaign.id);
+
+
+      saveCampaignBtn.textContent =
+        "Simpan Perubahan";
+
+
+      const title =
+        campaignModal?.querySelector(
+          ".modal-header h2"
+        );
+
+      if (title) {
+        title.textContent =
+          "Edit Campaign";
+      }
+
+
+      campaignModal?.classList.add(
+        "show"
+      );
+
+    }
+
+  }
+);
+
   campaignList.innerHTML =
     campaigns.map((campaign) => {
 
@@ -6103,6 +6568,64 @@ function renderCampaigns() {
 
 }
 
+/* =====================================================
+   DELETE CAMPAIGN
+   ===================================================== */
+
+campaignList?.addEventListener(
+  "click",
+  (event) => {
+
+    const deleteButton =
+      event.target.closest(
+        ".campaign-delete-btn"
+      );
+
+    if (!deleteButton) {
+      return;
+    }
+
+    const campaignId =
+      Number(
+        deleteButton.dataset.campaignDelete
+      );
+
+    const campaign =
+      campaigns.find(
+        item =>
+          Number(item.id) === campaignId
+      );
+
+    if (!campaign) {
+      return;
+    }
+
+    const confirmed =
+      confirm(
+        `Hapus campaign "${campaign.name}"?`
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    campaigns =
+      campaigns.filter(
+        item =>
+          Number(item.id) !== campaignId
+      );
+
+    localStorage.setItem(
+      CAMPAIGN_STORAGE_KEY,
+      JSON.stringify(campaigns)
+    );
+
+    updateCampaignStats();
+    renderCampaigns();
+
+  }
+);
+
 saveCampaignBtn?.addEventListener(
   "click",
   () => {
@@ -6136,6 +6659,85 @@ saveCampaignBtn?.addEventListener(
 
       return;
     }
+
+    /* =========================
+   MODE EDIT
+   ========================= */
+
+const editingId =
+  saveCampaignBtn.dataset.editingId;
+
+if (editingId) {
+
+  const campaign =
+    campaigns.find(
+      item =>
+        Number(item.id) ===
+        Number(editingId)
+    );
+
+  if (campaign) {
+
+    campaign.name =
+      name;
+
+    campaign.target =
+      campaignTargetInput.value;
+
+    campaign.category =
+      campaignCategoryInput.value;
+
+    campaign.status =
+      campaignStatusInput.value;
+
+    campaign.message =
+      message;
+
+    campaign.updatedAt =
+      new Date().toISOString();
+
+  }
+
+
+  localStorage.setItem(
+    CAMPAIGN_STORAGE_KEY,
+    JSON.stringify(campaigns)
+  );
+
+
+  delete saveCampaignBtn.dataset.editingId;
+
+
+  saveCampaignBtn.textContent =
+    "Simpan Campaign";
+
+
+  const title =
+    campaignModal?.querySelector(
+      ".modal-header h2"
+    );
+
+  if (title) {
+    title.textContent =
+      "Buat Campaign";
+  }
+
+
+  updateCampaignStats();
+  renderCampaigns();
+
+
+  campaignModal?.classList.remove(
+    "show"
+  );
+
+
+  alert(
+    "Campaign berhasil diperbarui."
+  );
+
+  return;
+}
 
 
     const campaign = {
@@ -6186,6 +6788,31 @@ saveCampaignBtn?.addEventListener(
 
   }
 );
+
+/* =====================================================
+   INIT CAMPAIGN
+   ===================================================== */
+
+updateCampaignStats();
+renderCampaigns();
+
+function updateGreeting() {
+  const greeting = document.getElementById("welcomeGreeting");
+
+  if (!greeting) return;
+
+  const hour = new Date().getHours();
+
+  let text = "Good Evening";
+
+  if (hour >= 5 && hour < 12) {
+    text = "Good Morning";
+  } else if (hour >= 12 && hour < 18) {
+    text = "Good Afternoon";
+  }
+
+  greeting.textContent = `${text}, Admin 👋`;
+}
 
   </script>
 

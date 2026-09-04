@@ -21,15 +21,10 @@ export async function POST({ request }) {
       );
     }
 
-    /*
-     * Astro membaca variable dari .env melalui import.meta.env
-     */
     const token = import.meta.env.APIFY_API_TOKEN;
 
     if (!token) {
-      console.error(
-        "APIFY_API_TOKEN tidak ditemukan."
-      );
+      console.error("APIFY_API_TOKEN tidak ditemukan.");
 
       return new Response(
         JSON.stringify({
@@ -54,12 +49,6 @@ export async function POST({ request }) {
     };
 
     console.log(
-      "APIFY TOKEN TERBACA:",
-      token.length,
-      "karakter"
-    );
-
-    console.log(
       "SEARCH:",
       keyword,
       "| LOCATION:",
@@ -80,8 +69,7 @@ export async function POST({ request }) {
       }
     );
 
-    const rawResponse =
-      await response.text();
+    const rawResponse = await response.text();
 
     let data = [];
 
@@ -98,23 +86,19 @@ export async function POST({ request }) {
       return new Response(
         JSON.stringify({
           success: false,
-          message:
-            "Response dari Apify bukan JSON valid.",
-          rawResponse:
-            rawResponse.slice(0, 1000)
+          message: "Response dari Apify bukan JSON valid.",
+          rawResponse: rawResponse.slice(0, 1000)
         }),
         {
           status: 502,
           headers: {
-            "Content-Type":
-              "application/json"
+            "Content-Type": "application/json"
           }
         }
       );
     }
 
     if (!response.ok) {
-
       console.error(
         "APIFY ERROR:",
         response.status,
@@ -128,14 +112,12 @@ export async function POST({ request }) {
             data?.error?.message ||
             data?.message ||
             "Apify gagal menjalankan pencarian.",
-
           details: data
         }),
         {
           status: response.status,
           headers: {
-            "Content-Type":
-              "application/json"
+            "Content-Type": "application/json"
           }
         }
       );
@@ -143,20 +125,234 @@ export async function POST({ request }) {
 
     console.log(
       "APIFY BERHASIL:",
-      Array.isArray(data)
-        ? data.length
-        : 0,
+      Array.isArray(data) ? data.length : 0,
       "hasil"
+    );
+
+    /*
+     * ============================================
+     * WEBSITE VERIFICATION
+     * ============================================
+     */
+
+    function normalizeWebsite(value) {
+      if (!value) return "";
+
+      let url = String(value).trim();
+
+      if (!url) return "";
+
+      /*
+       * Jangan pernah menganggap URL Google Maps
+       * sebagai website bisnis.
+       */
+      const lower = url.toLowerCase();
+
+      if (
+        lower.includes("google.com/maps") ||
+        lower.includes("maps.google.com") ||
+        lower.includes("goo.gl/maps") ||
+        lower.includes("maps.app.goo.gl")
+      ) {
+        return "";
+      }
+
+      /*
+       * Hanya terima http / https.
+       */
+      if (
+        !lower.startsWith("http://") &&
+        !lower.startsWith("https://")
+      ) {
+        url = `https://${url}`;
+      }
+
+      try {
+        const parsed = new URL(url);
+
+        if (
+          parsed.protocol !== "http:" &&
+          parsed.protocol !== "https:"
+        ) {
+          return "";
+        }
+
+        return parsed.href;
+      } catch {
+        return "";
+      }
+    }
+
+    async function verifyWebsite(url) {
+      if (!url) {
+        return {
+          status: "not_found",
+          label: "Website tidak ditemukan",
+          website: ""
+        };
+      }
+
+      const controller = new AbortController();
+
+      const timeout = setTimeout(() => {
+        controller.abort();
+      }, 6000);
+
+      try {
+        /*
+         * Coba HEAD terlebih dahulu.
+         */
+        let response;
+
+        try {
+          response = await fetch(url, {
+            method: "HEAD",
+            redirect: "follow",
+            signal: controller.signal,
+            headers: {
+              "User-Agent":
+                "Mozilla/5.0 LeadFlow Website Checker"
+            }
+          });
+        } catch {
+          /*
+           * Beberapa website menolak HEAD.
+           * Coba GET sebagai fallback.
+           */
+          response = await fetch(url, {
+            method: "GET",
+            redirect: "follow",
+            signal: controller.signal,
+            headers: {
+              "User-Agent":
+                "Mozilla/5.0 LeadFlow Website Checker"
+            }
+          });
+        }
+
+        clearTimeout(timeout);
+
+        /*
+         * Website benar-benar merespons.
+         *
+         * 2xx / 3xx = tersedia.
+         *
+         * 403 / 401 tetap kita anggap unverified,
+         * karena website bisa saja ada tetapi
+         * memblokir bot.
+         */
+        if (
+          response.status >= 200 &&
+          response.status < 400
+        ) {
+          return {
+            status: "verified",
+            label: "Website tersedia",
+            website: url
+          };
+        }
+
+        return {
+          status: "unverified",
+          label: "Website tidak dapat diverifikasi",
+          website: url
+        };
+
+      } catch (error) {
+        clearTimeout(timeout);
+
+        console.log(
+          "Website verification gagal:",
+          url,
+          error?.message
+        );
+
+        return {
+          status: "unverified",
+          label: "Website tidak dapat diverifikasi",
+          website: url
+        };
+      }
+    }
+
+    /*
+     * ============================================
+     * PROSES SEMUA HASIL APIFY
+     * ============================================
+     */
+
+    const results = Array.isArray(data)
+      ? data
+      : [];
+
+    /*
+     * Kita proses maksimal 5 website secara
+     * bersamaan supaya endpoint tidak terlalu berat.
+     */
+
+    const processedResults = [];
+
+    for (
+      let i = 0;
+      i < results.length;
+      i += 5
+    ) {
+      const batch = results.slice(i, i + 5);
+
+      const processedBatch =
+        await Promise.all(
+          batch.map(async (result) => {
+
+            /*
+             * PENTING:
+             *
+             * HANYA result.website yang dianggap
+             * sebagai website bisnis.
+             *
+             * result.url TIDAK digunakan.
+             */
+            const rawWebsite =
+              result?.website || "";
+
+            const website =
+              normalizeWebsite(rawWebsite);
+
+            const verification =
+              await verifyWebsite(website);
+
+            return {
+              ...result,
+
+              website:
+                verification.website,
+
+              websiteStatus:
+                verification.status,
+
+              websiteLabel:
+                verification.label
+            };
+          })
+        );
+
+      processedResults.push(
+        ...processedBatch
+      );
+    }
+
+    console.log(
+      "WEBSITE CHECK SELESAI:",
+      processedResults.map((item) => ({
+        name: item.title || item.name,
+        website: item.website,
+        status: item.websiteStatus
+      }))
     );
 
     return new Response(
       JSON.stringify({
         success: true,
-
-        results:
-          Array.isArray(data)
-            ? data
-            : []
+        results: processedResults
       }),
       {
         status: 200,
