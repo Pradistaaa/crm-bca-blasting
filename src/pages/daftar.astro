@@ -166,6 +166,17 @@ const title = "Daftar - LeadFlow CRM";
       </div>
 
       <div class="form-group">
+  <label for="registerEmail">Email</label>
+  <input
+    id="registerEmail"
+    type="email"
+    placeholder="Masukkan email aktif"
+    autocomplete="email"
+    required
+  />
+</div>
+
+      <div class="form-group">
         <label for="registerPassword">Password</label>
         <input
           id="registerPassword"
@@ -211,86 +222,81 @@ const title = "Daftar - LeadFlow CRM";
   </div>
 
   <script>
-    const registerForm =
-      document.getElementById("registerForm");
+  import { createClient } from "@supabase/supabase-js";
 
-    const registerError =
-      document.getElementById("registerError");
+  const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  );
 
-    const registerSuccess =
-      document.getElementById("registerSuccess");
+  const registerForm =
+    document.getElementById("registerForm");
 
-    registerForm.addEventListener("submit", (event) => {
-      event.preventDefault();
+  const registerError =
+    document.getElementById("registerError");
 
-      const name =
-        document.getElementById("registerName").value.trim();
+  const registerSuccess =
+    document.getElementById("registerSuccess");
 
-      const username =
-        document.getElementById("registerUsername").value.trim();
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      const password =
-        document.getElementById("registerPassword").value;
+    const name =
+      document.getElementById("registerName").value.trim();
 
-      const confirmPassword =
-        document.getElementById("registerConfirmPassword").value;
+    const username =
+      document.getElementById("registerUsername").value.trim();
 
-      registerError.style.display = "none";
-      registerSuccess.style.display = "none";
+    const email =
+      document.getElementById("registerEmail").value.trim();
 
-      if (password !== confirmPassword) {
-        registerError.textContent =
-          "Password dan konfirmasi password tidak sama.";
+    const password =
+      document.getElementById("registerPassword").value;
 
-        registerError.style.display = "block";
-        return;
+    const confirmPassword =
+      document.getElementById("registerConfirmPassword").value;
+
+    registerError.style.display = "none";
+    registerSuccess.style.display = "none";
+
+    if (password !== confirmPassword) {
+      registerError.textContent =
+        "Password dan konfirmasi password tidak sama.";
+
+      registerError.style.display = "block";
+      return;
+    }
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username,
+          full_name: name
+        },
+        emailRedirectTo: `${window.location.origin}/login`
       }
-
-      const users =
-        JSON.parse(
-          localStorage.getItem("leadflow_users") || "[]"
-        );
-
-      const usernameExists =
-        users.some(
-          user =>
-            user.username.toLowerCase() ===
-            username.toLowerCase()
-        );
-
-      if (usernameExists) {
-        registerError.textContent =
-          "Username sudah digunakan.";
-
-        registerError.style.display = "block";
-        return;
-      }
-
-      users.push({
-        id: Date.now(),
-        name,
-        username,
-        password,
-        createdAt: new Date().toISOString()
-      });
-
-      localStorage.setItem(
-        "leadflow_users",
-        JSON.stringify(users)
-      );
-
-      registerSuccess.textContent =
-        "Pendaftaran berhasil. Silakan login.";
-
-      registerSuccess.style.display = "block";
-
-      registerForm.reset();
-
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1200);
     });
-  </script>
+
+    if (error) {
+      registerError.textContent =
+        error.message === "User already registered"
+          ? "Email sudah terdaftar."
+          : error.message;
+
+      registerError.style.display = "block";
+      return;
+    }
+
+    registerSuccess.textContent =
+      "Pendaftaran berhasil. Periksa email untuk verifikasi, lalu login.";
+
+    registerSuccess.style.display = "block";
+
+    registerForm.reset();
+  });
+</script>
 
 </body>
 </html>

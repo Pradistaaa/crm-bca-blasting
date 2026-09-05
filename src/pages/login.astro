@@ -119,15 +119,15 @@ const title = "Login - LeadFlow CRM";
     <form id="loginForm">
 
       <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          placeholder="Masukkan username"
-          autocomplete="username"
-          required
-        />
-      </div>
+  <label for="email">Email</label>
+  <input
+    id="email"
+    type="email"
+    placeholder="Masukkan email"
+    autocomplete="email"
+    required
+  />
+</div>
 
       <div class="form-group">
         <label for="password">Password</label>
@@ -173,60 +173,68 @@ const title = "Login - LeadFlow CRM";
   </div>
 
   <script>
-    const loginForm =
-      document.getElementById("loginForm");
+  import { createClient } from "@supabase/supabase-js";
 
-    const loginError =
-      document.getElementById("loginError");
-
-    loginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const username =
-        document.getElementById("username").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      /*
-       * LOGIN SEMENTARA
-       * Nanti bisa kita ganti dengan
-       * sistem user/database yang sebenarnya.
-       */
-      const users =
-  JSON.parse(
-    localStorage.getItem("leadflow_users") || "[]"
+  const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
   );
 
-const registeredUser =
-  users.find(
-    user =>
-      user.username.toLowerCase() ===
-      username.toLowerCase() &&
-      user.password === password
-  );
+  const loginForm =
+    document.getElementById("loginForm");
 
-const isAdmin =
-  username === "admin" &&
-  password === "admin123";
+  const loginError =
+    document.getElementById("loginError");
 
-if (registeredUser || isAdmin) {
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  localStorage.setItem(
-    "leadflow_logged_in",
-    "true"
-  );
+    const email =
+      document.getElementById("email").value.trim();
 
-  localStorage.setItem("leadflow_username", username);
+    const password =
+      document.getElementById("password").value;
 
-  window.location.href = "/";
-  return;
-}
+    loginError.style.display = "none";
+
+    const { data, error } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      loginError.textContent =
+        "Email atau password salah.";
 
       loginError.style.display = "block";
-    });
+      return;
+    }
 
-  </script>
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", data.user.id)
+      .single();
+
+    const username =
+      profile?.username ||
+      data.user.user_metadata?.username ||
+      email;
+
+    localStorage.setItem(
+      "leadflow_logged_in",
+      "true"
+    );
+
+    localStorage.setItem(
+      "leadflow_username",
+      username
+    );
+
+    window.location.href = "/";
+  });
+</script>
 
 </body>
 </html>
