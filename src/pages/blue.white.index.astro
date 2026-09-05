@@ -26,19 +26,22 @@
     }
 
     :root {
-      --bg: #080b09;
-      --sidebar: #0d110f;
-      --card: #121815;
-      --card2: #171e1a;
-      --border: #25332b;
-      --green: #19d874;
-      --green-dark: #0c9e51;
-      --text: #f5fff9;
-      --muted: #8d9a91;
-      --yellow: #ffb020;
-      --blue: #6ea8ff;
-      --red: #ff5c5c;
-    }
+  --bg: #f5f7fb;
+  --sidebar: #ffffff;
+  --card: #ffffff;
+  --card2: #f8fafc;
+  --border: #e2e8f0;
+
+  --green: #2563eb;
+  --green-dark: #1d4ed8;
+
+  --text: #172033;
+  --muted: #64748b;
+
+  --yellow: #f59e0b;
+  --blue: #2563eb;
+  --red: #ef4444;
+}
 
     body {
       background: var(--bg);
@@ -2677,7 +2680,465 @@ td {
 }
 
 
-  </style>
+  
+
+/* =====================================================
+   LEADFLOW UI — BLUE / LIGHT THEME OVERRIDE
+   UI/CSS only. No JavaScript or CRM logic changed.
+   ===================================================== */
+
+.logo-icon {
+  background: linear-gradient(135deg, var(--green), var(--green-dark)) !important;
+  color: #ffffff !important;
+}
+
+.logo span {
+  color: var(--green) !important;
+}
+
+.nav-item {
+  color: var(--muted) !important;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: rgba(37, 99, 235, .10) !important;
+  color: var(--green) !important;
+}
+
+.badge {
+  background: rgba(37, 99, 235, .10) !important;
+  color: var(--green) !important;
+}
+
+.green-btn {
+  background: var(--green) !important;
+  color: #ffffff !important;
+}
+
+.green-btn:hover {
+  background: var(--green-dark) !important;
+}
+
+/* Text that was previously white for the old dark theme */
+.activity h4,
+:global(.activity h4),
+:global(#leadsTable .company-info strong),
+:global(#allLeadsTable .company-info strong),
+:global(#followupTable td:nth-child(1) strong),
+:global(#page-followup .company-info strong) {
+  color: var(--text) !important;
+}
+
+.category-text {
+  color: var(--muted) !important;
+}
+
+/* WhatsApp */
+.whatsapp-link,
+:global(.whatsapp-link) {
+  color: var(--green) !important;
+  background: rgba(37, 99, 235, .08) !important;
+  border-color: rgba(37, 99, 235, .16) !important;
+}
+
+.whatsapp-link:hover,
+:global(.whatsapp-link:hover),
+:global(#page-followup .whatsapp-link:hover) {
+  color: #ffffff !important;
+  background: var(--green) !important;
+  border-color: var(--green) !important;
+}
+
+/* Status pills */
+.status.new,
+.status-new,
+:global(#leadsTable .status-new),
+:global(#allLeadsTable .status-new) {
+  background: rgba(37, 99, 235, .10) !important;
+  color: var(--green) !important;
+  border-color: rgba(37, 99, 235, .14) !important;
+}
+
+.status.follow,
+.status-follow,
+:global(#leadsTable .status-follow),
+:global(#allLeadsTable .status-follow) {
+  background: rgba(245, 158, 11, .10) !important;
+  color: var(--yellow) !important;
+  border-color: rgba(245, 158, 11, .14) !important;
+}
+
+.status.meeting,
+.status-meeting,
+:global(#leadsTable .status-meeting),
+:global(#allLeadsTable .status-meeting) {
+  background: rgba(37, 99, 235, .08) !important;
+  color: var(--blue) !important;
+  border-color: rgba(37, 99, 235, .14) !important;
+}
+
+.status.deal,
+.status-deal,
+:global(#leadsTable .status-deal),
+:global(#allLeadsTable .status-deal) {
+  background: rgba(37, 99, 235, .14) !important;
+  color: var(--green) !important;
+  border-color: rgba(37, 99, 235, .18) !important;
+}
+
+/* Pipeline — convert old dark-green surfaces to the light card system */
+:global(.pipeline-card) {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+:global(.pipeline-card:hover) {
+  border-color: rgba(37, 99, 235, .35) !important;
+}
+
+:global(.pipeline-card-company) {
+  background: rgba(37, 99, 235, .08) !important;
+  border-color: rgba(37, 99, 235, .14) !important;
+  color: var(--green) !important;
+}
+
+.pipeline-pic-input,
+:global(.pipeline-pic-input) {
+  background: var(--card2) !important;
+  border-color: var(--green) !important;
+  color: var(--text) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .08) !important;
+}
+
+.pipeline-pic-edit {
+  color: var(--muted) !important;
+}
+
+.pipeline-pic-display:hover .pipeline-pic-edit {
+  color: var(--green) !important;
+}
+
+/* Campaign — same light visual language */
+#page-campaign .stat-card,
+#page-campaign .content-card,
+#page-campaign :global(.campaign-item) {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+#page-campaign .content-card-header {
+  border-color: var(--border) !important;
+}
+
+#page-campaign .content-card-header h3 {
+  color: var(--text) !important;
+}
+
+#page-campaign .stat-card span,
+#page-campaign .content-card-header p,
+#page-campaign :global(.campaign-meta),
+.campaign-message-hint {
+  color: var(--muted) !important;
+}
+
+#page-campaign :global(.campaign-actions button:hover),
+#page-campaign :global(.campaign-edit-btn:hover) {
+  background: rgba(37, 99, 235, .06) !important;
+  border-color: var(--green) !important;
+  color: var(--green) !important;
+}
+
+#campaignFormArea input:focus,
+#campaignFormArea select:focus,
+#campaignFormArea textarea:focus {
+  border-color: var(--green) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .07) !important;
+}
+
+.campaign-message-hint strong {
+  color: var(--green) !important;
+}
+
+/* Logout / small dark-theme controls */
+#logoutBtn {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+
+/* Generic light-theme form controls */
+:global(.pipeline-select),
+:global(.pipeline-status-select),
+#page-campaign input,
+#page-campaign select,
+#page-campaign textarea {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* =========================================================
+   SOFT BLUE LIGHT UI — CSS ONLY
+   Tempel paling bawah <style>
+   Jangan hapus CSS lama
+   ========================================================= */
+
+/* Page background */
+html,
+body {
+  background: #eef2f7 !important;
+  color: var(--text) !important;
+}
+
+.main {
+  background: #eef2f7 !important;
+}
+
+/* Sidebar */
+.sidebar {
+  background: #fbfcfe !important;
+  border-right-color: #e2e8f0 !important;
+}
+
+/* Main cards */
+.card,
+.content-card,
+.stat-card,
+.dashboard-card,
+.pipeline-card,
+.campaign-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.045) !important;
+}
+
+/* Softer secondary surfaces */
+.card2,
+.section,
+.table-wrap,
+.filter-bar,
+.toolbar,
+.search-box {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Headings / primary text */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.title,
+.card-title,
+.section-title,
+.stat-title {
+  color: #172033 !important;
+}
+
+/* Normal text */
+p,
+label,
+span,
+.text,
+.description {
+  color: #334155;
+}
+
+/* Muted text */
+.muted,
+.subtitle,
+.stat-label,
+small,
+.helper-text {
+  color: #64748b !important;
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #dbe3ee !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10) !important;
+}
+
+/* Primary buttons */
+button.primary,
+.btn-primary,
+button[type="submit"] {
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+button.primary:hover,
+.btn-primary:hover,
+button[type="submit"]:hover {
+  background: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+/* Generic blue action */
+.btn,
+.action-btn {
+  border-color: #dbe3ee;
+}
+
+.btn:hover,
+.action-btn:hover {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+
+/* Tables */
+table {
+  color: #172033 !important;
+}
+
+thead {
+  background: #f8fafc !important;
+}
+
+th {
+  color: #64748b !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+td {
+  border-bottom-color: #eef2f7 !important;
+}
+
+/* Lead/company/activity text
+   Override old dark-theme pale text */
+.company,
+.company-name,
+.lead-name,
+.activity-name {
+  color: #172033 !important;
+}
+
+.activity,
+.activity-text,
+.lead-info {
+  color: #475569 !important;
+}
+
+/* Status badges */
+.status.new,
+.status.follow,
+.status.hot,
+.status.warm,
+.status.cold {
+  border-width: 1px;
+}
+
+/* Follow-up */
+.status.follow {
+  color: #b45309 !important;
+  background: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+/* Blue status / badges */
+.status.new,
+.badge.blue,
+.badge-primary {
+  color: #1d4ed8 !important;
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+
+/* Green/success status — keep green only for meaning,
+   not as the main UI theme */
+.status.success,
+.badge.success {
+  color: #15803d !important;
+  background: #f0fdf4 !important;
+  border-color: #bbf7d0 !important;
+}
+
+/* Red status */
+.status.danger,
+.status.lost,
+.badge.danger {
+  color: #b91c1c !important;
+  background: #fef2f2 !important;
+  border-color: #fecaca !important;
+}
+
+/* Hover rows / clickable cards */
+tr:hover,
+.lead-card:hover,
+.list-item:hover,
+.clickable:hover {
+  background: #f8fafc !important;
+}
+
+/* Divider */
+hr {
+  border-color: #e2e8f0 !important;
+}
+
+/* Dropdown / popup / modal */
+.dropdown,
+.dropdown-menu,
+.menu,
+.popover,
+.modal-content {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10) !important;
+}
+
+/* Dropdown items */
+.dropdown-item:hover,
+.menu-item:hover {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Selection */
+::selection {
+  background: rgba(37, 99, 235, 0.15);
+  color: #172033;
+}
+
+</style>
 </head>
 
 
@@ -6935,9 +7396,7 @@ function updateGreeting() {
     text = "Good Afternoon";
   }
 
-  const username = localStorage.getItem("leadflow_username") || "User";
-
-greeting.textContent = `${text}, ${username} 👋`;
+  greeting.textContent = `${text}, Admin 👋`;
 }
 
   </script>

@@ -1,0 +1,296 @@
+---
+const title = "Daftar - LeadFlow CRM";
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080b09;
+      color: #f5fff9;
+      font-family: Arial, sans-serif;
+    }
+
+    .register-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 32px;
+      background: #121815;
+      border: 1px solid #26332c;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .register-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .register-logo h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .register-logo p {
+      color: #9aa8a0;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #344139;
+      border-radius: 10px;
+      background: #0d110f;
+      color: #f5fff9;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #19d874;
+    }
+
+    .register-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #19d874;
+      color: #07110b;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .register-btn:hover {
+      opacity: 0.9;
+    }
+
+    .register-error {
+      display: none;
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 92, 92, 0.12);
+      color: #ff7777;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .register-success {
+      display: none;
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(25, 216, 116, 0.12);
+      color: #19d874;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .login-link {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 13px;
+      color: #9aa8a0;
+    }
+
+    .login-link a {
+      color: #19d874;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="register-card">
+
+    <div class="register-logo">
+      <h1>LeadFlow CRM</h1>
+      <p>Buat akun untuk melanjutkan</p>
+    </div>
+
+    <form id="registerForm">
+
+      <div class="form-group">
+        <label for="registerName">Nama</label>
+        <input
+          id="registerName"
+          type="text"
+          placeholder="Masukkan nama"
+          autocomplete="name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="registerUsername">Username</label>
+        <input
+          id="registerUsername"
+          type="text"
+          placeholder="Buat username"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input
+          id="registerPassword"
+          type="password"
+          placeholder="Buat password"
+          autocomplete="new-password"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="registerConfirmPassword">
+          Konfirmasi Password
+        </label>
+        <input
+          id="registerConfirmPassword"
+          type="password"
+          placeholder="Ulangi password"
+          autocomplete="new-password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="register-btn">
+        Daftar
+      </button>
+
+      <div id="registerError" class="register-error">
+        Terjadi kesalahan.
+      </div>
+
+      <div id="registerSuccess" class="register-success">
+        Pendaftaran berhasil.
+      </div>
+
+    </form>
+
+    <div class="login-link">
+      Sudah punya akun?
+      <a href="/login">Login</a>
+    </div>
+
+  </div>
+
+  <script>
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const registerError =
+      document.getElementById("registerError");
+
+    const registerSuccess =
+      document.getElementById("registerSuccess");
+
+    registerForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const name =
+        document.getElementById("registerName").value.trim();
+
+      const username =
+        document.getElementById("registerUsername").value.trim();
+
+      const password =
+        document.getElementById("registerPassword").value;
+
+      const confirmPassword =
+        document.getElementById("registerConfirmPassword").value;
+
+      registerError.style.display = "none";
+      registerSuccess.style.display = "none";
+
+      if (password !== confirmPassword) {
+        registerError.textContent =
+          "Password dan konfirmasi password tidak sama.";
+
+        registerError.style.display = "block";
+        return;
+      }
+
+      const users =
+        JSON.parse(
+          localStorage.getItem("leadflow_users") || "[]"
+        );
+
+      const usernameExists =
+        users.some(
+          user =>
+            user.username.toLowerCase() ===
+            username.toLowerCase()
+        );
+
+      if (usernameExists) {
+        registerError.textContent =
+          "Username sudah digunakan.";
+
+        registerError.style.display = "block";
+        return;
+      }
+
+      users.push({
+        id: Date.now(),
+        name,
+        username,
+        password,
+        createdAt: new Date().toISOString()
+      });
+
+      localStorage.setItem(
+        "leadflow_users",
+        JSON.stringify(users)
+      );
+
+      registerSuccess.textContent =
+        "Pendaftaran berhasil. Silakan login.";
+
+      registerSuccess.style.display = "block";
+
+      registerForm.reset();
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1200);
+    });
+  </script>
+
+</body>
+</html>

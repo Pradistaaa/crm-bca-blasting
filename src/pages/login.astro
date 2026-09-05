@@ -1,0 +1,232 @@
+---
+const title = "Login - LeadFlow CRM";
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080b09;
+      color: #f5fff9;
+      font-family: Arial, sans-serif;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 32px;
+      background: #121815;
+      border: 1px solid #26332c;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-logo h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .login-logo p {
+      color: #9aa8a0;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #344139;
+      border-radius: 10px;
+      background: #0d110f;
+      color: #f5fff9;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #19d874;
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #19d874;
+      color: #07110b;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      opacity: 0.9;
+    }
+
+    .login-error {
+      display: none;
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 92, 92, 0.12);
+      color: #ff7777;
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-card">
+
+    <div class="login-logo">
+      <h1>LeadFlow CRM</h1>
+      <p>Silakan login untuk melanjutkan</p>
+    </div>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          placeholder="Masukkan username"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Masukkan password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="login-btn">
+        Login
+      </button>
+
+      <div style="
+  margin-top:18px;
+  text-align:center;
+  font-size:13px;
+  color:#9aa8a0;
+">
+  Belum punya akun?
+  <a
+    href="/daftar"
+    style="
+      color:#19d874;
+      text-decoration:none;
+      font-weight:600;
+      margin-left:4px;
+    "
+  >
+    Daftar
+  </a>
+</div>
+
+      <div id="loginError" class="login-error">
+        Username atau password salah.
+      </div>
+
+    </form>
+
+  </div>
+
+  <script>
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginError =
+      document.getElementById("loginError");
+
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const username =
+        document.getElementById("username").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      /*
+       * LOGIN SEMENTARA
+       * Nanti bisa kita ganti dengan
+       * sistem user/database yang sebenarnya.
+       */
+      const users =
+  JSON.parse(
+    localStorage.getItem("leadflow_users") || "[]"
+  );
+
+const registeredUser =
+  users.find(
+    user =>
+      user.username.toLowerCase() ===
+      username.toLowerCase() &&
+      user.password === password
+  );
+
+const isAdmin =
+  username === "admin" &&
+  password === "admin123";
+
+if (registeredUser || isAdmin) {
+
+  localStorage.setItem(
+    "leadflow_logged_in",
+    "true"
+  );
+
+  localStorage.setItem("leadflow_username", username);
+
+  window.location.href = "/";
+  return;
+}
+
+      loginError.style.display = "block";
+    });
+
+  </script>
+
+</body>
+</html>
