@@ -2710,6 +2710,190 @@ td {
   transform: translateY(-1px);
 }
 
+/* =========================================================
+   SETTINGS — PROFIL & AKUN
+   CSS khusus halaman Settings
+   Tidak mengubah halaman CRM lainnya
+   ========================================================= */
+
+#page-settings {
+  max-width: 1100px;
+}
+
+/* Header Settings */
+#page-settings .page-header {
+  margin-bottom: 22px;
+}
+
+#page-settings .page-header h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#page-settings .page-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Card */
+#page-settings .settings-card {
+  width: 100%;
+  max-width: 850px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Card Header */
+#page-settings .settings-card-header {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+#page-settings .settings-card-header h2 {
+  margin: 0 0 5px;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+#page-settings .settings-card-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Form */
+#page-settings .settings-form {
+  padding: 22px;
+}
+
+#page-settings .form-group {
+  margin-bottom: 18px;
+}
+
+#page-settings .form-group:last-of-type {
+  margin-bottom: 4px;
+}
+
+#page-settings .form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+#page-settings .form-group input {
+  width: 100%;
+  height: 42px;
+  padding: 0 13px;
+  box-sizing: border-box;
+
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+#page-settings .form-group input::placeholder {
+  color: #66736b;
+}
+
+#page-settings .form-group input:focus {
+  border-color: var(--green-dark);
+  box-shadow: 0 0 0 2px rgba(25, 216, 116, 0.08);
+}
+
+/* Role tidak bisa diedit */
+#page-settings .form-group input[readonly] {
+  opacity: 0.75;
+  cursor: default;
+}
+
+/* Action */
+#page-settings .settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+/* Tombol Simpan */
+#page-settings #save-profile-settings {
+  height: 38px;
+  padding: 0 17px;
+
+  background: var(--green);
+  color: #06130c;
+
+  border: 0;
+  border-radius: 7px;
+
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+#page-settings #save-profile-settings:hover {
+  background: #22e17b;
+}
+
+#page-settings #save-profile-settings:active {
+  transform: translateY(1px);
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  #page-settings .settings-card {
+    max-width: none;
+  }
+
+  #page-settings .settings-form {
+    padding: 18px;
+  }
+
+  #page-settings .settings-card-header {
+    padding: 18px;
+  }
+
+  #page-settings .settings-actions {
+    justify-content: stretch;
+  }
+
+  #page-settings #save-profile-settings {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   SETTINGS — WHATSAPP
+   ========================================================= */
+
+#page-settings .settings-card {
+  margin-top: 18px;
+}
+
+#page-settings .settings-form {
+  margin-top: 18px;
+}
+
+#setting-default-whatsapp {
+  width: 100%;
+}
+
   </style>
 </head>
 
@@ -2820,7 +3004,12 @@ td {
   <div class="avatar">A</div>
 
   <div>
-    <strong style="font-size:12px">Administrator</strong>
+    <strong
+  id="headerUserName"
+  style="font-size:12px"
+>
+  Administrator
+</strong>
     <p style="font-size:10px;color:#8d9a91">
       Super Admin
     </p>
@@ -3794,12 +3983,92 @@ td {
 
 
       <section class="page" id="page-settings">
-        <div class="empty-page">
-          <div class="empty-icon">⚙</div>
-          <h2>Settings</h2>
-          <p>Pengaturan CRM akan dikembangkan di sini.</p>
+  <div class="page-header">
+    <div>
+      <h1>Settings</h1>
+      <p>Kelola informasi akun dan profil perusahaan.</p>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <div class="settings-card-header">
+      <div>
+        <h2>Profil & Akun</h2>
+        <p>Informasi pengguna yang digunakan di dalam CRM.</p>
+      </div>
+    </div>
+
+    <div class="settings-form">
+
+      <div class="form-group">
+        <label for="setting-user-name">Nama Pengguna</label>
+        <input
+          type="text"
+          id="setting-user-name"
+          placeholder="Masukkan nama pengguna"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="setting-user-role">Role</label>
+        <input
+          type="text"
+          id="setting-user-role"
+          value="Super Admin"
+          readonly
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="setting-company-name">Nama Perusahaan</label>
+        <input
+          type="text"
+          id="setting-company-name"
+          placeholder="Masukkan nama perusahaan"
+        />
+      </div>
+
+      <div class="settings-actions">
+        <button type="button" class="btn-primary" id="save-profile-settings">
+          Simpan Perubahan
+        </button>
+      </div>
+
         </div>
-      </section>
+  </div>
+
+
+  <!-- =====================================================
+       PENGATURAN WHATSAPP
+       ===================================================== -->
+
+  <div class="settings-card">
+
+    <div class="settings-card-header">
+      <div>
+        <h2>Pengaturan WhatsApp</h2>
+        <p>Pengaturan nomor WhatsApp yang digunakan oleh CRM.</p>
+      </div>
+    </div>
+
+    <div class="settings-form">
+
+      <div class="form-group">
+        <label for="setting-default-whatsapp">
+          Nomor WhatsApp Default
+        </label>
+
+        <input
+          type="text"
+          id="setting-default-whatsapp"
+          placeholder="Contoh: 6281234567890"
+        />
+      </div>
+
+    </div>
+  </div>
+
+</section>
 
       <div class="pipeline-detail-modal" id="pipelineDetailModal">
 
@@ -7726,6 +7995,156 @@ function updateGreeting() {
 
 greeting.textContent = `${text}, ${username} 👋`;
 }
+
+/* =====================================================
+   SETTINGS — PROFIL & AKUN
+   ===================================================== */
+
+const settingUserName =
+  document.getElementById("setting-user-name");
+
+const settingUserRole =
+  document.getElementById("setting-user-role");
+
+const settingCompanyName =
+  document.getElementById("setting-company-name");
+
+const saveProfileSettings =
+  document.getElementById("save-profile-settings");
+
+const headerUserName =
+  document.getElementById("headerUserName");
+
+
+function loadProfileSettings() {
+
+  const savedUserName =
+    localStorage.getItem("leadflow_username")
+    || "Administrator";
+
+  const savedCompanyName =
+    localStorage.getItem("leadflow_company_name")
+    || "Berkah Cemerlang Asia";
+
+
+  if (settingUserName) {
+    settingUserName.value =
+      savedUserName;
+  }
+
+  if (settingUserRole) {
+    settingUserRole.value =
+      "Super Admin";
+  }
+
+  if (settingCompanyName) {
+    settingCompanyName.value =
+      savedCompanyName;
+  }
+
+  if (headerUserName) {
+    headerUserName.textContent =
+      savedUserName;
+  }
+
+  updateGreeting();
+}
+
+
+saveProfileSettings?.addEventListener(
+  "click",
+  () => {
+
+    const userName =
+      settingUserName?.value.trim();
+
+    const companyName =
+      settingCompanyName?.value.trim();
+
+
+    if (!userName) {
+      alert(
+        "Nama Pengguna wajib diisi."
+      );
+
+      settingUserName?.focus();
+
+      return;
+    }
+
+
+    if (!companyName) {
+      alert(
+        "Nama Perusahaan wajib diisi."
+      );
+
+      settingCompanyName?.focus();
+
+      return;
+    }
+
+
+    localStorage.setItem(
+      "leadflow_username",
+      userName
+    );
+
+    localStorage.setItem(
+      "leadflow_company_name",
+      companyName
+    );
+
+
+    if (headerUserName) {
+      headerUserName.textContent =
+        userName;
+    }
+
+
+    updateGreeting();
+
+
+    alert(
+      "Profil berhasil disimpan."
+    );
+  }
+);
+
+
+/* LOAD SETTINGS */
+loadProfileSettings();
+
+/* =====================================================
+   SETTINGS — WHATSAPP
+   ===================================================== */
+
+const settingDefaultWhatsapp =
+  document.getElementById("setting-default-whatsapp");
+
+function loadWhatsappSettings() {
+  const savedWhatsapp =
+    localStorage.getItem("leadflow_default_whatsapp") || "";
+
+  if (settingDefaultWhatsapp) {
+    settingDefaultWhatsapp.value = savedWhatsapp;
+  }
+}
+
+settingDefaultWhatsapp?.addEventListener(
+  "change",
+  () => {
+    const whatsappNumber =
+      settingDefaultWhatsapp.value
+        .replace(/\D/g, "");
+
+    localStorage.setItem(
+      "leadflow_default_whatsapp",
+      whatsappNumber
+    );
+  }
+);
+
+loadWhatsappSettings();
 
 const importFileInput =
   document.getElementById("importFileInput");
