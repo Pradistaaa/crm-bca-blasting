@@ -2676,6 +2676,39 @@ td {
   font-weight: 600;
 }
 
+:global(.segment-view-btn),
+:global(.segment-delete-btn) {
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+:global(.segment-view-btn) {
+  border: 1px solid rgba(25,216,116,.25);
+  background: rgba(25,216,116,.08);
+  color: var(--green);
+}
+
+:global(.segment-view-btn:hover) {
+  background: rgba(25,216,116,.16);
+  border-color: rgba(25,216,116,.5);
+  transform: translateY(-1px);
+}
+
+:global(.segment-delete-btn) {
+  border: 1px solid rgba(255,92,92,.22);
+  background: rgba(255,92,92,.06);
+  color: #ff8b8b;
+}
+
+:global(.segment-delete-btn:hover) {
+  background: rgba(255,92,92,.14);
+  border-color: rgba(255,92,92,.48);
+  transform: translateY(-1px);
+}
 
   </style>
 </head>
@@ -3061,7 +3094,7 @@ td {
 
     <div id="leadFilters" style="
   display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
   gap:10px;
   margin-bottom:18px;
 ">
@@ -3073,7 +3106,7 @@ td {
       type="text"
       placeholder="Cari perusahaan, PIC atau WhatsApp..."
     />
-  </div>
+  </div>  
 
   <div class="form-group" style="margin:0;">
     <label>Kategori</label>
@@ -3081,6 +3114,13 @@ td {
       <option value="">Semua Kategori</option>
     </select>
   </div>
+
+  <div class="form-group" style="margin:0;">
+  <label>Kota</label>
+  <select id="leadCityFilter">
+    <option value="">Semua Kota</option>
+  </select>
+</div>
 
   <div class="form-group" style="margin:0;">
     <label>Status</label>
@@ -3330,6 +3370,18 @@ td {
       </div>
     </div>
 
+    <div class="form-group" style="margin:0 0 18px;">
+  <label for="pipelineSearch">
+    Cari lead di Pipeline
+  </label>
+
+  <input
+    id="pipelineSearch"
+    type="search"
+    placeholder="Cari perusahaan, PIC, atau WhatsApp..."
+  />
+</div>
+
     <div class="pipeline-board">
 
       <div class="pipeline-column">
@@ -3481,30 +3533,255 @@ td {
 
 
       <section class="page" id="page-segmen">
-        <div class="empty-page">
-          <div class="empty-icon">▦</div>
-          <h2>Segmen Leads</h2>
-          <p>Kelompokkan database berdasarkan kategori dan status.</p>
-        </div>
-      </section>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Segmen Leads</h3>
+        <p class="section-description">
+          Buat kelompok lead berdasarkan kota, kategori, dan status.
+        </p>
+      </div>
+    </div>
+
+    <div style="
+      display:grid;
+      grid-template-columns:1.4fr 1fr 1fr 1fr auto;
+      gap:10px;
+      align-items:end;
+    ">
+
+      <div class="form-group" style="margin:0;">
+        <label for="segmentNameInput">Nama Segmen</label>
+        <input
+          id="segmentNameInput"
+          type="text"
+          placeholder="Contoh: Hotel Jakarta"
+        />
+      </div>
+
+      <div class="form-group" style="margin:0;">
+        <label for="segmentCityInput">Kota</label>
+        <select id="segmentCityInput">
+          <option value="">Semua Kota</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin:0;">
+        <label for="segmentCategoryInput">Kategori</label>
+        <select id="segmentCategoryInput">
+          <option value="">Semua Kategori</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin:0;">
+        <label for="segmentStatusInput">Status</label>
+        <select id="segmentStatusInput">
+          <option value="">Semua Status</option>
+        </select>
+      </div>
+
+      <button
+        id="createSegmentBtn"
+        type="button"
+        class="green-btn"
+      >
+        + Buat Segmen
+      </button>
+
+    </div>
+
+    <div
+      id="segmentList"
+      style="margin-top:22px;"
+    >
+      <div class="empty-page">
+        <div class="empty-icon">▦</div>
+        <h2>Belum ada Segmen</h2>
+        <p>Buat segmen pertama untuk mengelompokkan lead Anda.</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
 
 
       <section class="page" id="page-import">
-        <div class="empty-page">
-          <div class="empty-icon">↑</div>
-          <h2>Import Data</h2>
-          <p>Import database lead dari file akan dikembangkan di sini.</p>
-        </div>
-      </section>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Import Data Leads</h3>
+        <p class="section-description">
+          Upload file CSV untuk menambahkan lead ke database.
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="importFileInput">
+        Pilih file CSV
+      </label>
+
+      <input
+        id="importFileInput"
+        type="file"
+        accept=".csv,text/csv"
+      />
+
+      <small style="
+        display:block;
+        margin-top:7px;
+        color:var(--muted);
+        font-size:10px;
+      ">
+        Kolom yang didukung: perusahaan, PIC, WhatsApp,
+        kategori, kota, dan status.
+      </small>
+    </div>
+
+    <div
+      id="importStatus"
+      style="
+        display:none;
+        margin-top:16px;
+        padding:11px 12px;
+        border:1px solid var(--border);
+        border-radius:9px;
+        color:var(--muted);
+        font-size:11px;
+      "
+    ></div>
+
+    <div
+      id="importPreview"
+      style="margin-top:18px;"
+    >
+      <div class="empty-page">
+        <div class="empty-icon">↑</div>
+        <h2>Belum ada file dipilih</h2>
+        <p>
+          Pilih file CSV untuk melihat preview data
+          sebelum diimpor.
+        </p>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        id="importLeadsBtn"
+        type="button"
+        class="green-btn"
+        disabled
+        style="opacity:.5; cursor:not-allowed;"
+      >
+        Import 0 Lead
+      </button>
+    </div>
+
+  </div>
+
+</section>
 
 
       <section class="page" id="page-analytics">
-        <div class="empty-page">
-          <div class="empty-icon">◔</div>
-          <h2>Analytics</h2>
-          <p>Statistik performa lead akan ditampilkan di sini.</p>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Analytics</h3>
+        <p class="section-description">
+          Ringkasan performa lead dan pipeline CRM.
+        </p>
+      </div>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <div class="stat-label">Total Lead</div>
+        <div
+          class="stat-value"
+          id="analyticsTotalLeads"
+        >
+          0
         </div>
-      </section>
+        <div class="stat-sub">
+          Semua database lead
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Status New</div>
+        <div
+          class="stat-value"
+          id="analyticsNewLeads"
+        >
+          0
+        </div>
+        <div class="stat-sub">
+          Semua lead yang belum diproses
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Follow-up</div>
+        <div
+          class="stat-value"
+          id="analyticsFollowups"
+        >
+          0
+        </div>
+        <div class="stat-sub">
+          Sedang dalam proses
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Deal</div>
+        <div
+          class="stat-value"
+          id="analyticsDeals"
+        >
+          0
+        </div>
+        <div class="stat-sub">
+          Lead berhasil dikonversi
+        </div>
+      </div>
+
+    </div>
+
+    <div
+      class="card"
+      style="margin-top:18px;"
+    >
+      <div class="card-header">
+        <div>
+          <h3>Status Pipeline</h3>
+          <p class="section-description">
+            Distribusi lead berdasarkan status saat ini.
+          </p>
+        </div>
+      </div>
+
+      <div
+        id="analyticsPipeline"
+        style="
+          display:grid;
+          grid-template-columns:repeat(4, 1fr);
+          gap:12px;
+        "
+      ></div>
+    </div>
+
+  </div>
+
+</section>
 
 
       <section class="page" id="page-team">
@@ -4444,6 +4721,11 @@ function renderActivities() {
           .value
           .trim();
 
+      const city =
+  document
+    .getElementById("cityInput")
+    .value
+    .trim();
 
       const category =
         document
@@ -4673,8 +4955,17 @@ if (whatsappNumber) {
 
 
           if (target) {
-            target.classList.add("active");
-          }
+  target.classList.add("active");
+}
+
+if (pageName === "segmen") {
+  populateSegmentFilters();
+  renderSegments();
+}
+
+if (pageName === "analytics") {
+  renderAnalytics();
+}
 
         }
       );
@@ -4705,6 +4996,9 @@ const leadSearch =
 const leadCategoryFilter =
   document.getElementById("leadCategoryFilter");
 
+const leadCityFilter =
+  document.getElementById("leadCityFilter");  
+
 const leadStatusFilter =
   document.getElementById("leadStatusFilter");
 
@@ -4729,6 +5023,25 @@ function populateLeadFilters() {
       )
       .join("");
 
+  const cities = [
+  ...new Set(
+    leads
+      .map(lead => lead.city)
+      .filter(Boolean)
+  )
+];
+
+leadCityFilter.replaceChildren(
+  new Option("Semua Kota", "")
+);
+
+cities
+  .sort((a, b) => a.localeCompare(b, "id"))
+  .forEach(city => {
+    leadCityFilter.add(
+      new Option(city, city)
+    );
+  });
 
   const statuses = [
     ...new Set(
@@ -4778,6 +5091,9 @@ function applyLeadFilters() {
   const category =
     leadCategoryFilter?.value || "";
 
+  const city =
+  leadCityFilter?.value || "";  
+
   const status =
     leadStatusFilter?.value || "";
 
@@ -4817,6 +5133,9 @@ function applyLeadFilters() {
       !category ||
       lead.category === category;
 
+    const matchCity =
+  !city ||
+  lead.city === city;
 
     const matchStatus =
       !status ||
@@ -4826,6 +5145,7 @@ function applyLeadFilters() {
     if (
       !matchSearch ||
       !matchCategory ||
+      !matchCity ||
       !matchStatus
     ) {
       return;
@@ -4963,6 +5283,11 @@ leadCategoryFilter?.addEventListener(
   applyLeadFilters
 );
 
+leadCityFilter?.addEventListener(
+  "change",
+  applyLeadFilters
+);
+
 
 leadStatusFilter?.addEventListener(
   "change",
@@ -5081,6 +5406,17 @@ function getProspectAddress(result) {
     ""
   );
 
+}
+
+function getProspectCity(result) {
+  return String(
+    result.city ||
+    result.cityName ||
+    result.address?.city ||
+    prospectLocation?.value ||
+    getProspectAddress(result) ||
+    ""
+  ).trim();
 }
 
 
@@ -5395,8 +5731,11 @@ function addProspectToLeads(result, button) {
 
     whatsapp: phone,
 
-    category:
-      getProspectCategory(result),
+city:
+  getProspectCity(result),
+
+category:
+  getProspectCategory(result),
 
     status: "new",
 
@@ -5800,6 +6139,8 @@ document.getElementById(
     total === 0 ? "none" : "table";
 }
 
+const pipelineSearch =
+  document.getElementById("pipelineSearch");
 
 function renderPipeline() {
 
@@ -5823,6 +6164,11 @@ function renderPipeline() {
   ) {
     return;
   }
+
+  const search =
+  (pipelineSearch?.value || "")
+    .toLowerCase()
+    .trim();
 
   pipelineNew.innerHTML = "";
   pipelineContacted.innerHTML = "";
@@ -5918,6 +6264,22 @@ function renderPipeline() {
 
   leads.forEach((lead) => {
 
+  const searchableText = [
+  lead.company,
+  lead.pic,
+  lead.whatsapp
+]
+  .filter(Boolean)
+  .join(" ")
+  .toLowerCase();
+
+if (
+  search &&
+  !searchableText.includes(search)
+) {
+  return;
+}  
+
     let status = lead.status || "new";
 
     if (!columns[status]) {
@@ -5974,6 +6336,11 @@ card.addEventListener("dragend", () => {
   pipelineDealCount.textContent =
     counts.deal;
 }
+
+pipelineSearch?.addEventListener(
+  "input",
+  renderPipeline
+);
 
 renderPipeline();
 renderFollowup();
@@ -6920,6 +7287,426 @@ if (editingId) {
 updateCampaignStats();
 renderCampaigns();
 
+const segmentCityInput =
+  document.getElementById("segmentCityInput");
+
+const segmentCategoryInput =
+  document.getElementById("segmentCategoryInput");
+
+const segmentStatusInput =
+  document.getElementById("segmentStatusInput");
+
+
+function fillSegmentOptions(
+  element,
+  defaultLabel,
+  values,
+  getLabel = value => value
+) {
+  if (!element) return;
+
+  const selectedValue = element.value;
+
+  element.replaceChildren(
+    new Option(defaultLabel, "")
+  );
+
+  values.forEach(value => {
+    element.add(
+      new Option(
+        getLabel(value),
+        value
+      )
+    );
+  });
+
+  if (values.includes(selectedValue)) {
+    element.value = selectedValue;
+  }
+}
+
+
+function populateSegmentFilters() {
+  const cities = [
+    ...new Set(
+      leads
+        .map(lead => lead.city)
+        .filter(Boolean)
+    )
+  ].sort((a, b) =>
+    a.localeCompare(b, "id")
+  );
+
+  const categories = [
+    ...new Set(
+      leads
+        .map(lead => lead.category)
+        .filter(Boolean)
+    )
+  ].sort((a, b) =>
+    a.localeCompare(b, "id")
+  );
+
+  const statuses = [
+    ...new Set(
+      leads
+        .map(lead => lead.status)
+        .filter(Boolean)
+    )
+  ];
+
+  const statusLabels = {
+    new: "New",
+    contacted: "Sudah Dihungi",
+    follow: "Follow-up",
+    meeting: "Meeting",
+    deal: "Deal"
+  };
+
+  fillSegmentOptions(
+    segmentCityInput,
+    "Semua Kota",
+    cities
+  );
+
+  fillSegmentOptions(
+    segmentCategoryInput,
+    "Semua Kategori",
+    categories
+  );
+
+  fillSegmentOptions(
+    segmentStatusInput,
+    "Semua Status",
+    statuses,
+    status => statusLabels[status] || status
+  );
+}
+
+
+populateSegmentFilters();
+
+const SEGMENT_STORAGE_KEY =
+  "leadflow_segments";
+
+const segmentNameInput =
+  document.getElementById("segmentNameInput");
+
+const createSegmentBtn =
+  document.getElementById("createSegmentBtn");
+
+const segmentList =
+  document.getElementById("segmentList");
+
+
+let segments = [];
+
+try {
+  segments = JSON.parse(
+    localStorage.getItem(
+      SEGMENT_STORAGE_KEY
+    ) || "[]"
+  );
+} catch {
+  segments = [];
+}
+
+
+function getSegmentStatusLabel(status) {
+  const labels = {
+    new: "New",
+    contacted: "Sudah Dihubungi",
+    follow: "Follow-up",
+    meeting: "Meeting",
+    deal: "Deal"
+  };
+
+  return labels[status] || status;
+}
+
+
+function getSegmentLeadCount(segment) {
+  return leads.filter(lead => {
+    const matchCity =
+      !segment.city ||
+      lead.city === segment.city;
+
+    const matchCategory =
+      !segment.category ||
+      lead.category === segment.category;
+
+    const matchStatus =
+      !segment.status ||
+      lead.status === segment.status;
+
+    return (
+      matchCity &&
+      matchCategory &&
+      matchStatus
+    );
+  }).length;
+}
+
+
+function renderSegments() {
+  if (!segmentList) return;
+
+  if (segments.length === 0) {
+    segmentList.innerHTML = `
+      <div class="empty-page">
+        <div class="empty-icon">▦</div>
+        <h2>Belum ada Segmen</h2>
+        <p>
+          Buat segmen pertama untuk
+          mengelompokkan lead Anda.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  segmentList.innerHTML = segments
+    .map(segment => {
+      const totalLead =
+        getSegmentLeadCount(segment);
+
+      return `
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:16px;
+          padding:16px;
+          margin-bottom:10px;
+          background:var(--card2);
+          border:1px solid var(--border);
+          border-radius:12px;
+        ">
+
+          <div>
+            <strong style="font-size:13px;">
+              ${escapeHtml(segment.name)}
+            </strong>
+
+            <div style="
+              display:flex;
+              flex-wrap:wrap;
+              gap:7px;
+              margin-top:8px;
+              color:var(--muted);
+              font-size:10px;
+            ">
+              <span>
+                📍 ${escapeHtml(
+                  segment.city || "Semua Kota"
+                )}
+              </span>
+
+              <span>
+                • ${escapeHtml(
+                  segment.category ||
+                  "Semua Kategori"
+                )}
+              </span>
+
+              <span>
+                • ${escapeHtml(
+                  segment.status
+                    ? getSegmentStatusLabel(
+                        segment.status
+                      )
+                    : "Semua Status"
+                )}
+              </span>
+            </div>
+          </div>
+
+          <div style="
+  display:flex;
+  align-items:center;
+  gap:12px;
+">
+
+  <div style="
+    text-align:right;
+    min-width:72px;
+  ">
+    <strong style="
+      display:block;
+      color:var(--green);
+      font-size:20px;
+    ">
+      ${totalLead}
+    </strong>
+
+    <span style="
+      color:var(--muted);
+      font-size:9px;
+    ">
+      Lead
+    </span>
+  </div>
+
+  <button
+  type="button"
+  class="segment-view-btn"
+  data-segment-view="${segment.id}"
+>
+  Lihat Lead
+</button>
+
+  <button
+    type="button"
+    class="segment-delete-btn"
+    data-segment-delete="${segment.id}"
+  >
+    Hapus
+  </button>
+
+</div>
+
+        </div>
+      `;
+    })
+    .join("");
+}
+
+
+createSegmentBtn?.addEventListener(
+  "click",
+  () => {
+    const name =
+      segmentNameInput?.value.trim();
+
+    if (!name) {
+      alert("Nama segmen wajib diisi.");
+      segmentNameInput?.focus();
+      return;
+    }
+
+    const segment = {
+      id: Date.now(),
+      name,
+      city:
+        segmentCityInput?.value || "",
+      category:
+        segmentCategoryInput?.value || "",
+      status:
+        segmentStatusInput?.value || "",
+      createdAt:
+        new Date().toISOString()
+    };
+
+    segments.unshift(segment);
+
+    localStorage.setItem(
+      SEGMENT_STORAGE_KEY,
+      JSON.stringify(segments)
+    );
+
+    segmentNameInput.value = "";
+
+    renderSegments();
+  }
+);
+
+segmentList?.addEventListener(
+  "click",
+  (event) => {
+
+    const viewButton =
+  event.target.closest(
+    "[data-segment-view]"
+  );
+
+if (viewButton) {
+  const segmentId =
+    Number(
+      viewButton.dataset.segmentView
+    );
+
+  const segment =
+    segments.find(
+      item => item.id === segmentId
+    );
+
+  if (!segment) return;
+
+  navItems.forEach(
+    item => item.classList.remove("active")
+  );
+
+  document
+    .querySelector(
+      '.nav-item[data-page="leads"]'
+    )
+    ?.classList.add("active");
+
+  pages.forEach(
+    page => page.classList.remove("active")
+  );
+
+  document
+    .getElementById("page-leads")
+    ?.classList.add("active");
+
+  leadSearch.value = "";
+
+  leadCityFilter.value =
+    segment.city || "";
+
+  leadCategoryFilter.value =
+    segment.category || "";
+
+  leadStatusFilter.value =
+    segment.status || "";
+
+  applyLeadFilters();
+
+  return;
+}
+
+    const deleteButton =
+      event.target.closest(
+        "[data-segment-delete]"
+      );
+
+    if (!deleteButton) return;
+
+    const segmentId =
+      Number(
+        deleteButton.dataset.segmentDelete
+      );
+
+    const segment =
+      segments.find(
+        item => item.id === segmentId
+      );
+
+    if (!segment) return;
+
+    const confirmed = confirm(
+      `Hapus segmen "${segment.name}"?`
+    );
+
+    if (!confirmed) return;
+
+    segments = segments.filter(
+      item => item.id !== segmentId
+    );
+
+    localStorage.setItem(
+      SEGMENT_STORAGE_KEY,
+      JSON.stringify(segments)
+    );
+
+    renderSegments();
+  }
+);
+
+renderSegments();
+
 function updateGreeting() {
   const greeting = document.getElementById("welcomeGreeting");
 
@@ -6939,6 +7726,641 @@ function updateGreeting() {
 
 greeting.textContent = `${text}, ${username} 👋`;
 }
+
+const importFileInput =
+  document.getElementById("importFileInput");
+
+const importStatus =
+  document.getElementById("importStatus");
+
+const importPreview =
+  document.getElementById("importPreview");
+
+const importLeadsBtn =
+  document.getElementById("importLeadsBtn");
+
+let importRows = [];
+
+
+function showImportStatus(message, type = "info") {
+  if (!importStatus) return;
+
+  const colors = {
+    info: {
+      color: "var(--muted)",
+      background: "rgba(255,255,255,.03)"
+    },
+    success: {
+      color: "var(--green)",
+      background: "rgba(25,216,116,.08)"
+    },
+    error: {
+      color: "#ff8b8b",
+      background: "rgba(255,92,92,.08)"
+    }
+  };
+
+  importStatus.textContent = message;
+  importStatus.style.display = "block";
+  importStatus.style.color = colors[type].color;
+  importStatus.style.background = colors[type].background;
+}
+
+
+function normalizeColumnName(value) {
+  return String(value || "")
+    .replace(/^\uFEFF/, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+
+function parseCsvText(text, delimiter) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let insideQuotes = false;
+
+  for (let index = 0; index < text.length; index++) {
+    const character = text[index];
+    const nextCharacter = text[index + 1];
+
+    if (character === '"') {
+      if (
+        insideQuotes &&
+        nextCharacter === '"'
+      ) {
+        cell += '"';
+        index++;
+      } else {
+        insideQuotes = !insideQuotes;
+      }
+
+      continue;
+    }
+
+    if (
+      character === delimiter &&
+      !insideQuotes
+    ) {
+      row.push(cell.trim());
+      cell = "";
+      continue;
+    }
+
+    if (
+      (character === "\n" ||
+        character === "\r") &&
+      !insideQuotes
+    ) {
+      if (
+        character === "\r" &&
+        nextCharacter === "\n"
+      ) {
+        index++;
+      }
+
+      row.push(cell.trim());
+
+      if (
+        row.some(value => value !== "")
+      ) {
+        rows.push(row);
+      }
+
+      row = [];
+      cell = "";
+      continue;
+    }
+
+    cell += character;
+  }
+
+  row.push(cell.trim());
+
+  if (row.some(value => value !== "")) {
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+
+function getImportValue(row, aliases) {
+  for (const alias of aliases) {
+    if (row[alias]) {
+      return row[alias].trim();
+    }
+  }
+
+  return "";
+}
+
+
+function renderImportPreview(rows) {
+  if (!importPreview) return;
+
+  if (rows.length === 0) {
+    importPreview.innerHTML = `
+      <div class="empty-page">
+        <div class="empty-icon">!</div>
+        <h2>Data tidak ditemukan</h2>
+        <p>
+          Pastikan CSV memiliki kolom perusahaan.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  const previewRows = rows.slice(0, 5);
+
+  importPreview.innerHTML = `
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+    ">
+      <strong style="font-size:12px;">
+        Preview Data
+      </strong>
+
+      <span style="
+        color:var(--muted);
+        font-size:10px;
+      ">
+        Menampilkan ${previewRows.length}
+        dari ${rows.length} lead
+      </span>
+    </div>
+
+    <div style="
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    ">
+      ${previewRows.map(row => `
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          gap:14px;
+          align-items:center;
+          padding:12px;
+          border:1px solid var(--border);
+          border-radius:10px;
+          background:var(--card2);
+        ">
+          <div>
+            <strong style="
+              display:block;
+              font-size:11px;
+            ">
+              ${escapeHtml(row.company)}
+            </strong>
+
+            <span style="
+              display:block;
+              margin-top:4px;
+              color:var(--muted);
+              font-size:9px;
+            ">
+              ${escapeHtml(
+                row.pic || "Tanpa PIC"
+              )}
+              •
+              ${escapeHtml(
+                row.category || "Tanpa kategori"
+              )}
+            </span>
+          </div>
+
+          <span style="
+            color:var(--green);
+            font-size:10px;
+          ">
+            ${escapeHtml(
+              row.whatsapp || "Tanpa WhatsApp"
+            )}
+          </span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+
+importFileInput?.addEventListener(
+  "change",
+  async () => {
+    const file = importFileInput.files?.[0];
+
+    importRows = [];
+
+    importLeadsBtn.disabled = true;
+    importLeadsBtn.style.opacity = ".5";
+    importLeadsBtn.style.cursor = "not-allowed";
+    importLeadsBtn.textContent = "Import 0 Lead";
+
+    if (!file) return;
+
+    if (
+      !file.name.toLowerCase().endsWith(".csv")
+    ) {
+      showImportStatus(
+        "Gunakan file berformat CSV.",
+        "error"
+      );
+
+      return;
+    }
+
+    try {
+      const text = await file.text();
+
+      const firstLine =
+        text.split(/\r?\n/)[0] || "";
+
+      const delimiter =
+        firstLine.split(";").length >
+        firstLine.split(",").length
+          ? ";"
+          : ",";
+
+      const csvRows =
+        parseCsvText(text, delimiter);
+
+      if (csvRows.length < 2) {
+        showImportStatus(
+          "CSV harus memiliki header dan minimal satu baris data.",
+          "error"
+        );
+
+        renderImportPreview([]);
+        return;
+      }
+
+      const headers = csvRows[0].map(
+        normalizeColumnName
+      );
+
+      const rawRows = csvRows.slice(1);
+
+      importRows = rawRows
+        .map(values => {
+          const row = {};
+
+          headers.forEach(
+            (header, index) => {
+              row[header] =
+                values[index] || "";
+            }
+          );
+
+          return {
+            company: getImportValue(row, [
+              "perusahaan",
+              "nama perusahaan",
+              "company",
+              "name"
+            ]),
+            pic: getImportValue(row, [
+              "pic",
+              "nama pic",
+              "contact person",
+              "contact",
+              "kontak"
+            ]),
+            whatsapp: getImportValue(row, [
+              "whatsapp",
+              "wa",
+              "nomor whatsapp",
+              "no wa",
+              "phone",
+              "phone number"
+            ]),
+            category: getImportValue(row, [
+              "kategori",
+              "category"
+            ]),
+            city: getImportValue(row, [
+              "kota",
+              "city",
+              "lokasi",
+              "location"
+            ]),
+            status: getImportValue(row, [
+              "status"
+            ])
+          };
+        })
+        .filter(row => row.company);
+
+      renderImportPreview(importRows);
+
+      if (importRows.length === 0) {
+        showImportStatus(
+          "Tidak ada data dengan kolom perusahaan yang valid.",
+          "error"
+        );
+
+        return;
+      }
+
+      showImportStatus(
+        `${importRows.length} lead siap dipreview. Data belum diimpor.`,
+        "success"
+      );
+
+      importLeadsBtn.textContent =
+  `Import ${importRows.length} Lead`;
+
+importLeadsBtn.disabled = false;
+importLeadsBtn.style.opacity = "1";
+importLeadsBtn.style.cursor = "pointer";
+
+    } catch (error) {
+      console.error(error);
+
+      showImportStatus(
+        "File tidak dapat dibaca. Coba gunakan CSV lain.",
+        "error"
+      );
+    }
+  }
+);
+
+function normalizeImportedStatus(status) {
+  const value =
+    normalizeColumnName(status);
+
+  const statusMap = {
+  new: "new",
+  baru: "new",
+  contacted: "contacted",
+  contact: "contacted",
+  "sudah dihubungi": "contacted",
+  follow: "follow",
+  "follow up": "follow",
+  followup: "follow",
+  meeting: "meeting",
+  deal: "deal"
+};
+
+  return statusMap[value] || "new";
+}
+
+
+function sanitizeImportedText(value) {
+  return String(value || "")
+    .replace(/[<>]/g, "")
+    .trim();
+}
+
+
+importLeadsBtn?.addEventListener(
+  "click",
+  () => {
+    if (importRows.length === 0) {
+      showImportStatus(
+        "Pilih file CSV terlebih dahulu.",
+        "error"
+      );
+
+      return;
+    }
+
+    const existingCompanies =
+      new Set(
+        leads.map(lead =>
+          String(lead.company || "")
+            .trim()
+            .toLowerCase()
+        )
+      );
+
+    const importedCompanies = new Set();
+
+    const validRows = importRows.filter(row => {
+      const company =
+        sanitizeImportedText(row.company);
+
+      const companyKey =
+        company.toLowerCase();
+
+      if (
+        !company ||
+        existingCompanies.has(companyKey) ||
+        importedCompanies.has(companyKey)
+      ) {
+        return false;
+      }
+
+      importedCompanies.add(companyKey);
+
+      return true;
+    });
+
+    const skippedCount =
+      importRows.length - validRows.length;
+
+    if (validRows.length === 0) {
+      showImportStatus(
+        "Semua data sudah ada atau nama perusahaan kosong.",
+        "error"
+      );
+
+      return;
+    }
+
+    const confirmed = confirm(
+      `Import ${validRows.length} lead ke Database Leads?` +
+      (
+        skippedCount > 0
+          ? `\\n\\n${skippedCount} data duplikat akan dilewati.`
+          : ""
+      )
+    );
+
+    if (!confirmed) return;
+
+    const importedLeads =
+      validRows.map((row, index) => ({
+        id: Date.now() + index,
+        company:
+          sanitizeImportedText(row.company),
+        pic:
+          sanitizeImportedText(row.pic),
+        whatsapp:
+          sanitizeImportedText(row.whatsapp),
+        category:
+          sanitizeImportedText(
+            row.category
+          ) || "Other",
+        city:
+          sanitizeImportedText(row.city),
+        status:
+          normalizeImportedStatus(row.status),
+        createdAt:
+          new Date()
+            .toISOString()
+            .slice(0, 10)
+      }));
+
+    leads.unshift(...importedLeads);
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(leads)
+    );
+
+    render();
+    populateLeadFilters();
+    populateSegmentFilters();
+    renderSegments();
+    renderPipeline();
+    renderFollowup();
+
+    importRows = [];
+
+    importFileInput.value = "";
+
+    importLeadsBtn.disabled = true;
+    importLeadsBtn.style.opacity = ".5";
+    importLeadsBtn.style.cursor = "not-allowed";
+    importLeadsBtn.textContent = "Import 0 Lead";
+
+    renderImportPreview([]);
+
+    showImportStatus(
+      `${importedLeads.length} lead berhasil diimpor.` +
+      (
+        skippedCount > 0
+          ? ` ${skippedCount} data duplikat dilewati.`
+          : ""
+      ),
+      "success"
+    );
+  }
+);
+
+function renderAnalytics() {
+  const totalLeads = leads.length;
+
+  const newLeads =
+    leads.filter(
+      lead => lead.status === "new"
+    ).length;
+
+  const followups =
+    leads.filter(
+      lead => lead.status === "follow"
+    ).length;
+
+  const deals =
+    leads.filter(
+      lead => lead.status === "deal"
+    ).length;
+
+  document.getElementById(
+    "analyticsTotalLeads"
+  ).textContent = totalLeads;
+
+  document.getElementById(
+    "analyticsNewLeads"
+  ).textContent = newLeads;
+
+  document.getElementById(
+    "analyticsFollowups"
+  ).textContent = followups;
+
+  document.getElementById(
+    "analyticsDeals"
+  ).textContent = deals;
+
+  const analyticsPipeline =
+    document.getElementById(
+      "analyticsPipeline"
+    );
+
+  if (!analyticsPipeline) return;
+
+  const pipelineStatuses = [
+    {
+      key: "new",
+      label: "New",
+      color: "#19d874"
+    },
+    {
+      key: "contacted",
+      label: "Sudah Dihubungi",
+      color: "#6ea8ff"
+    },
+    {
+      key: "follow",
+      label: "Follow-up",
+      color: "#ffb020"
+    },
+    {
+      key: "meeting",
+      label: "Meeting",
+      color: "#b78cff"
+    },
+    {
+      key: "deal",
+      label: "Deal",
+      color: "#19d874"
+    }
+  ];
+
+  analyticsPipeline.innerHTML =
+    pipelineStatuses
+      .map(status => {
+        const total =
+          leads.filter(
+            lead =>
+              lead.status === status.key
+          ).length;
+
+        return `
+          <div style="
+            padding:14px;
+            border:1px solid var(--border);
+            border-radius:11px;
+            background:var(--card2);
+          ">
+            <span style="
+              display:block;
+              color:${status.color};
+              font-size:10px;
+            ">
+              ${status.label}
+            </span>
+
+            <strong style="
+              display:block;
+              margin-top:7px;
+              font-size:22px;
+            ">
+              ${total}
+            </strong>
+
+            <small style="
+              color:var(--muted);
+              font-size:9px;
+            ">
+              Lead
+            </small>
+          </div>
+        `;
+      })
+      .join("");
+}
+
+
+renderAnalytics();
 
   </script>
 
