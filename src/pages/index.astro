@@ -902,8 +902,13 @@
 
 @media(max-width:768px) {
   .pipeline-board {
-    grid-template-columns: repeat(4, 220px);
-    overflow-x: auto;
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+  }
+
+  .pipeline-column {
+    min-width: 0;
+    width: 100%;
   }
 }
 
@@ -2894,6 +2899,215 @@ td {
   width: 100%;
 }
 
+/* =====================================================
+   MOBILE SIDEBAR MENU
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+  .sidebar.mobile-open {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+  .mobile-menu {
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+}
+
+/* =========================================================
+   SEGMENT — MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .segment-create-form {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .segment-create-form .form-group {
+    width: 100%;
+  }
+
+  .segment-create-form input,
+  .segment-create-form select {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .segment-create-form #createSegmentBtn {
+    width: 100%;
+    min-height: 42px;
+  }
+
+}
+
+/* =========================================================
+   DATABASE LEADS — MOBILE FILTER
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .database-lead-filters {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .database-lead-filters .form-group {
+    width: 100%;
+  }
+
+  .database-lead-filters input,
+  .database-lead-filters select {
+    width: 100%;
+    min-height: 42px;
+  }
+
+}
+
+/* =========================================================
+   DATABASE LEADS — MOBILE CARD
+   Desktop tidak berubah
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  /* Hilangkan perilaku tabel melebar */
+  :global(#page-leads .table-wrap) {
+    overflow-x: visible !important;
+  }
+
+  :global(#page-leads table) {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Header tabel tidak diperlukan di mobile */
+  :global(#page-leads thead) {
+    display: none;
+  }
+
+  :global(#page-leads tbody) {
+    display: block;
+    width: 100%;
+  }
+
+  /* Setiap lead menjadi card */
+  :global(#page-leads #allLeadsTable tr) {
+    display: block !important;
+    width: 100% !important;
+
+    margin-bottom: 12px;
+    padding: 14px !important;
+
+    background: #121a15;
+    border: 1px solid #24372c !important;
+    border-radius: 12px;
+
+    box-sizing: border-box;
+  }
+
+  /* Semua cell menjadi blok */
+  :global(#page-leads #allLeadsTable td) {
+    display: flex !important;
+    align-items: center;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+
+    padding: 6px 0 !important;
+
+    border: 0 !important;
+    white-space: normal !important;
+
+    box-sizing: border-box;
+  }
+
+  /* Label setiap data */
+  :global(#page-leads #allLeadsTable td::before) {
+    width: 78px;
+    min-width: 78px;
+
+    color: #718078;
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  :global(#page-leads #allLeadsTable td:nth-child(1)::before) {
+    content: "Perusahaan";
+  }
+
+  :global(#page-leads #allLeadsTable td:nth-child(2)::before) {
+    content: "PIC";
+  }
+
+  :global(#page-leads #allLeadsTable td:nth-child(3)::before) {
+    content: "WhatsApp";
+  }
+
+  :global(#page-leads #allLeadsTable td:nth-child(4)::before) {
+    content: "Kategori";
+  }
+
+  :global(#page-leads #allLeadsTable td:nth-child(5)::before) {
+    content: "Status";
+  }
+
+  :global(#page-leads #allLeadsTable td:nth-child(6)::before) {
+    content: "Aksi";
+  }
+
+  /* Perusahaan */
+  :global(#page-leads #allLeadsTable .company) {
+    min-width: 0 !important;
+    width: auto !important;
+    flex: 1;
+  }
+
+  :global(#page-leads #allLeadsTable .company-info) {
+    min-width: 0 !important;
+  }
+
+  :global(#page-leads #allLeadsTable .company-info strong) {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+
+    font-size: 12px !important;
+  }
+
+  /* WhatsApp lebih mudah disentuh */
+  :global(#page-leads #allLeadsTable .whatsapp-link) {
+    min-height: 38px;
+
+    padding: 8px 12px !important;
+
+    font-size: 10px !important;
+  }
+
+  /* Tombol hapus */
+  :global(#page-leads #allLeadsTable .delete-btn) {
+    min-height: 38px;
+
+    padding: 8px 14px !important;
+
+    font-size: 10px !important;
+  }
+
+}
+
   </style>
 </head>
 
@@ -3281,7 +3495,7 @@ td {
 
     </div>
 
-    <div id="leadFilters" style="
+   <div id="leadFilters" class="database-lead-filters" style="
   display:grid;
   grid-template-columns:1.5fr 1fr 1fr 1fr;
   gap:10px;
@@ -3734,12 +3948,12 @@ td {
       </div>
     </div>
 
-    <div style="
-      display:grid;
-      grid-template-columns:1.4fr 1fr 1fr 1fr auto;
-      gap:10px;
-      align-items:end;
-    ">
+    <div class="segment-create-form" style="
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr auto;
+  gap:10px;
+  align-items:end;
+">
 
       <div class="form-group" style="margin:0;">
         <label for="segmentNameInput">Nama Segmen</label>
@@ -5180,6 +5394,23 @@ if (whatsappNumber) {
   }
 );
 
+/* =====================================================
+   MOBILE MENU
+   ===================================================== */
+
+const mobileMenu =
+  document.querySelector(".mobile-menu");
+
+const sidebar =
+  document.querySelector(".sidebar");
+
+mobileMenu?.addEventListener(
+  "click",
+  () => {
+    sidebar?.classList.toggle("mobile-open");
+  }
+);
+
     /* SIDEBAR NAVIGATION */
 
     const navItems =
@@ -5203,6 +5434,10 @@ if (whatsappNumber) {
           const pageName =
             item.dataset.page;
 
+          const sidebar =
+  document.querySelector(".sidebar");
+
+sidebar?.classList.remove("mobile-open");
 
           navItems.forEach(
             nav => nav.classList.remove("active")
