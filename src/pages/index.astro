@@ -40,6 +40,24 @@
       --red: #ff5c5c;
     }
 
+    /* LIGHT THEME — fondasi warna */
+body.light-theme {
+  --bg: #f4f7fc;
+  --sidebar: #ffffff;
+  --card: #ffffff;
+  --card2: #f8fafc;
+  --border: #e2e8f0;
+
+  --green: #2563eb;
+  --green-dark: #1d4ed8;
+  --blue: #2563eb;
+  --yellow: #d97706;
+  --red: #dc2626;
+
+  --text: #0f172a;
+  --muted: #64748b;
+}
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -3108,6 +3126,225 @@ td {
 
 }
 
+/* LIGHT THEME — struktur utama */
+body.light-theme .sidebar {
+  background: var(--sidebar);
+  border-color: var(--border);
+}
+
+body.light-theme .nav-item {
+  color: #475569;
+}
+
+body.light-theme .nav-item:hover,
+body.light-theme .nav-item.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+body.light-theme .badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+body.light-theme .logo-icon {
+  background: linear-gradient(135deg, #60a5fa, #2563eb);
+  color: #ffffff;
+}
+
+body.light-theme .avatar {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #2563eb;
+}
+
+body.light-theme .green-btn,
+body.light-theme .btn-primary {
+  color: #ffffff !important;
+}
+
+/* LIGHT THEME — kontras data dashboard */
+:global(body.light-theme #leadsTable td) {
+  border-color: var(--border) !important;
+}
+
+:global(body.light-theme #leadsTable .company-logo) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+:global(body.light-theme #leadsTable .company-info strong) {
+  color: var(--text) !important;
+}
+
+:global(body.light-theme #leadsTable .pic-name),
+:global(body.light-theme #leadsTable .category-text) {
+  color: var(--muted) !important;
+}
+
+:global(body.light-theme #leadsTable .whatsapp-link),
+:global(body.light-theme #leadsTable .whatsapp-link:visited),
+:global(body.light-theme #leadsTable .whatsapp-link:hover),
+:global(body.light-theme #leadsTable .whatsapp-link:active) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+:global(body.light-theme .activity-icon) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+:global(body.light-theme .activity h4) {
+  color: var(--text) !important;
+}
+
+:global(body.light-theme .activity p),
+:global(body.light-theme .activity-time) {
+  color: var(--muted) !important;
+}
+
+/* LIGHT THEME — Database Leads */
+:global(body.light-theme #allLeadsTable tr),
+:global(body.light-theme #allLeadsTable td) {
+  border-color: var(--border) !important;
+}
+
+:global(body.light-theme #allLeadsTable .company-logo) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+:global(body.light-theme #allLeadsTable .company-info strong) {
+  color: var(--text) !important;
+}
+
+:global(body.light-theme #allLeadsTable .pic-name),
+:global(body.light-theme #allLeadsTable .category-text) {
+  color: var(--muted) !important;
+}
+
+:global(body.light-theme #allLeadsTable .whatsapp-link),
+:global(body.light-theme #allLeadsTable .whatsapp-link:visited),
+:global(body.light-theme #allLeadsTable .whatsapp-link:hover),
+:global(body.light-theme #allLeadsTable .whatsapp-link:active) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+/* LIGHT THEME — Pipeline CRM */
+:global(body.light-theme .pipeline-column) {
+  background: #f8fafc !important;
+  border-color: var(--border) !important;
+}
+
+:global(body.light-theme .pipeline-column-header) {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+:global(body.light-theme .pipeline-card) {
+  background: #ffffff !important;
+  border-color: var(--border) !important;
+}
+
+:global(body.light-theme .pipeline-card:hover) {
+  border-color: #93c5fd !important;
+}
+
+:global(body.light-theme .pipeline-card-company) {
+  color: var(--text) !important;
+}
+
+:global(body.light-theme .pipeline-card-pic),
+:global(body.light-theme .pipeline-card-category) {
+  color: var(--muted) !important;
+}
+
+:global(body.light-theme .pipeline-card-category) {
+  background: #eff6ff !important;
+}
+
+/* LIGHT THEME — Cari Prospek */
+body.light-theme #page-prospek .form-group input {
+  background: #ffffff;
+  border-color: var(--border);
+  color: var(--text) !important;
+}
+
+body.light-theme #page-prospek .form-group input::placeholder {
+  color: #94a3b8;
+}
+
+:global(body.light-theme .prospect-result) {
+  background: #ffffff !important;
+  border-color: var(--border) !important;
+}
+
+:global(body.light-theme .prospect-result strong) {
+  color: var(--text) !important;
+}
+
+:global(body.light-theme .prospect-result .company-logo) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+/* LIGHT THEME — Follow-up */
+:global(body.light-theme #page-followup table tr),
+:global(body.light-theme #page-followup table td) {
+  border-color: var(--border) !important;
+}
+
+:global(body.light-theme #page-followup .company-logo) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+:global(body.light-theme #page-followup .company-info strong),
+:global(body.light-theme #followupTable td:first-child strong) {
+  color: var(--text) !important;
+}
+
+:global(body.light-theme #page-followup .pic-name),
+:global(body.light-theme #page-followup .category-text) {
+  color: var(--muted) !important;
+}
+
+:global(body.light-theme #page-followup .whatsapp-link),
+:global(body.light-theme #page-followup .whatsapp-link:visited),
+:global(body.light-theme #page-followup .whatsapp-link:hover),
+:global(body.light-theme #page-followup .whatsapp-link:active) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+:global(body.light-theme #page-followup .followup-action-btn) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+/* LIGHT THEME — pilihan tema di Settings */
+body.light-theme #themeSelect {
+  background: #ffffff;
+  border-color: var(--border);
+  color: var(--text) !important;
+}
+
+body.light-theme #themeSelect option {
+  background: #ffffff;
+  color: var(--text);
+}
+
   </style>
 </head>
 
@@ -3354,77 +3591,6 @@ td {
 
     <!-- RIGHT -->
     <section class="dashboard-right">
-
-      <!-- QUICK ACTIONS -->
-      <div class="card">
-
-        <div class="card-header">
-          <div>
-            <h3>Quick Actions</h3>
-            <p class="section-description">
-              Aksi cepat CRM
-            </p>
-          </div>
-        </div>
-
-
-        <div class="action-grid">
-
-          <button
-            class="action-btn"
-            id="addLeadBtn"
-            type="button"
-          >
-            <span>＋</span>
-            <strong>Tambah Lead</strong>
-            <small>
-              Tambahkan prospek baru
-            </small>
-          </button>
-
-
-          <button
-            class="action-btn"
-            id="importBtn"
-            type="button"
-          >
-            <span>↑</span>
-            <strong>Import Leads</strong>
-            <small>
-              Masukkan database lead
-            </small>
-          </button>
-
-
-          <button
-            class="action-btn"
-            id="followupAction"
-            type="button"
-          >
-            <span>◷</span>
-            <strong>Follow-up</strong>
-            <small>
-              Lihat lead yang perlu dihubungi
-            </small>
-          </button>
-
-
-          <button
-            class="action-btn"
-            id="pipelineAction"
-            type="button"
-          >
-            <span>◫</span>
-            <strong>Pipeline</strong>
-            <small>
-              Lihat perkembangan lead
-            </small>
-          </button>
-
-        </div>
-
-      </div>
-
 
       <!-- ACTIVITY -->
       <div class="card activity-card">
@@ -4279,6 +4445,26 @@ td {
         />
       </div>
 
+    </div>
+  </div>
+
+    <div class="settings-card">
+    <div class="settings-card-header">
+      <div>
+        <h2>Tampilan</h2>
+        <p>Pilih tema warna untuk dashboard CRM.</p>
+      </div>
+    </div>
+
+    <div class="settings-form">
+      <div class="form-group">
+        <label for="themeSelect">Tema</label>
+
+        <select id="themeSelect">
+          <option value="dark">Gelap</option>
+          <option value="light">Terang</option>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -5143,7 +5329,7 @@ function renderActivities() {
 
     document
       .getElementById("addLeadBtn")
-      .addEventListener("click", openModal);
+      ?.addEventListener("click", openModal);
 
 
     document
@@ -5476,11 +5662,12 @@ if (pageName === "analytics") {
 
     });
 
+
     /* IMPORT BUTTON SEMENTARA */
 
     document
-      .getElementById("importBtn")
-      .addEventListener(
+  .getElementById("importBtn")
+  ?.addEventListener(
         "click",
         () => {
 
@@ -8379,6 +8566,36 @@ settingDefaultWhatsapp?.addEventListener(
 );
 
 loadWhatsappSettings();
+
+const themeSelect =
+  document.getElementById("themeSelect");
+
+function applyTheme(theme) {
+  document.body.classList.toggle(
+    "light-theme",
+    theme === "light"
+  );
+}
+
+const savedTheme =
+  localStorage.getItem("leadflow_theme") || "dark";
+
+applyTheme(savedTheme);
+
+if (themeSelect) {
+  themeSelect.value = savedTheme;
+}
+
+themeSelect?.addEventListener("change", () => {
+  const selectedTheme = themeSelect.value;
+
+  applyTheme(selectedTheme);
+
+  localStorage.setItem(
+    "leadflow_theme",
+    selectedTheme
+  );
+});
 
 const importFileInput =
   document.getElementById("importFileInput");
