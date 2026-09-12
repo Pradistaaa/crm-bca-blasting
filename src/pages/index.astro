@@ -5546,13 +5546,22 @@ const campaignMessage =
 if (whatsappNumber) {
   event.preventDefault();
 
-  const whatsappUrl =
+  const number = String(whatsappNumber)
+    .replace(/\D/g, "")
+    .replace(/^0/, "62");
+
+  const whatsappUrl = new URL(
+    "https://api.whatsapp.com/send"
+  );
+
+  whatsappUrl.searchParams.set("phone", number);
+  whatsappUrl.searchParams.set(
+    "text",
     campaignMessage
-      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(campaignMessage)}`
-      : `https://wa.me/${whatsappNumber}`;
+  );
 
   window.open(
-    whatsappUrl,
+    whatsappUrl.toString(),
     "_blank",
     "noopener,noreferrer"
   );
