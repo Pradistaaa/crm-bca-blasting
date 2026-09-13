@@ -3345,6 +3345,207 @@ body.light-theme #themeSelect option {
   color: var(--text);
 }
 
+:global(#page-followup .followup-stage-select) {
+  width: 100%;
+  min-width: 145px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  outline: none;
+  cursor: pointer;
+  background: var(--card2);
+  color: var(--text);
+  font-size: 10px;
+}
+
+:global(#page-followup .followup-stage-select:focus) {
+  border-color: var(--green);
+}
+
+:global(.ai-chat-launcher) {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10001;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #001b0c;
+  background: var(--green);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .32);
+  font-size: 24px;
+}
+
+:global(.ai-chat-launcher:hover) {
+  transform: translateY(-2px);
+}
+
+:global(.ai-chat-panel) {
+  position: fixed;
+  right: 24px;
+  bottom: 92px;
+  z-index: 10001;
+  display: none;
+  width: min(390px, calc(100vw - 32px));
+  height: min(570px, calc(100vh - 125px));
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, .42);
+}
+
+:global(.ai-chat-panel.show) {
+  display: flex;
+  flex-direction: column;
+}
+
+:global(.ai-chat-header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+}
+
+:global(.ai-chat-header strong) {
+  display: block;
+  font-size: 14px;
+}
+
+:global(.ai-chat-header small) {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  opacity: .86;
+}
+
+:global(.ai-chat-close) {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background: transparent;
+  font-size: 20px;
+}
+
+:global(.ai-chat-messages) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+:global(.ai-chat-message) {
+  max-width: 88%;
+  padding: 10px 12px;
+  border-radius: 13px;
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+:global(.ai-chat-message.assistant) {
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--card2);
+  border-bottom-left-radius: 4px;
+}
+
+:global(.ai-chat-message.user) {
+  align-self: flex-end;
+  color: #fff;
+  background: var(--green-dark);
+  border-bottom-right-radius: 4px;
+}
+
+:global(.ai-chat-quick-actions) {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 0 16px 12px;
+}
+
+:global(.ai-chat-quick-actions button) {
+  flex: 0 0 auto;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  cursor: pointer;
+  color: var(--muted);
+  background: var(--card2);
+  font-size: 10px;
+}
+
+:global(.ai-chat-quick-actions button:hover) {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+:global(.ai-chat-form) {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+
+:global(.ai-chat-input) {
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  color: var(--text);
+  background: var(--card2);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+:global(.ai-chat-input:focus) {
+  border-color: var(--green);
+}
+
+:global(.ai-chat-send) {
+  align-self: flex-end;
+  padding: 10px 13px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #001b0c;
+  background: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+:global(.ai-chat-send:disabled) {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+@media (max-width: 768px) {
+  :global(.ai-chat-launcher) {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  :global(.ai-chat-panel) {
+    right: 16px;
+    bottom: 82px;
+  }
+}
+
   </style>
 </head>
 
@@ -3895,7 +4096,7 @@ body.light-theme #themeSelect option {
     <th>PIC</th>
     <th>WhatsApp</th>
     <th>Kategori</th>
-    <th>Status</th>
+    <th>Tahapan</th>
     <th>Aksi</th>
   </tr>
 </thead>
@@ -4849,6 +5050,31 @@ Apakah kami boleh mengirimkan informasi lengkapnya?"
 
 <script>
 
+  document.addEventListener("change", (event) => {
+  const stageSelect = event.target.closest(
+    "[data-followup-stage]"
+  );
+
+  if (!stageSelect) return;
+
+  const leadId = Number(
+    stageSelect.dataset.followupStage
+  );
+
+  const lead = leads.find(
+    item => Number(item.id) === leadId
+  );
+
+  if (!lead) return;
+
+  lead.stage = stageSelect.value;
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(leads)
+  );
+});
+
   const logoutBtn =
   document.getElementById("logoutBtn");
 
@@ -5422,7 +5648,9 @@ function renderActivities() {
 
         status,
 
-        createdAt:
+stage: "",
+
+createdAt:
           new Date()
             .toISOString()
             .slice(0, 10)
@@ -6658,6 +6886,27 @@ campaignModal?.addEventListener(
 
 let activePipelineLead = null;   
 
+const FOLLOWUP_STAGES = [
+  { value: "", label: "Pilih Tahapan" },
+  { value: "quotation", label: "Quotations" },
+  { value: "invoice", label: "Invoice" },
+  { value: "penagihan", label: "Penagihan" },
+  { value: "progressing", label: "Progressing" },
+  { value: "negotiation", label: "Negotiation" },
+  { value: "technical-poc", label: "Technical / POC" }
+];
+
+function getFollowupStageOptions(selectedStage = "") {
+  return FOLLOWUP_STAGES.map(stage => `
+    <option
+      value="${stage.value}"
+      ${stage.value === selectedStage ? "selected" : ""}
+    >
+      ${stage.label}
+    </option>
+  `).join("");
+}
+
 function renderFollowup() {
 
   document.addEventListener("click", (event) => {
@@ -6680,6 +6929,31 @@ function renderFollowup() {
   if (!lead) {
     return;
   }
+
+  const followupTable =
+  document.getElementById("followupTable");
+
+followupTable?.addEventListener("change", (event) => {
+  const stageSelect =
+    event.target.closest("[data-followup-stage]");
+
+  if (!stageSelect) return;
+
+  const leadId =
+    Number(stageSelect.dataset.followupStage);
+
+  const lead =
+    leads.find(item => Number(item.id) === leadId);
+
+  if (!lead) return;
+
+  lead.stage = stageSelect.value;
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(leads)
+  );
+});
 
   activePipelineLead = lead;
 
@@ -6800,10 +7074,13 @@ document.getElementById(
   </td>
 
   <td>
-    <span class="status status-follow">
-      Follow-up
-    </span>
-  </td>
+  <select
+    class="followup-stage-select"
+    data-followup-stage="${lead.id}"
+  >
+    ${getFollowupStageOptions(lead.stage || "")}
+  </select>
+</td>
 
   <td class="followup-action-cell">
     <button
@@ -9241,7 +9518,248 @@ function renderAnalytics() {
 
 renderAnalytics();
 
+const aiChatLauncher =
+  document.getElementById("aiChatLauncher");
+
+const aiChatPanel =
+  document.getElementById("aiChatPanel");
+
+const aiChatClose =
+  document.getElementById("aiChatClose");
+
+const aiChatMessages =
+  document.getElementById("aiChatMessages");
+
+const aiChatForm =
+  document.getElementById("aiChatForm");
+
+const aiChatInput =
+  document.getElementById("aiChatInput");
+
+const aiChatSend =
+  document.getElementById("aiChatSend");
+
+const aiChatHistory = [];
+
+function addAiChatMessage(role, content) {
+  const message = document.createElement("div");
+
+  message.className =
+    `ai-chat-message ${role}`;
+
+  message.textContent = content;
+
+  aiChatMessages?.appendChild(message);
+
+  aiChatMessages.scrollTop =
+    aiChatMessages.scrollHeight;
+
+  return message;
+}
+
+function openAiChat() {
+  aiChatPanel?.classList.add("show");
+
+  aiChatLauncher?.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+  if (aiChatHistory.length === 0) {
+    addAiChatMessage(
+      "assistant",
+      "Halo, saya Asisten LeadFlow. Saya bisa membantu membuat pesan campaign, draft follow-up, dan saran tahapan lead."
+    );
+  }
+
+  aiChatInput?.focus();
+}
+
+function closeAiChat() {
+  aiChatPanel?.classList.remove("show");
+
+  aiChatLauncher?.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+}
+
+aiChatLauncher?.addEventListener(
+  "click",
+  () => {
+    const isOpen =
+      aiChatPanel?.classList.contains("show");
+
+    if (isOpen) {
+      closeAiChat();
+    } else {
+      openAiChat();
+    }
+  }
+);
+
+aiChatClose?.addEventListener(
+  "click",
+  closeAiChat
+);
+
+async function sendAiChatMessage(text) {
+  const message = text.trim();
+
+  if (!message || !aiChatMessages) return;
+
+  addAiChatMessage("user", message);
+
+  aiChatHistory.push({
+    role: "user",
+    content: message
+  });
+
+  if (aiChatInput) {
+    aiChatInput.value = "";
+  }
+
+  if (aiChatSend) {
+    aiChatSend.disabled = true;
+    aiChatSend.textContent = "...";
+  }
+
+  const loadingMessage = addAiChatMessage(
+    "assistant",
+    "Sedang menyiapkan jawaban..."
+  );
+
+  try {
+    const response = await fetch("/api/ai-chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        messages: aiChatHistory
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        "Asisten AI tidak dapat merespons."
+      );
+    }
+
+    const reply =
+      data.reply ||
+      "Maaf, saya belum mendapatkan jawaban.";
+
+    loadingMessage.textContent = reply;
+
+    aiChatHistory.push({
+      role: "assistant",
+      content: reply
+    });
+  } catch (error) {
+    loadingMessage.textContent =
+      error.message ||
+      "Terjadi kesalahan. Silakan coba lagi.";
+  } finally {
+    if (aiChatSend) {
+      aiChatSend.disabled = false;
+      aiChatSend.textContent = "Kirim";
+    }
+
+    aiChatInput?.focus();
+  }
+}
+
+aiChatForm?.addEventListener(
+  "submit",
+  (event) => {
+    event.preventDefault();
+
+    sendAiChatMessage(
+      aiChatInput?.value || ""
+    );
+  }
+);
+
+document.querySelectorAll("[data-ai-prompt]")
+  .forEach(button => {
+    button.addEventListener("click", () => {
+      sendAiChatMessage(
+        button.dataset.aiPrompt || ""
+      );
+    });
+  });
+
   </script>
+
+<button
+  id="aiChatLauncher"
+  class="ai-chat-launcher"
+  type="button"
+  aria-label="Buka Asisten LeadFlow"
+  aria-expanded="false"
+>
+  ✦
+</button>
+
+<aside
+  id="aiChatPanel"
+  class="ai-chat-panel"
+  aria-label="Asisten LeadFlow"
+>
+  <div class="ai-chat-header">
+    <div>
+      <strong>Asisten LeadFlow</strong>
+      <small>AI untuk campaign, follow-up, dan sales</small>
+    </div>
+
+    <button
+      id="aiChatClose"
+      class="ai-chat-close"
+      type="button"
+      aria-label="Tutup chat"
+    >
+      ×
+    </button>
+  </div>
+
+  <div id="aiChatMessages" class="ai-chat-messages"></div>
+
+  <div class="ai-chat-quick-actions">
+    <button type="button" data-ai-prompt="Buatkan pesan follow-up yang sopan untuk calon pelanggan UMKM.">
+      Buat follow-up
+    </button>
+
+    <button type="button" data-ai-prompt="Buatkan pesan campaign WhatsApp singkat untuk menawarkan jasa pembuatan website UMKM.">
+      Buat campaign
+    </button>
+
+    <button type="button" data-ai-prompt="Jelaskan kapan saya harus memakai tahapan Quotation, Invoice, dan Negotiation.">
+      Tanya Tahapan
+    </button>
+  </div>
+
+  <form id="aiChatForm" class="ai-chat-form">
+    <textarea
+      id="aiChatInput"
+      class="ai-chat-input"
+      rows="2"
+      maxlength="3000"
+      placeholder="Tulis pertanyaan Anda..."
+    ></textarea>
+
+    <button
+      id="aiChatSend"
+      class="ai-chat-send"
+      type="submit"
+    >
+      Kirim
+    </button>
+  </form>
+</aside>
 
 </body>
 </html>
